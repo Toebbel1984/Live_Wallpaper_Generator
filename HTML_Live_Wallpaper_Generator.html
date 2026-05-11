@@ -1,0 +1,2070 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HTML Live Wallpaper Generator</title>
+<style>
+:root{
+    --bg:#000;
+    --panel:rgba(16,16,16,.94);
+    --line:rgba(255,255,255,.16);
+    --text:#fff;
+    --muted:#b9b9b9;
+    --soft:rgba(255,255,255,.07);
+}
+*{box-sizing:border-box;margin:0;padding:0;user-select:none}
+html,body{width:100%;height:100%;overflow:hidden;background:#000;color:var(--text);font-family:Segoe UI,Arial,sans-serif}
+canvas{position:fixed;inset:0;width:100vw;height:100vh;display:block;background:#000}
+.panel{position:fixed;top:18px;left:18px;width:410px;max-height:calc(100vh - 36px);overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 18px 60px rgba(0,0,0,.65);backdrop-filter:blur(14px);z-index:20}
+.panel.hidden{display:none}
+.panel::-webkit-scrollbar{width:8px}.panel::-webkit-scrollbar-thumb{background:rgba(255,255,255,.22);border-radius:8px}
+h1{font-size:20px;font-weight:650;margin-bottom:5px}.sub{font-size:12px;line-height:1.45;color:var(--muted);margin-bottom:14px}
+.section{border-top:1px solid var(--line);padding-top:13px;margin-top:13px}
+.section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:11px;font-size:14px;font-weight:650}
+.row{display:grid;grid-template-columns:1fr 142px;align-items:center;gap:12px;margin:9px 0;color:var(--muted);font-size:13px}
+.value{color:#fff;font-size:12px;font-variant-numeric:tabular-nums}
+select,input[type=text]{width:142px;background:#101010;color:#fff;border:1px solid var(--line);border-radius:9px;padding:6px 8px;outline:none}
+input[type=range]{width:142px}
+input[type=color]{width:50px;height:30px;background:#000;border:1px solid var(--line);border-radius:9px;padding:0}
+.toggle{position:relative;width:46px;height:24px;display:inline-flex;cursor:pointer}.toggle input{display:none}
+.toggle span{position:absolute;inset:0;background:#333;border:1px solid var(--line);border-radius:99px;transition:.18s}
+.toggle span:after{content:"";position:absolute;width:18px;height:18px;left:2px;top:2px;background:#aaa;border-radius:50%;transition:.18s}
+.toggle input:checked+span{background:#fff}.toggle input:checked+span:after{transform:translateX(22px);background:#111}
+.btn-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:15px}
+button{border:1px solid var(--line);background:#fff;color:#000;border-radius:12px;padding:10px 12px;cursor:pointer;font-weight:750;transition:transform .14s,opacity .14s}
+button:hover{transform:translateY(-1px)}button.secondary{background:#151515;color:#fff}
+.hint{font-size:11px;line-height:1.45;color:#8d8d8d;margin-top:12px}
+.bg-status{grid-column:1/-1;color:#9d9d9d;font-size:11px;line-height:1.35;margin-top:-2px}
+.mini-buttons{display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap}.mini-buttons button{padding:7px 9px;border-radius:8px;font-size:12px}
+.clock{position:fixed;left:50%;bottom:38px;transform:translateX(-50%);padding:12px 22px;border-radius:18px;font-weight:300;letter-spacing:4px;pointer-events:none;z-index:10;color:#fff;transition:opacity .2s,filter .2s,text-shadow .2s,background .2s,border .2s}
+
+.clock.no-border{
+    border-color:transparent!important;
+    border-width:0!important;
+    box-shadow:none!important;
+    outline:0!important;
+    background:transparent!important;
+    clip-path:none!important;
+}
+.clock.no-border:before,
+.clock.no-border:after{
+    display:none!important;
+}
+
+.clock.hidden{opacity:0!important}
+
+.clock.text-outline{
+    color:transparent!important;
+    -webkit-text-fill-color:transparent!important;
+    -webkit-text-stroke:3px rgba(255,255,255,1.0)!important;
+    paint-order:stroke fill;
+    text-shadow:none!important;
+}
+.clock.text-outline.clock-outline{
+    color:transparent!important;
+    -webkit-text-fill-color:transparent!important;
+}
+
+.clock-minimal{background:transparent;border:0;text-shadow:0 0 18px currentColor}
+.clock-glass{background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(10px);box-shadow:0 0 30px rgba(255,255,255,.12);text-shadow:0 0 22px currentColor}
+.clock-neon{background:rgba(0,0,0,.12);border:1px solid currentColor;box-shadow:0 0 22px currentColor,inset 0 0 18px rgba(255,255,255,.12);text-shadow:0 0 10px currentColor,0 0 28px currentColor}
+.clock-cyber{background:linear-gradient(90deg,rgba(0,255,255,.10),rgba(255,255,255,.02),rgba(0,255,255,.10));border:1px solid currentColor;border-radius:4px;box-shadow:0 0 16px currentColor;clip-path:polygon(8% 0,100% 0,92% 100%,0 100%);font-family:Consolas,monospace;text-transform:uppercase}
+.clock-lcd{background:#10130b;border:3px solid #303820;border-radius:8px;color:#b9ff78!important;font-family:Consolas,monospace;letter-spacing:3px;text-shadow:0 0 4px #b9ff78;box-shadow:inset 0 0 22px rgba(185,255,120,.12)}
+.clock-retro{background:#140b02;border:2px solid #ff9d2e;border-radius:0;color:#ff9d2e!important;font-family:'Courier New',monospace;text-shadow:0 0 8px #ff9d2e;box-shadow:0 0 18px rgba(255,157,46,.34)}
+.clock-glitch{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.18);font-family:Consolas,monospace;text-shadow:2px 0 #ff0040,-2px 0 #00eaff;animation:glitchPulse .8s steps(2,end) infinite}
+.clock-matrix{background:rgba(0,30,0,.28);border:1px solid #1cff70;color:#1cff70!important;font-family:Consolas,monospace;text-shadow:0 0 8px #1cff70;box-shadow:0 0 24px rgba(28,255,112,.35)}
+.clock-flip{background:#0b0b0b;border:1px solid #333;border-radius:10px;font-family:Consolas,monospace;box-shadow:0 6px 0 #000,0 0 24px rgba(255,255,255,.16);text-shadow:0 1px 0 #000;position:fixed}
+.clock-flip:after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(255,255,255,.2)}
+.clock-outline{background:transparent;border:2px solid currentColor;-webkit-text-stroke:1px currentColor;color:transparent!important;text-shadow:none}
+.clock-holo{background:linear-gradient(135deg,rgba(0,234,255,.16),rgba(255,0,204,.10),rgba(255,255,255,.05));border:1px solid rgba(255,255,255,.28);box-shadow:0 0 24px rgba(0,234,255,.22),0 0 30px rgba(255,0,204,.16);text-shadow:0 0 14px currentColor}
+.clock-terminal{background:#050505;border:1px solid #555;border-radius:3px;color:#d8d8d8!important;font-family:Consolas,monospace;text-shadow:0 0 5px #fff}
+.clock-terminal:before{content:"> ";opacity:.7}
+.clock-orbit{background:transparent;border:1px solid currentColor;box-shadow:0 0 18px currentColor;text-shadow:0 0 14px currentColor}
+.clock-orbit:after{content:"";position:absolute;left:50%;top:50%;width:calc(100% + 26px);height:calc(100% + 26px);transform:translate(-50%,-50%);border:1px dashed currentColor;border-radius:50%;opacity:.38;animation:clockSpin 7s linear infinite}
+
+.clock-techscan{background:linear-gradient(180deg,rgba(0,255,255,.12),rgba(0,0,0,.38));border:1px solid #00eaff;border-radius:6px;box-shadow:0 0 24px rgba(0,234,255,.42),inset 0 0 22px rgba(0,234,255,.12);text-shadow:0 0 10px #00eaff,0 0 28px currentColor;overflow:hidden}
+.clock-techscan:after{content:"";position:absolute;inset:-40%;background:repeating-linear-gradient(0deg,rgba(255,255,255,.12) 0 1px,transparent 1px 6px);animation:techScanMove 2.2s linear infinite;opacity:.48;pointer-events:none}
+.clock-hexcore{background:radial-gradient(circle at center,rgba(0,234,255,.22),rgba(0,0,0,.25) 60%);border:1px solid rgba(0,234,255,.8);border-radius:14px;clip-path:polygon(8% 0,92% 0,100% 50%,92% 100%,8% 100%,0 50%);box-shadow:0 0 28px rgba(0,234,255,.38),inset 0 0 24px rgba(0,234,255,.16);text-shadow:0 0 18px currentColor}
+.clock-circuit{background-color:rgba(0,20,24,.42);background-image:linear-gradient(90deg,rgba(0,234,255,.16) 1px,transparent 1px),linear-gradient(0deg,rgba(0,234,255,.12) 1px,transparent 1px);background-size:18px 18px;border:1px solid #00ffaa;border-radius:4px;color:#00ffaa!important;text-shadow:0 0 10px #00ffaa;box-shadow:0 0 22px rgba(0,255,170,.28)}
+.clock-quantum{background:linear-gradient(135deg,rgba(119,85,255,.20),rgba(0,234,255,.12),rgba(255,0,180,.14));border:1px solid rgba(180,160,255,.7);border-radius:22px;box-shadow:0 0 30px rgba(130,100,255,.35),0 0 26px rgba(0,234,255,.22);text-shadow:0 0 10px #fff,0 0 24px currentColor;animation:quantumHue 3.8s linear infinite}
+.clock-datastream{background:#020806;border:1px solid #00ff88;border-radius:2px;color:#00ff88!important;font-family:Consolas,monospace;text-shadow:0 0 8px #00ff88;box-shadow:inset 0 0 20px rgba(0,255,136,.15),0 0 22px rgba(0,255,136,.25);overflow:hidden}
+.clock-datastream:after{content:"0101010011010110";position:absolute;left:0;right:0;bottom:-18px;font-size:13px;letter-spacing:3px;opacity:.32;animation:dataCrawl 2.8s linear infinite}
+.clock-blueprint{background-color:rgba(0,50,90,.36);background-image:linear-gradient(rgba(120,210,255,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(120,210,255,.16) 1px,transparent 1px);background-size:16px 16px;border:2px solid rgba(120,210,255,.75);border-radius:0;color:#b9ecff!important;text-shadow:0 0 8px #8de8ff;box-shadow:0 0 18px rgba(120,210,255,.30)}
+
+
+@keyframes techScanMove{from{transform:translateY(-15%)}to{transform:translateY(15%)}}
+@keyframes quantumHue{to{filter:hue-rotate(360deg)}}
+@keyframes dataCrawl{from{transform:translateY(0)}to{transform:translateY(-36px)}}
+
+@keyframes glitchPulse{0%,100%{filter:hue-rotate(0deg);transform:translateX(-50%) skewX(0deg)}50%{filter:hue-rotate(40deg);transform:translateX(calc(-50% + 1px)) skewX(-3deg)}}
+@keyframes clockSpin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+@media(max-width:720px){.panel{width:calc(100vw - 24px);left:12px;top:12px}.clock{font-size:30px}}
+
+</style>
+</head>
+<body>
+<canvas id="fx"></canvas>
+<div id="clock" class="clock clock-glass"></div>
+
+<div class="panel" id="panel">
+<h1>HTML Live Wallpaper Generator</h1>
+<div class="sub">Generator with digital clock designs, tech designs, digital clock fonts, many effect types, randomize, and export as a ready-to-use HTML live wallpaper.</div>
+
+
+<div class="section">
+    <div class="section-title">Background<label class="toggle"><input id="optBackground" type="checkbox" checked><span></span></label></div>
+    <div class="row"><span>Background Modus</span><select id="bgMode">
+        <option value="default" selected>Standard Schwarz</option>
+        <option value="image">Imported Image</option>
+        <option value="generated">Randomly Generated</option>
+    </select></div>
+    <div class="row"><span>Generated Style</span><select id="bgGeneratedStyle">
+        <option value="random" selected>Random</option>
+        <option value="nebula">Nebula</option>
+        <option value="stars">Starfield</option>
+        <option value="grid">Cyber Grid</option>
+        <option value="scanlines">Scanlines</option>
+        <option value="shakeHud">Shake HUD</option>
+        <option value="plasma">Plasma Glow</option>
+        <option value="aurora">Aurora</option>
+        <option value="vortex">Vortex</option>
+        <option value="circuitBoard">Circuit Board</option>
+        <option value="holoGrid">Holo Grid</option>
+        <option value="codeRain">Code Rain</option>
+        <option value="radar">Radar Sweep</option>
+        <option value="neural">Neural Net</option>
+        <option value="techTunnel">Tech Tunnel</option>
+    </select></div>
+    <div class="row"><span>Opacity <b class="value" id="bgOpacityVal"></b></span><input id="bgOpacity" type="range" min="0" max="100" value="100"></div>
+    <div class="row"><span>Bild-Parallax <b class="value" id="bgParallaxStrengthVal"></b></span><input id="bgParallaxStrength" type="range" min="0" max="100" value="35"></div>
+    <div class="row"><span>Parallax Smooth <b class="value" id="bgParallaxSmoothVal"></b></span><input id="bgParallaxSmooth" type="range" min="1" max="100" value="22"></div>
+    <div class="row">
+        <span>Background Image</span>
+        <div class="mini-buttons">
+            <button id="btnImportBackground" class="secondary" type="button">Import</button>
+            <button id="btnGenerateBackground" class="secondary" type="button">Generate</button>
+            <input id="bgImageFile" type="file" accept="image/*" style="display:none">
+            <input id="bgImageData" type="hidden" value="">
+            <input id="bgGeneratedData" type="hidden" value="">
+        </div>
+        <div id="bgStatus" class="bg-status">Default background active.</div>
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-title">Digital Clock<label class="toggle"><input id="optClock" type="checkbox" checked><span></span></label></div>
+    <div class="row"><span>Clock Design</span><select id="clockStyle">
+        <option value="minimal">Minimal</option>
+        <option value="glass" selected>Glass</option>
+        <option value="neon">Neon</option>
+        <option value="cyber">Cyber HUD</option>
+        <option value="lcd">LCD</option>
+        <option value="retro">Retro Amber</option>
+        <option value="glitch">Glitch</option>
+        <option value="matrix">Matrix</option>
+        <option value="flip">Flip Clock</option>
+        <option value="outline">Outline</option>
+        <option value="holo">Hologram</option>
+        <option value="terminal">Terminal</option>
+        <option value="orbit">Orbit</option>
+        <option value="techscan">Tech Scanline</option>
+        <option value="hexcore">Hex Core</option>
+        <option value="circuit">Circuit Board</option>
+        <option value="quantum">Quantum</option>
+        <option value="datastream">Data Stream</option>
+        <option value="blueprint">Blueprint</option>
+    </select></div>
+    <div class="row"><span>Show Clock Frame</span><label class="toggle"><input id="clockBorder" type="checkbox" checked><span></span></label></div>
+
+        <div class="row"><span>Show Text Outline</span><label class="toggle"><input id="clockTextOutline" type="checkbox"><span></span></label></div>
+<div class="row">
+    <span>Clock Font</span>
+    <select id="clockFont">
+        <option value="Segoe UI Variable Display">Segoe UI Variable Display</option>
+        <option value="Segoe UI Variable Text">Segoe UI Variable Text</option>
+        <option value="Segoe UI">Segoe UI</option>
+        <option value="Bahnschrift">Bahnschrift</option>
+        <option value="Cascadia Mono">Cascadia Mono</option>
+        <option value="Cascadia Code">Cascadia Code</option>
+        <option value="Consolas">Consolas</option>
+        <option value="Lucida Console">Lucida Console</option>
+        <option value="Courier New">Courier New</option>
+        <option value="OCR A Extended">OCR A Extended</option>
+        <option value="Agency FB">Agency FB</option>
+        <option value="Arial Black">Arial Black</option>
+        <option value="Impact">Impact</option>
+        <option value="Tahoma">Tahoma</option>
+        <option value="Verdana">Verdana</option>
+    </select>
+</div>
+<div class="row">
+    <span>Import Font</span>
+    <div style="display:flex;gap:6px;justify-content:flex-end">
+        <button id="btnImportClockFont" class="secondary" type="button">Import</button>
+        <input id="clockFontFile" type="file" accept=".ttf,.otf,.woff,.woff2,font/ttf,font/otf,font/woff,font/woff2" style="display:none">
+        <input id="clockFontData" type="hidden" value="">
+        <input id="clockFontFormat" type="hidden" value="">
+    </div>
+</div>
+<div class="row"><span>Show Seconds</span><label class="toggle"><input id="clockSeconds" type="checkbox" checked><span></span></label></div>
+    <div class="row" id="clockColorRow"><span>Clock Color</span><input id="clockColor" type="color" value="#ffffff"></div>
+    <div class="row"><span>Clock Size <b class="value" id="clockSizeVal"></b></span><input id="clockSize" type="range" min="20" max="400" value="42"></div>
+    <div class="row"><span>Transparenz <b class="value" id="clockOpacityVal"></b></span><input id="clockOpacity" type="range" min="10" max="100" value="90"></div>
+</div>
+
+<div class="section">
+    <div class="section-title">Mouse Trails<label class="toggle"><input id="optTrails" type="checkbox" checked><span></span></label></div>
+    <div class="row"><span>Trail Type</span><select id="trailType">
+        <option value="spark">Spark</option><option value="neon">Neon</option><option value="smoke">Smoke</option><option value="comet">Comet</option><option value="pixel">Pixel</option><option value="plasma">Plasma</option><option value="fire">Fire</option><option value="ice">Ice</option><option value="laser">Laser Streaks</option><option value="orbital">Orbital</option><option value="matrix">Matrix Rain</option><option value="cyber">Cyber Dust</option><option value="embers">Embers</option><option value="snow">Snow Sparkle</option><option value="ribbon">Energy Ribbon</option><option value="bubbles">Bubbles</option><option value="stardust">Stardust</option><option value="acid">Acid Drip</option><option value="shadow">Shadow Mist</option><option value="prism">Prism Split</option><option value="swarm">Particle Swarm</option><option value="geo">Geo Shards</option><option value="helix">Helix</option><option value="petals">Petals</option><option value="dna">DNA Stream</option><option value="sonarDust">Sonar Dust</option><option value="feathers">Feathers</option><option value="glitchRain">Glitch Rain</option><option value="lightningTrail">Lightning</option><option value="nanoBots">Nano Bots</option><option value="circuitTrace">Circuit Trace</option><option value="holoBits">Holo Bits</option><option value="scanlineTrail">Scanline Trail</option><option value="binaryStream">Binary Stream</option><option value="droneSwarm">Drone Swarm</option>
+    </select></div>
+    <div class="row"><span>Trail Color</span><input id="trailColor" type="color" value="#00eaff"></div>
+    <div class="row"><span>Anzahl <b class="value" id="trailAmountVal"></b></span><input id="trailAmount" type="range" min="1" max="16" value="6"></div>
+    <div class="row"><span>Trail Length <b class="value" id="trailLifeVal"></b></span><input id="trailLife" type="range" min="10" max="180" value="48"></div>
+    <div class="row"><span>Size <b class="value" id="trailSizeVal"></b></span><input id="trailSize" type="range" min="1" max="24" value="7"></div>
+</div>
+
+<div class="section">
+    <div class="section-title">Click Effect<label class="toggle"><input id="optClick" type="checkbox" checked><span></span></label></div>
+    <div class="row"><span>Click Type</span><select id="clickType">
+        <option value="shockwave">Shockwave</option><option value="burst">Particle Burst</option><option value="flash">Flash</option><option value="rings">Rings</option><option value="ripple">Ripple Pulse</option><option value="grid">Grid Impact</option><option value="slash">Energy Slash</option><option value="starburst">Starburst</option><option value="implode">Implode</option><option value="nova">Nova Pop</option><option value="glitch">Glitch Spark</option><option value="plasmaPop">Plasma Pop</option><option value="hexPulse">Hex Pulse</option><option value="sonar">Sonar Ping</option><option value="crosshair">Crosshair</option><option value="confetti">Confetti</option><option value="cyberGrid">Cyber Grid</option><option value="rippleDots">Ripple Dots</option><option value="lightningPop">Lightning Pop</option><option value="squarePulse">Square Pulse</option><option value="lensFlare">Lens Flare</option><option value="crystalBurst">Crystal Burst</option><option value="orbitSnap">Orbit Snap</option><option value="pulseFlower">Pulse Flower</option><option value="voidRing">Void Ring</option><option value="ionBlast">Ion Blast</option><option value="dataBloom">Data Bloom</option><option value="empRing">EMP Ring</option><option value="hexHack">Hex Hack</option><option value="dataSpike">Data Spike</option><option value="circuitBurst">Circuit Burst</option><option value="scanPing">Scan Ping</option>
+    </select></div>
+    <div class="row"><span>Click Color</span><input id="clickColor" type="color" value="#ffffff"></div>
+    <div class="row"><span>Stärke <b class="value" id="clickPowerVal"></b></span><input id="clickPower" type="range" min="1" max="100" value="55"></div>
+    <div class="row"><span>Pause Between Clicks <b class="value" id="clickIntervalVal"></b></span><input id="clickInterval" type="range" min="0" max="1000" step="10" value="150"></div>
+</div>
+
+<div class="section">
+    <div class="section-title">Hold Effect<label class="toggle"><input id="optHold" type="checkbox" checked><span></span></label></div>
+    <div class="row"><span>Hold Typ</span><select id="holdType">
+        <option value="lightning">Lightning</option><option value="vortex">Vortex</option><option value="glow">Core Glow</option><option value="sparks">Electric Sparks</option><option value="magnet">Magnet Field</option><option value="blackhole">Black Hole</option><option value="solarCore">Solar Core</option><option value="energyShield">Energy Shield</option><option value="plasmaStorm">Plasma Storm</option><option value="scanner">Scanner Beam</option><option value="gravityWell">Gravity Well</option><option value="runeCircle">Rune Circle</option><option value="turbine">Turbine Spin</option><option value="rainCharge">Rain Charge</option><option value="laserLock">Laser Lock</option><option value="aurora">Aurora Field</option><option value="stormEye">Storm Eye</option><option value="crystalField">Crystal Field</option><option value="dataStream">Data Stream</option><option value="pulseOrbit">Pulse Orbit</option><option value="emberHalo">Ember Halo</option><option value="techShield">Tech Shield</option><option value="hackStream">Hack Stream</option><option value="nanoField">Nano Field</option><option value="reactorCore">Reactor Core</option><option value="radarLock">Radar Lock</option>
+    </select></div>
+    <div class="row"><span>Hold Color</span><input id="holdColor" type="color" value="#f5f5f5"></div>
+    <div class="row"><span>Intensität <b class="value" id="holdPowerVal"></b></span><input id="holdPower" type="range" min="1" max="100" value="60"></div>
+</div>
+
+<div class="section">
+    <div class="section-title">Release Effect<label class="toggle"><input id="optRelease" type="checkbox" checked><span></span></label></div>
+    <div class="row"><span>Release Typ</span><select id="releaseType">
+        <option value="explosion">Explosion</option><option value="implosion">Implosion</option><option value="warp">Warp Burst</option><option value="dust">Dust Fade</option><option value="supernova">Supernova</option><option value="shatter">Glass Shatter</option><option value="sparkRain">Spark Rain</option><option value="smokeRing">Smoke Ring</option><option value="cometScatter">Comet Scatter</option><option value="pulseStorm">Pulse Storm</option><option value="gravityBlast">Gravity Blast</option><option value="auroraBurst">Aurora Burst</option><option value="runeBreak">Rune Break</option><option value="prismBurst">Prism Burst</option><option value="shockGrid">Shock Grid</option><option value="firework">Firework</option><option value="iceCrack">Ice Crack</option><option value="nebulaBloom">Nebula Bloom</option><option value="quantumBurst">Quantum Burst</option><option value="meteorBloom">Meteor Bloom</option><option value="voidCollapse">Void Collapse</option><option value="petalWave">Petal Wave</option><option value="dataScatter">Data Scatter</option><option value="electroExplosion">Electro Explosion</option><option value="empBlast">EMP Blast</option><option value="firewallBurst">Firewall Burst</option><option value="codeExplosion">Code Explosion</option><option value="circuitOverload">Circuit Overload</option><option value="quantumDisrupt">Quantum Disrupt</option>
+    </select></div>
+    <div class="row"><span>Release Color</span><input id="releaseColor" type="color" value="#ffcc66"></div>
+    <div class="row"><span>Stärke <b class="value" id="releasePowerVal"></b></span><input id="releasePower" type="range" min="1" max="100" value="70"></div>
+</div>
+
+<div class="btn-grid">
+    <button id="btnRandomize" class="secondary">Randomize</button>
+    <button id="btnRandomColors" class="secondary">Random Colors</button>
+    <button id="btnClear" class="secondary">Preview leeren</button>
+    <button id="btnHide" class="secondary">Interface ausblenden</button>
+    <button id="btnSave">Save Wallpaper</button>
+</div>
+<div class="hint">Key: <b>H</b> toggles the interface on/off. Hold starts after <b>200 ms</b>. The <b>pause between clicks</b> applies to both click and release effects. Randomize sets background, clock design, clock font, colors, effect types, sliders, and toggles randomly. Generated backgrounds react to the mouse; imported images have parallax. Scanlines and Shake HUD backgrounds are available. When hold is fully charged, releasing it shakes the entire screen.</div>
+</div>
+
+<script>
+const WALLPAPER_CSS = document.querySelector('style').textContent;
+
+function Engine(canvas, clockEl, cfgProvider){
+    const ctx = canvas.getContext('2d', {alpha:false});
+    const HOLD_DELAY_MS = 200;
+    let width = 0, height = 0, mouseX = innerWidth/2, mouseY = innerHeight/2;
+    let lastMouseX = mouseX, lastMouseY = mouseY;
+    let mouseDown = false, holdStart = 0, tick = 0;
+    let lastClickEffectTime = -1e9, lastReleaseEffectTime = -1e9;
+    const particles = [], waves = [], bolts = [], glyphs = [];
+    let bgImage = null, bgImageSrc = '', bgStars = [], bgLastStyle = '', bgPulse = 0, bgParallaxX = 0, bgParallaxY = 0;
+    let screenShakeTime = 0, screenShakeDuration = 0, screenShakePower = 0;
+    const rand = (a,b)=>Math.random()*(b-a)+a;
+    const irand = (a,b)=>Math.floor(rand(a,b+1));
+    const pick = arr=>arr[Math.floor(Math.random()*arr.length)];
+    const clamp = (v,a,b)=>Math.max(a,Math.min(b,v));
+
+    function hexToRgb(h){
+        h = String(h || '#fff').replace('#','');
+        if(h.length===3) h = h.split('').map(c=>c+c).join('');
+        return {r:parseInt(h.slice(0,2),16)||255,g:parseInt(h.slice(2,4),16)||255,b:parseInt(h.slice(4,6),16)||255};
+    }
+    function rgba(h,a){const c=hexToRgb(h);return `rgba(${c.r},${c.g},${c.b},${a})`}
+    function randomColor(){return '#' + Math.floor(Math.random()*0xffffff).toString(16).padStart(6,'0')}
+
+    function resize(){
+        const dpr = Math.max(1, Math.min(2, devicePixelRatio || 1));
+        width = innerWidth; height = innerHeight;
+        canvas.width = Math.floor(width*dpr); canvas.height = Math.floor(height*dpr);
+        canvas.style.width = width+'px'; canvas.style.height = height+'px';
+        ctx.setTransform(dpr,0,0,dpr,0,0);
+    }
+
+    function addParticle(x,y,color,o={}){
+        particles.push({
+            x,y,
+            vx:o.vx ?? rand(-1,1),
+            vy:o.vy ?? rand(-1,1),
+            life:o.life ?? 45,
+            maxLife:o.life ?? 45,
+            size:o.size ?? 4,
+            color:color || '#fff',
+            type:o.type || 'spark',
+            rot:o.rot ?? rand(0,Math.PI*2),
+            spin:o.spin ?? rand(-.08,.08),
+            drag:o.drag ?? .965,
+            char:o.char || '',
+            gravity:o.gravity || 0,
+            trailScale:o.trailScale || 1
+        });
+    }
+    function addWave(x,y,color,type,power){
+        waves.push({x,y,color,type,power,r:2,life:1,maxR:Math.max(80,70+power*3.6),phase:rand(0,9),rot:rand(0,Math.PI*2)});
+    }
+    function addBolt(x,y,color,power){
+        const arms = irand(2, Math.min(10, 3 + power/26));
+        for(let i=0;i<arms;i++){
+            const angle = rand(0, Math.PI*2), len = rand(28, 80 + power*.75);
+            const points = [{x,y}], steps = irand(4, 8);
+            for(let s=1;s<=steps;s++){
+                const t=s/steps;
+                points.push({x:x+Math.cos(angle)*len*t+rand(-14,14), y:y+Math.sin(angle)*len*t+rand(-14,14)});
+            }
+            bolts.push({points,color,life:irand(6,14),maxLife:14});
+        }
+    }
+    function addGlyph(x,y,color,text,power){
+        glyphs.push({x,y,color,text,life:60+power,maxLife:60+power,size:10+power*.18,rot:rand(-.5,.5)});
+    }
+
+    function updateClock(){
+        const c = cfgProvider();
+        if(!c.optClock){ clockEl.className = 'clock hidden'; return; }
+        const d = new Date();
+        const hh = String(d.getHours()).padStart(2,'0');
+        const mm = String(d.getMinutes()).padStart(2,'0');
+        const ss = String(d.getSeconds()).padStart(2,'0');
+        const text = c.clockSeconds ? `${hh}:${mm}:${ss}` : `${hh}:${mm}`;
+        clockEl.textContent = text;
+        clockEl.dataset.text = text;
+        clockEl.className = 'clock clock-' + (c.clockStyle || 'glass') + (c.clockBorder === false || c.clockBorder === 'false' ? ' no-border' : '') + (c.clockTextOutline === true || c.clockTextOutline === 'true' ? ' text-outline' : '');
+        function quoteFontName(name){
+            name = String(name || 'Segoe UI').replace(/["\\]/g, '');
+            if(/^(serif|sans-serif|monospace|cursive|fantasy|system-ui|ui-monospace)$/i.test(name)) return name;
+            return '"' + name + '"';
+        }
+        const legacyClockFontStacks = {
+            segoe: '"Segoe UI", Arial, sans-serif',
+            segoeVariable: '"Segoe UI Variable Display", "Segoe UI", Arial, sans-serif',
+            consolas: 'Consolas, "Courier New", monospace',
+            cascadia: '"Cascadia Mono", "Cascadia Code", Consolas, monospace',
+            bahnschrift: 'Bahnschrift, "Segoe UI", Arial, sans-serif',
+            lucida: '"Lucida Console", Monaco, monospace',
+            courier: '"Courier New", Courier, monospace',
+            agency: '"Agency FB", "Arial Narrow", Arial, sans-serif',
+            impact: 'Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif',
+            arialBlack: '"Arial Black", Gadget, sans-serif',
+            trebuchet: '"Trebuchet MS", "Segoe UI", Arial, sans-serif',
+            ocr: '"OCR A Extended", "Lucida Console", Consolas, monospace',
+            terminal: 'Terminal, "Lucida Console", Consolas, monospace',
+            monospace: 'ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace'
+        };
+        clockEl.style.fontFamily = legacyClockFontStacks[c.clockFont] || (quoteFontName(c.clockFont) + ', "Segoe UI", Arial, sans-serif');
+        clockEl.style.fontSize = (c.clockSize || 42) + 'px';
+        clockEl.style.opacity = Number(c.clockOpacity || 90)/100;
+        const clockColorRow = document.getElementById('clockColorRow');
+        const outlineActive = c.clockTextOutline === true || c.clockTextOutline === 'true';
+        const baseClockColor = c.clockColor || '#fff';
+        if(clockColorRow) clockColorRow.style.display = outlineActive ? 'none' : '';
+        clockEl.style.color = outlineActive ? 'transparent' : baseClockColor;
+        clockEl.style.webkitTextFillColor = outlineActive ? 'transparent' : baseClockColor;
+        clockEl.style.fill = outlineActive ? 'transparent' : baseClockColor;
+    }
+
+
+    function ensureBgStars(style){
+        if(bgLastStyle === style && bgStars.length) return;
+        bgLastStyle = style;
+        bgStars = [];
+        const count = style === 'stars' ? 260 : style === 'nebula' ? 160 : style === 'shakeHud' ? 150 : 110;
+        for(let i=0;i<count;i++){
+            bgStars.push({
+                x:Math.random()*width,
+                y:Math.random()*height,
+                z:Math.random()*1+.25,
+                s:Math.random()*1.8+.35,
+                a:Math.random()*.65+.18,
+                vx:rand(-.08,.08),
+                vy:rand(-.08,.08)
+            });
+        }
+    }
+
+    function drawInteractiveGeneratedBackground(c){
+        if(!c || !c.optBackground || c.bgMode !== 'generated') return;
+
+        const style = c.bgGeneratedStyle === 'random' ? 'nebula' : (c.bgGeneratedStyle || 'nebula');
+        const mx = mouseX, my = mouseY;
+        const dx = mouseX - lastMouseX, dy = mouseY - lastMouseY;
+        const speed = Math.min(80, Math.hypot(dx,dy));
+        const accent = c.trailColor || c.clockColor || '#00eaff';
+        const accent2 = c.releaseColor || c.clickColor || '#ff66cc';
+
+        bgPulse = bgPulse*.92 + speed*.08;
+
+        ctx.save();
+        ctx.globalCompositeOperation = 'lighter';
+
+        // Mouse glow / energy lens
+        const glowR = 110 + bgPulse*3.4;
+        const glow = ctx.createRadialGradient(mx,my,0,mx,my,glowR);
+        glow.addColorStop(0, rgba(accent, .18 + Math.min(.22, bgPulse*.006)));
+        glow.addColorStop(.34, rgba(accent2, .07));
+        glow.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = glow;
+        ctx.beginPath();
+        ctx.arc(mx,my,glowR,0,Math.PI*2);
+        ctx.fill();
+
+        if(style === 'stars' || style === 'nebula' || style === 'codeRain'){
+            ensureBgStars(style);
+            for(const s of bgStars){
+                const vx = s.x - mx, vy = s.y - my;
+                const dist = Math.max(1, Math.hypot(vx,vy));
+                const force = Math.max(0, 1 - dist/240) * (0.25 + bgPulse*.018);
+                s.x += (vx/dist) * force * s.z + s.vx;
+                s.y += (vy/dist) * force * s.z + s.vy;
+
+                if(s.x < -20) s.x = width+20;
+                if(s.x > width+20) s.x = -20;
+                if(s.y < -20) s.y = height+20;
+                if(s.y > height+20) s.y = -20;
+
+                const trail = 3 + speed*.18*s.z;
+                ctx.strokeStyle = 'rgba(255,255,255,' + (s.a*.55) + ')';
+                ctx.lineWidth = Math.max(.4, s.s);
+                ctx.beginPath();
+                ctx.moveTo(s.x, s.y);
+                ctx.lineTo(s.x - dx*.04*trail, s.y - dy*.04*trail);
+                ctx.stroke();
+
+                ctx.fillStyle = rgba(accent, s.a*.35);
+                ctx.beginPath();
+                ctx.arc(s.x,s.y,s.s,0,Math.PI*2);
+                ctx.fill();
+            }
+        }
+
+        if(style === 'grid'){
+            const step = 42;
+            ctx.strokeStyle = rgba(accent, .12 + Math.min(.18, speed*.003));
+            ctx.lineWidth = 1;
+            for(let x=-step; x<width+step; x+=step){
+                ctx.beginPath();
+                for(let y=0; y<=height; y+=24){
+                    const d = Math.hypot(x-mx,y-my);
+                    const bend = Math.max(0, 1-d/260);
+                    const px = x + (x-mx) * bend * .16 + Math.sin(tick*.04+y*.025)*bend*9;
+                    y===0 ? ctx.moveTo(px,y) : ctx.lineTo(px,y);
+                }
+                ctx.stroke();
+            }
+            for(let y=-step; y<height+step; y+=step){
+                ctx.beginPath();
+                for(let x=0; x<=width; x+=24){
+                    const d = Math.hypot(x-mx,y-my);
+                    const bend = Math.max(0, 1-d/260);
+                    const py = y + (y-my) * bend * .16 + Math.cos(tick*.04+x*.025)*bend*9;
+                    x===0 ? ctx.moveTo(x,py) : ctx.lineTo(x,py);
+                }
+                ctx.stroke();
+            }
+        }
+
+        if(style === 'plasma' || style === 'nebula'){
+            for(let i=0;i<5;i++){
+                const a = tick*.015 + i*Math.PI*2/5;
+                const px = mx + Math.cos(a)*(80+i*18+bgPulse*1.2);
+                const py = my + Math.sin(a*1.3)*(55+i*14+bgPulse*.8);
+                const r = 80 + i*25 + bgPulse*2.2;
+                const g = ctx.createRadialGradient(px,py,0,px,py,r);
+                g.addColorStop(0, rgba(i%2?accent:accent2, .10));
+                g.addColorStop(1, 'rgba(0,0,0,0)');
+                ctx.fillStyle = g;
+                ctx.beginPath();
+                ctx.arc(px,py,r,0,Math.PI*2);
+                ctx.fill();
+            }
+        }
+
+        if(style === 'aurora'){
+            for(let band=0; band<5; band++){
+                ctx.strokeStyle = rgba(band%2?accent:accent2, .12 + Math.min(.12, speed*.002));
+                ctx.lineWidth = 24 + band*8;
+                ctx.beginPath();
+                for(let x=-80; x<=width+80; x+=28){
+                    const y = height*(.28 + band*.06)
+                        + Math.sin(x*.008 + tick*.025 + band)*48
+                        + Math.sin((x-mx)*.012 + tick*.05)*Math.max(0, 60 - Math.abs(x-mx)*.04)
+                        + (my-height*.5)*.035;
+                    x===-80 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+                }
+                ctx.stroke();
+            }
+        }
+
+        if(style === 'vortex'){
+            const cx = mx, cy = my;
+            for(let arm=0; arm<8; arm++){
+                ctx.strokeStyle = rgba(arm%2?accent:accent2, .13 + Math.min(.14, speed*.0025));
+                ctx.lineWidth = 1.6 + arm*.25;
+                ctx.beginPath();
+                for(let i=0;i<130;i++){
+                    const r = i*(1.8 + bgPulse*.007);
+                    const a = i*.115 + arm*Math.PI*2/8 + tick*.028;
+                    const x = cx + Math.cos(a)*r;
+                    const y = cy + Math.sin(a)*r*.68;
+                    i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+                }
+                ctx.stroke();
+            }
+        }
+
+        if(style === 'circuitBoard' || style === 'holoGrid'){
+            const step = style === 'circuitBoard' ? 46 : 34;
+            ctx.strokeStyle = rgba(accent, .10 + Math.min(.18, speed*.003));
+            ctx.lineWidth = 1;
+            for(let x=-step; x<width+step; x+=step){
+                ctx.beginPath();
+                for(let y=0; y<=height; y+=step/2){
+                    const d = Math.hypot(x-mx,y-my), bend = Math.max(0,1-d/310);
+                    const px = x + (x-mx)*bend*.11 + Math.sin(tick*.035+y*.03)*bend*8;
+                    y===0 ? ctx.moveTo(px,y) : ctx.lineTo(px,y);
+                }
+                ctx.stroke();
+            }
+            for(let y=-step; y<height+step; y+=step){
+                ctx.beginPath();
+                for(let x=0; x<=width; x+=step/2){
+                    const d = Math.hypot(x-mx,y-my), bend = Math.max(0,1-d/310);
+                    const py = y + (y-my)*bend*.11 + Math.cos(tick*.035+x*.03)*bend*8;
+                    x===0 ? ctx.moveTo(x,py) : ctx.lineTo(x,py);
+                }
+                ctx.stroke();
+            }
+        }
+
+        if(style === 'radar'){
+            ctx.strokeStyle = rgba('#00ff88', .18 + Math.min(.16, speed*.003));
+            ctx.lineWidth = 2;
+            for(let r=80; r<Math.max(width,height); r+=90){ ctx.beginPath(); ctx.arc(mx,my,r,0,Math.PI*2); ctx.stroke(); }
+            const sweepAngle = tick*.035;
+            const grad = ctx.createRadialGradient(mx,my,0,mx,my,Math.max(width,height)*.65);
+            grad.addColorStop(0,'rgba(0,255,136,.22)');
+            grad.addColorStop(1,'rgba(0,255,136,0)');
+            ctx.fillStyle = grad;
+            ctx.beginPath(); ctx.moveTo(mx,my); ctx.arc(mx,my,Math.max(width,height),sweepAngle,sweepAngle+.28); ctx.closePath(); ctx.fill();
+        }
+
+        if(style === 'neural'){
+            ensureBgStars('neural');
+            for(let i=0;i<bgStars.length;i++){
+                const n = bgStars[i];
+                const d = Math.hypot(n.x-mx,n.y-my), pull = Math.max(0,1-d/260);
+                n.x += Math.sin(tick*.02+i)*.2 + (mx-n.x)*pull*.006;
+                n.y += Math.cos(tick*.017+i)*.2 + (my-n.y)*pull*.006;
+                for(let j=i+1;j<Math.min(bgStars.length,i+8);j++){
+                    const m=bgStars[j], dd=Math.hypot(n.x-m.x,n.y-m.y);
+                    if(dd<150){ ctx.strokeStyle=rgba(accent,(1-dd/150)*.18); ctx.beginPath(); ctx.moveTo(n.x,n.y); ctx.lineTo(m.x,m.y); ctx.stroke(); }
+                }
+                ctx.fillStyle=rgba('#ffffff',.34); ctx.beginPath(); ctx.arc(n.x,n.y,1.8+n.s*.4,0,Math.PI*2); ctx.fill();
+            }
+        }
+
+        if(style === 'techTunnel'){
+            const cx=mx, cy=my;
+            for(let i=0;i<34;i++){
+                const r=30+i*(22+bgPulse*.04);
+                ctx.strokeStyle=rgba(i%2?accent:accent2,.13);
+                ctx.lineWidth=1;
+                ctx.beginPath();
+                for(let k=0;k<6;k++){
+                    const a=Math.PI*2*k/6+i*.02+tick*.012;
+                    const x=cx+Math.cos(a)*r, y=cy+Math.sin(a)*r*.62;
+                    k?ctx.lineTo(x,y):ctx.moveTo(x,y);
+                }
+                ctx.closePath(); ctx.stroke();
+            }
+        }
+
+        if(style === 'codeRain'){
+            ctx.fillStyle = rgba('#00ff88', .22 + Math.min(.20, speed*.003));
+            ctx.font = '16px Consolas, monospace';
+            for(let i=0;i<40;i++){
+                const x = (i*37 + tick*1.5) % (width+80) - 40;
+                const y = (tick*3 + i*71 + my*.12) % (height+80) - 40;
+                ctx.fillText(pick(['0','1','<','>','/','{','}','#']), x + Math.sin(tick*.03+i)*14, y);
+            }
+        }
+
+        if(style === 'scanlines'){
+            ctx.save();
+            ctx.globalCompositeOperation = 'lighter';
+
+            const lineGap = 6;
+            const wave = Math.sin(tick*.08) * 2;
+            const mouseInfluence = Math.min(1, bgPulse / 40);
+
+            for(let y=0; y<height; y+=lineGap){
+                const d = Math.abs(y - my);
+                const local = Math.max(0, 1 - d / 180);
+                const offset = Math.sin(y*.035 + tick*.08) * (2 + mouseInfluence*8) * local + wave;
+                const alpha = .045 + local*.11 + Math.min(.08, speed*.0018);
+
+                ctx.fillStyle = rgba(accent, alpha);
+                ctx.fillRect(offset, y, width, 1);
+
+                if(local > .05){
+                    ctx.fillStyle = 'rgba(255,255,255,' + (local*.055) + ')';
+                    ctx.fillRect(-offset*.5, y+2, width, 1);
+                }
+            }
+
+            // Scanner-Linie folgt der Maus vertikal
+            const scanner = ctx.createLinearGradient(0,my-26,0,my+26);
+            scanner.addColorStop(0,'rgba(0,0,0,0)');
+            scanner.addColorStop(.5,rgba(accent2,.22 + Math.min(.18, speed*.003)));
+            scanner.addColorStop(1,'rgba(0,0,0,0)');
+            ctx.fillStyle = scanner;
+            ctx.fillRect(0,my-28,width,56);
+
+            ctx.restore();
+        }
+
+
+        if(style === 'shakeHud'){
+            ctx.save();
+            ctx.globalCompositeOperation = 'lighter';
+
+            const cx = width*.5;
+            const cy = height*.5;
+            const energy = .18 + Math.min(.82, bgPulse / 72);
+            const pointerEnergy = mouseDown ? 1 : .52;
+
+            // Maus-Glow.
+            const hudGlow = ctx.createRadialGradient(mx,my,0,mx,my,150 + energy*110);
+            hudGlow.addColorStop(0, 'rgba(255,255,255,' + (.10 + energy*.08) + ')');
+            hudGlow.addColorStop(.36, 'rgba(154,154,154,.055)');
+            hudGlow.addColorStop(1, 'rgba(0,0,0,0)');
+            ctx.fillStyle = hudGlow;
+            ctx.beginPath();
+            ctx.arc(mx,my,150 + energy*110,0,Math.PI*2);
+            ctx.fill();
+
+            // Dynamisches Perspektivgitter mit leichter Maus-Verformung.
+            const horizon = height*.66;
+            ctx.save();
+            ctx.translate(0,horizon);
+            for(let i=0;i<11;i++){
+                const t=i/10;
+                let y=Math.pow(t,2.1)*(height*.32);
+                const d=Math.abs((horizon+y)-my);
+                y += Math.sin(tick*.045+i)*Math.max(0,1-d/260)*10;
+                ctx.strokeStyle = i%3===0 ? 'rgba(255,255,255,.16)' : 'rgba(255,255,255,.07)';
+                ctx.lineWidth = i%3===0 ? 1.2 : .8;
+                ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(width,y); ctx.stroke();
+            }
+            for(let i=0;i<13;i++){
+                const t=(i/12)*2-1;
+                const bend=(mx-width*.5)*.035;
+                const xTop=width*.5+t*width*.12 + bend*t;
+                const xBottom=width*.5+t*width*.76 - bend*t*1.8;
+                ctx.strokeStyle='rgba(255,255,255,.075)';
+                ctx.lineWidth=.9;
+                ctx.beginPath(); ctx.moveTo(xTop,0); ctx.lineTo(xBottom,height*.32); ctx.stroke();
+            }
+            ctx.restore();
+
+            // Zentrale Ringe und rotierende Segmente.
+            const wobble = Math.sin(tick*.035)*6;
+            for(let i=0;i<3;i++){
+                ctx.strokeStyle = i%2===0 ? 'rgba(255,255,255,.075)' : 'rgba(154,154,154,.075)';
+                ctx.lineWidth = i===0 ? 1.5 : 1;
+                ctx.beginPath();
+                ctx.arc(cx, cy, 95+i*25 + wobble*(i%2===0?1:-.5), 0, Math.PI*2);
+                ctx.stroke();
+            }
+            ctx.strokeStyle='rgba(180,180,180,.18)';
+            ctx.lineWidth=1.8;
+            ctx.beginPath();
+            ctx.arc(cx,cy,175,tick*.012,tick*.012+Math.PI*.72);
+            ctx.stroke();
+
+            // Reaktives Mesh wie im hochgeladenen HUD-Background.
+            ensureBgStars('shakeHud');
+            for(const p of bgStars){
+                const dxp = mx - p.x;
+                const dyp = my - p.y;
+                const dist = Math.max(1, Math.hypot(dxp,dyp));
+                const influence = 125 + pointerEnergy*80;
+                if(dist < influence){
+                    const force = Math.pow(1-dist/influence,2);
+                    p.x += (dxp/dist) * force * (mouseDown ? 2.2 : .55);
+                    p.y += (dyp/dist) * force * (mouseDown ? 2.2 : .55);
+                }
+                p.x += Math.sin(tick*.006+p.z*9)*.14 + p.vx*.18;
+                p.y += Math.cos(tick*.005+p.z*7)*.10 + p.vy*.18;
+
+                if(p.x < -30) p.x = width+30;
+                if(p.x > width+30) p.x = -30;
+                if(p.y < -30) p.y = height+30;
+                if(p.y > height+30) p.y = -30;
+
+                ctx.fillStyle='rgba(255,255,255,'+(p.a*.42)+')';
+                ctx.beginPath(); ctx.arc(p.x,p.y,p.s,0,Math.PI*2); ctx.fill();
+            }
+
+            const subset = Math.min(58,bgStars.length);
+            for(let i=0;i<subset;i++){
+                for(let j=i+1;j<subset;j++){
+                    const a=bgStars[i], b=bgStars[j];
+                    const dx=a.x-b.x, dy=a.y-b.y, dsq=dx*dx+dy*dy;
+                    if(dsq < 118*118){
+                        const d=Math.sqrt(dsq);
+                        ctx.strokeStyle='rgba(255,255,255,'+(Math.pow(1-d/118,2)*.085)+')';
+                        ctx.lineWidth=1;
+                        ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+                    }
+                }
+            }
+
+            // Hold/Mouse crosshair wie Referenz-HUD.
+            const core = 18 + (mouseDown ? 42 : 14) + energy*24;
+            ctx.strokeStyle='rgba(255,255,255,' + (.12 + energy*.20) + ')';
+            ctx.lineWidth = mouseDown ? 2.2 : 1.2;
+            ctx.beginPath(); ctx.arc(mx,my,core,0,Math.PI*2); ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(mx-core*.8,my); ctx.lineTo(mx+core*.8,my);
+            ctx.moveTo(mx,my-core*.8); ctx.lineTo(mx,my+core*.8);
+            ctx.stroke();
+
+            // Kurze horizontale HUD-Störlinien.
+            for(let i=0;i<8;i++){
+                const y = (my + Math.sin(tick*.06+i)*90 + i*23) % height;
+                const alpha = .025 + energy*.025;
+                ctx.fillStyle='rgba(255,255,255,'+alpha+')';
+                ctx.fillRect(0,y,width,1);
+            }
+
+            ctx.restore();
+        }
+
+
+        ctx.restore();
+    }
+
+    function drawBackground(c){
+        ctx.fillStyle = '#000';
+        ctx.fillRect(0,0,width,height);
+
+        const mode = (c && c.optBackground) ? (c.bgMode || 'default') : 'default';
+        const opacity = clamp(Number(c && c.bgOpacity !== undefined ? c.bgOpacity : 100) / 100, 0, 1);
+        const src = mode === 'image' ? (c.bgImageData || '') : mode === 'generated' ? (c.bgGeneratedData || '') : '';
+
+        if(src){
+            if(bgImageSrc !== src){
+                bgImageSrc = src;
+                bgImage = new Image();
+                bgImage.src = src;
+            }
+
+            if(bgImage && bgImage.complete && bgImage.naturalWidth){
+                const parallaxStrength = mode === 'image' ? clamp(Number(c.bgParallaxStrength || 0) / 100, 0, 1) : 0;
+                const smooth = mode === 'image' ? clamp(Number(c.bgParallaxSmooth || 22) / 100, .01, 1) : 1;
+                const extraZoom = mode === 'image' ? (1 + parallaxStrength * .10) : 1;
+                const scale = Math.max(width / bgImage.naturalWidth, height / bgImage.naturalHeight) * extraZoom;
+                const dw = bgImage.naturalWidth * scale;
+                const dh = bgImage.naturalHeight * scale;
+
+                const nx = (mouseX / Math.max(1,width) - .5) * 2;
+                const ny = (mouseY / Math.max(1,height) - .5) * 2;
+                const speedX = clamp((mouseX - lastMouseX) * .22, -26, 26);
+                const speedY = clamp((mouseY - lastMouseY) * .22, -26, 26);
+                const maxOffsetX = Math.max(0, (dw - width) * .5);
+                const maxOffsetY = Math.max(0, (dh - height) * .5);
+                const targetX = mode === 'image' ? clamp((-nx * 44 * parallaxStrength) - speedX * parallaxStrength, -maxOffsetX, maxOffsetX) : 0;
+                const targetY = mode === 'image' ? clamp((-ny * 32 * parallaxStrength) - speedY * parallaxStrength, -maxOffsetY, maxOffsetY) : 0;
+
+                bgParallaxX += (targetX - bgParallaxX) * smooth;
+                bgParallaxY += (targetY - bgParallaxY) * smooth;
+
+                const dx = (width - dw) * .5 + bgParallaxX;
+                const dy = (height - dh) * .5 + bgParallaxY;
+
+                ctx.save();
+                ctx.globalAlpha = opacity;
+                ctx.drawImage(bgImage, dx, dy, dw, dh);
+                ctx.restore();
+
+                const vignette = ctx.createRadialGradient(width*.5,height*.45,0,width*.5,height*.45,Math.max(width,height)*.78);
+                vignette.addColorStop(0,'rgba(0,0,0,0)');
+                vignette.addColorStop(.68,'rgba(0,0,0,.18)');
+                vignette.addColorStop(1,'rgba(0,0,0,.72)');
+                ctx.fillStyle = vignette;
+                ctx.fillRect(0,0,width,height);
+
+                if(mode === 'generated') drawInteractiveGeneratedBackground(c);
+                return;
+            }
+        }
+
+        const g = ctx.createRadialGradient(width*.5,height*.45,0,width*.5,height*.45,Math.max(width,height)*.75);
+        g.addColorStop(0,'#111');
+        g.addColorStop(.48,'#030303');
+        g.addColorStop(1,'#000');
+        ctx.fillStyle = g;
+        ctx.fillRect(0,0,width,height);
+    }
+
+    function spawnTrail(c){
+        if(!c.optTrails) return;
+        const dx = mouseX - lastMouseX, dy = mouseY - lastMouseY, speed = Math.hypot(dx,dy);
+        if(speed < .2 && !mouseDown) return;
+        const type = c.trailType, baseColor = c.trailColor, amount = Number(c.trailAmount), life = Number(c.trailLife), trailLenMul = Math.max(.35, Number(c.trailLife) / 48), size = Number(c.trailSize);
+
+        if(type === 'orbital' || type === 'swarm'){
+            const count = Math.max(6, amount*2);
+            for(let i=0;i<count;i++){
+                const a = tick*.055 + i*(Math.PI*2/count);
+                const r = (type==='swarm'?22:12) + amount*4 + Math.sin(tick*.04+i)*8;
+                addParticle(mouseX+Math.cos(a)*r, mouseY+Math.sin(a)*r, baseColor, {
+                    vx:-Math.sin(a)*rand(.4,1.6), vy:Math.cos(a)*rand(.4,1.6),
+                    life:life*.72*trailLenMul, size:size*rand(.45,.95), type:type==='swarm'?'spark':'neon', drag:.975, trailScale:trailLenMul
+                });
+            }
+            return;
+        }
+
+        if(type === 'matrix'){
+            for(let i=0;i<amount*2;i++){
+                addParticle(mouseX+rand(-32,32), mouseY+rand(-12,8), baseColor, {
+                    vx:rand(-.12,.12), vy:rand(1.5,4.8), life:(life+rand(10,48))*trailLenMul,
+                    size:Math.max(8,size*1.4), type:'char', char:pick('01アイウエオカキクケコ'.split('')), drag:.994, trailScale:trailLenMul
+                });
+            }
+            return;
+        }
+
+        if(type === 'ribbon'){
+            const a = Math.atan2(dy,dx) + Math.PI;
+            for(let i=0;i<amount;i++) addParticle(mouseX,mouseY,baseColor,{
+                vx:Math.cos(a+rand(-.25,.25))*rand(.8,2.2), vy:Math.sin(a+rand(-.25,.25))*rand(.8,2.2),
+                life:(life+20)*trailLenMul, size:size*rand(1.4,2.4), type:'ribbon', drag:.986, trailScale:trailLenMul
+            });
+            return;
+        }
+
+
+        if(type === 'lightningTrail'){
+            const dir = Math.atan2(dy || .001, dx || 1);
+            const boltPower = Math.min(170, 42 + amount*10 + size*5 + speed*7);
+            if(Math.random() < Math.min(.92, .38 + speed*.035)) addBolt(mouseX, mouseY, pick([baseColor, '#ffffff', '#8fe7ff']), boltPower);
+            const count = Math.max(4, amount + Math.floor(speed*.35));
+            for(let i=0;i<count;i++){
+                const a = dir + Math.PI + rand(-.95, .95);
+                addParticle(mouseX + rand(-3,3), mouseY + rand(-3,3), pick([baseColor, '#ffffff', '#9fe8ff']), {
+                    vx:Math.cos(a)*rand(.8,3.4) - dx*.025,
+                    vy:Math.sin(a)*rand(.8,3.4) - dy*.025,
+                    life:(life*.72 + rand(8,24))*trailLenMul,
+                    size:size*rand(.45,1.05),
+                    type:Math.random() < .45 ? 'laser' : 'spark',
+                    drag:.976,
+                    trailScale:trailLenMul
+                });
+            }
+            return;
+        }
+
+        if(type === 'helix' || type === 'dna'){
+            const count = Math.max(8, amount*2);
+            const dir = Math.atan2(dy || .001, dx || 1);
+            for(let i=0;i<count;i++){
+                const side = i%2===0 ? 1 : -1;
+                const phase = tick*.18 + i*.35;
+                const rx = Math.cos(phase)*((10+size*1.8)*side);
+                const ry = Math.sin(phase)*(4+size*.6);
+                const px = mouseX + Math.cos(dir)*i*2 + rx;
+                const py = mouseY + Math.sin(dir)*i*2 + ry;
+                addParticle(px,py, type==='dna' ? (side>0 ? '#00eaff' : '#ff5fd2') : baseColor, {
+                    vx:Math.cos(dir+side*.8)*rand(.4,1.8)-dx*.015, vy:Math.sin(dir+side*.8)*rand(.4,1.8)-dy*.015,
+                    life:(life+rand(8,28))*trailLenMul, size:size*rand(.6,1.15), type:type==='dna'?'laser':'neon', drag:.984, trailScale:trailLenMul
+                });
+            }
+            return;
+        }
+
+
+        if(type === 'droneSwarm' || type === 'nanoBots'){
+            const count = Math.max(8, amount*3);
+            for(let i=0;i<count;i++){
+                const a = tick*.07 + i*(Math.PI*2/count);
+                const r = (type==='droneSwarm'?34:18) + Math.sin(tick*.05+i)*10 + amount*2.5;
+                addParticle(mouseX+Math.cos(a)*r, mouseY+Math.sin(a)*r, pick([baseColor,'#ffffff','#00ffaa']), {
+                    vx:-Math.sin(a)*rand(.35,1.35), vy:Math.cos(a)*rand(.35,1.35),
+                    life:(life+rand(10,30))*trailLenMul, size:size*rand(.28,.72), type:type==='nanoBots'?'pixel':'geo', drag:.986, trailScale:trailLenMul
+                });
+            }
+            return;
+        }
+
+        if(type === 'circuitTrace' || type === 'scanlineTrail' || type === 'binaryStream' || type === 'holoBits'){
+            const dir = Math.atan2(dy || .001, dx || 1);
+            const count = Math.max(5, amount*2);
+            for(let i=0;i<count;i++){
+                const side = (i%2 ? 1 : -1);
+                const offset = side * rand(4, 18 + size);
+                const px = mouseX - Math.cos(dir)*i*5 - Math.sin(dir)*offset;
+                const py = mouseY - Math.sin(dir)*i*5 + Math.cos(dir)*offset;
+                let pType = 'laser', char = '';
+                let col = pick([baseColor,'#00eaff','#ffffff']);
+                if(type === 'binaryStream'){ pType='char'; char=pick('010101<>[]{}'.split('')); col=pick([baseColor,'#00ff88','#ffffff']); }
+                if(type === 'holoBits'){ pType=Math.random()<.5?'pixel':'geo'; col=pick([baseColor,'#ff5fd2','#8ffcff','#ffffff']); }
+                if(type === 'scanlineTrail'){ pType='laser'; col=pick([baseColor,'#ffffff']); }
+                addParticle(px,py,col,{
+                    vx:Math.cos(dir+Math.PI+rand(-.22,.22))*rand(.4,1.8),
+                    vy:Math.sin(dir+Math.PI+rand(-.22,.22))*rand(.4,1.8),
+                    life:(life+rand(4,32))*trailLenMul,
+                    size:size*rand(.55,1.25),
+                    type:pType,
+                    char,
+                    drag:.982,
+                    trailScale:trailLenMul*1.25
+                });
+            }
+            return;
+        }
+
+        for(let i=0;i<amount;i++){
+            const a = rand(0,Math.PI*2);
+            let v = rand(.1,2.2), color = baseColor, pType = type, drag = .955, grav = 0;
+            if(type==='fire'){ color = pick(['#ff3300','#ff7b00','#ffd36a']); pType='spark'; v=rand(.4,2.4); grav=-.012; }
+            else if(type==='ice'){ color=pick(['#aeefff','#ffffff','#66d9ff']); pType='star'; drag=.975; }
+            else if(type==='plasma'){ color=pick([baseColor,'#b400ff','#00eaff']); pType='neon'; v=rand(.5,3.2); }
+            else if(type==='cyber'){ pType=Math.random()<.5?'pixel':'laser'; drag=.97; }
+            else if(type==='embers'){ color=pick(['#ff3300','#ffaa22','#ffdd66']); pType='spark'; drag=.982; grav=-.006; }
+            else if(type==='snow'){ color='#ffffff'; pType='star'; v=rand(.05,.7); drag=.992; grav=.006; }
+            else if(type==='laser'){ pType='laser'; v=rand(.5,2.8); drag=.985; }
+            else if(type==='bubbles'){ pType='bubble'; v=rand(.05,.8); drag=.992; grav=-.01; }
+            else if(type==='stardust'){ pType='star'; color=pick([baseColor,'#ffffff','#ffe9aa']); drag=.985; }
+            else if(type==='acid'){ pType='drip'; color=pick([baseColor,'#d0ff00','#00ff66']); grav=.04; drag=.99; }
+            else if(type==='shadow'){ pType='smoke'; color='#222222'; drag=.985; }
+            else if(type==='prism'){ pType='laser'; color=pick(['#ff0040','#00eaff','#fff000','#ff00d4']); drag=.982; }
+            else if(type==='geo'){ pType='geo'; color=pick([baseColor,'#fff','#00eaff']); v=rand(.4,2.6); }
+            else if(type==='petals'){ pType='geo'; color=pick([baseColor,'#ff6fb5','#ffd0ea','#fff5fb']); v=rand(.15,1.5); drag=.988; grav=.006; }
+            else if(type==='sonarDust'){ pType='star'; color=pick([baseColor,'#ffffff','#8cf7ff']); v=rand(.2,1.25); drag=.991; }
+            else if(type==='feathers'){ pType='ribbon'; color=pick([baseColor,'#ffffff','#dde8ff']); v=rand(.2,1.2); drag=.99; grav=-.003; }
+            else if(type==='glitchRain'){ pType=Math.random()<.5?'pixel':'char'; color=pick([baseColor,'#00ffaa','#77ddff','#ffffff']); v=rand(.1,.8); drag=.992; grav=.045; }
+            else if(type==='comet'){ pType='comet'; v=rand(.4,2.4); drag=.985; }
+            addParticle(mouseX+rand(-4,4), mouseY+rand(-4,4), color, {
+                vx:Math.cos(a)*v - dx*.035, vy:Math.sin(a)*v - dy*.035,
+                life:(life+rand(-8,8))*trailLenMul, size:size*rand(.6,1.4), type:pType, char:(type==='glitchRain'?pick('01#@*&%'.split('')):undefined), drag, gravity:grav, trailScale:trailLenMul
+            });
+        }
+    }
+
+    function clickEffect(x,y){
+        const c = cfgProvider();
+        if(!c.optClick) return;
+        const now = performance.now(), interval = Math.max(0, Number(c.clickInterval || 0));
+        if(now - lastClickEffectTime < interval) return;
+        lastClickEffectTime = now;
+
+        const color = c.clickColor, base = Number(c.clickPower), type = c.clickType, power = base;
+        if(['shockwave','rings','flash','ripple','grid','nova','plasmaPop','hexPulse','sonar','squarePulse','lensFlare','cyberGrid','empRing','hexHack','scanPing'].includes(type)){
+            addWave(x,y,color,type==='ripple'?'rings':type,power);
+            if(['rings','ripple','hexPulse','sonar'].includes(type)){
+                setTimeout(()=>addWave(x,y,color,'rings2',power*.75),80);
+                setTimeout(()=>addWave(x,y,color,'rings3',power*.55),160);
+            }
+        }
+        if(type === 'crosshair' || type === 'lensFlare' || type === 'ionBlast'){
+            for(const a of [0,Math.PI/2,Math.PI,Math.PI*1.5]){
+                addParticle(x,y,type==='ionBlast'?'#cfffff':color,{vx:Math.cos(a)*rand(3,6),vy:Math.sin(a)*rand(3,6),life:38+power*.25,size:8+power*.06,type:'laser',drag:.986});
+            }
+        }
+        if(type === 'grid' || type === 'cyberGrid'){
+            const lines = Math.floor(5+power/12);
+            for(let i=-lines;i<=lines;i++){
+                const off=i*18;
+                addParticle(x+off,y,color,{vx:0,vy:rand(-.3,.3),life:34,size:10,type:'laser',drag:.99});
+                addParticle(x,y+off,color,{vx:rand(-.3,.3),vy:0,life:34,size:10,type:'laser',drag:.99});
+            }
+        }
+        if(type === 'slash'){
+            const slashes = 3 + Math.floor(power/25);
+            for(let s=0;s<slashes;s++){
+                const a = rand(-.8,.8)+(s%2?Math.PI*.25:-Math.PI*.25);
+                for(let i=-10;i<=10;i++) addParticle(x+Math.cos(a)*i*8,y+Math.sin(a)*i*8,color,{vx:Math.cos(a)*rand(.5,2),vy:Math.sin(a)*rand(.5,2),life:rand(18,38),size:rand(4,11),type:'laser',drag:.982});
+            }
+        }
+        if(type === 'implode'){
+            const n=Math.floor(26+power*1.05);
+            for(let i=0;i<n;i++){
+                const a=rand(0,Math.PI*2), dist=rand(50,170+power), sx=x+Math.cos(a)*dist, sy=y+Math.sin(a)*dist;
+                addParticle(sx,sy,color,{vx:(x-sx)/rand(18,34),vy:(y-sy)/rand(18,34),life:rand(28,58),size:rand(2,7),type:'neon',drag:.986});
+            }
+        }
+        if(type === 'lightningPop') addBolt(x,y,color,180);
+        if(type === 'rippleDots'){
+            for(let ring=0; ring<3; ring++){
+                const count = 18+ring*8;
+                for(let i=0;i<count;i++){
+                    const a=(Math.PI*2/count)*i;
+                    addParticle(x+Math.cos(a)*ring*18,y+Math.sin(a)*ring*18,color,{vx:Math.cos(a)*rand(1.2,3.2),vy:Math.sin(a)*rand(1.2,3.2),life:40+ring*10,size:3+ring,type:'spark',drag:.97});
+                }
+            }
+        }
+
+        if(type === 'crystalBurst'){
+            addWave(x,y,color,'hexPulse',power);
+            const n=Math.floor(28+power*1.15);
+            for(let i=0;i<n;i++){
+                const a=rand(0,Math.PI*2), v=rand(1.4,4+power*.05);
+                addParticle(x,y,pick([color,'#ffffff','#8cf7ff','#b6a0ff']),{vx:Math.cos(a)*v,vy:Math.sin(a)*v,life:rand(30,72),size:rand(3,9),type:'shard',drag:.972});
+            }
+        }
+        if(type === 'orbitSnap'){
+            addWave(x,y,color,'rings',power*.9);
+            const count = Math.floor(24+power*.6);
+            for(let i=0;i<count;i++){
+                const a=(Math.PI*2/count)*i;
+                addParticle(x+Math.cos(a)*(24+power*.15),y+Math.sin(a)*(24+power*.15),color,{vx:-Math.sin(a)*rand(1.2,3.2),vy:Math.cos(a)*rand(1.2,3.2),life:40+power*.28,size:rand(2,6),type:'neon',drag:.984});
+            }
+        }
+        if(type === 'pulseFlower'){
+            addWave(x,y,color,'rings',power*.85);
+            const petals = 8 + Math.floor(power/18);
+            for(let p=0;p<petals;p++){
+                const ang=(Math.PI*2/petals)*p;
+                for(let j=0;j<5;j++){
+                    addParticle(x,y,pick([color,'#ffd6f0','#fff1fb']),{vx:Math.cos(ang+rand(-.12,.12))*rand(1.2,3.1),vy:Math.sin(ang+rand(-.12,.12))*rand(1.2,3.1),life:28+j*5,size:rand(3,8),type:'geo',drag:.98,gravity:.004});
+                }
+            }
+        }
+        if(type === 'voidRing'){
+            addWave(x,y,'#7d6bff','implosion',power*.9);
+            addWave(x,y,color,'rings',power*.6);
+            for(let i=0;i<Math.floor(20+power*.75);i++){
+                const a=rand(0,Math.PI*2), dist=rand(18,120), sx=x+Math.cos(a)*dist, sy=y+Math.sin(a)*dist;
+                addParticle(sx,sy,pick(['#190f30',color,'#604cff']),{vx:(x-sx)/rand(18,34),vy:(y-sy)/rand(18,34),life:rand(34,76),size:rand(2,7),type:i%3===0?'smoke':'neon',drag:.984});
+            }
+        }
+        if(type === 'ionBlast'){
+            addWave(x,y,'#7aefff','shockwave',power);
+            for(let i=0;i<Math.floor(26+power);i++){
+                const a=rand(0,Math.PI*2), v=rand(1.8,5.2);
+                addParticle(x,y,pick(['#ffffff','#7aefff','#00aaff',color]),{vx:Math.cos(a)*v,vy:Math.sin(a)*v,life:rand(24,56),size:rand(2,7),type:Math.random()<.45?'laser':'spark',drag:.975});
+            }
+        }
+        if(type === 'dataBloom'){
+            addWave(x,y,color,'grid',power*.85);
+            const chars='01<>[]{}#@'.split('');
+            for(let i=0;i<Math.floor(22+power*.8);i++){
+                const a=rand(0,Math.PI*2), v=rand(.8,3.6);
+                addParticle(x,y,pick([color,'#00ffaa','#77e6ff','#ffffff']),{vx:Math.cos(a)*v,vy:Math.sin(a)*v,life:rand(28,70),size:rand(7,14),type:Math.random()<.5?'char':'pixel',char:pick(chars),drag:.981});
+            }
+        }
+        if(['burst','flash','starburst','nova','glitch','plasmaPop','hexPulse','confetti'].includes(type)){
+            const n=Math.floor(20+power*1.25);
+            for(let i=0;i<n;i++){
+                const a=type==='starburst'?(Math.PI*2/Math.max(12,Math.floor(n/3)))*i:rand(0,Math.PI*2);
+                const v=rand(1.2,2.8+power*.06);
+                const pType=type==='starburst'?'comet':type==='glitch'?'pixel':type==='plasmaPop'?'neon':type==='confetti'?'geo':'spark';
+                const pColor=type==='plasmaPop'&&Math.random()<.5?'#b400ff':type==='confetti'?randomColor():color;
+                addParticle(x,y,pColor,{vx:Math.cos(a)*v,vy:Math.sin(a)*v,life:rand(24,72),size:rand(2,7+power*.05),type:pType,drag:type==='starburst'?.988:.955,gravity:type==='confetti'?.04:0});
+            }
+        }
+        if(type === 'empRing' || type === 'scanPing'){
+            addWave(x,y,type==='empRing'?'#8ffcff':color,'rings',power*1.1);
+            setTimeout(()=>addWave(x,y,type==='empRing'?'#ffffff':color,'rings2',power*.85),90);
+            setTimeout(()=>addWave(x,y,type==='empRing'?'#00eaff':color,'rings3',power*.65),180);
+        }
+
+        if(type === 'hexHack'){
+            addWave(x,y,color,'hexPulse',power*1.15);
+            for(let i=0;i<36+power;i++){
+                const a=(Math.PI*2/(18+Math.floor(power/6)))*i;
+                addParticle(x+Math.cos(a)*20,y+Math.sin(a)*20,pick([color,'#00ffaa','#ffffff']),{
+                    vx:Math.cos(a)*rand(1.2,4.2),
+                    vy:Math.sin(a)*rand(1.2,4.2),
+                    life:rand(24,62),
+                    size:rand(3,8),
+                    type:i%3===0?'char':'pixel',
+                    char:pick('01#{}[]<>'.split('')),
+                    drag:.976
+                });
+            }
+        }
+
+        if(type === 'dataSpike'){
+            for(let i=0;i<18+power*.55;i++){
+                const a = -Math.PI/2 + rand(-.55,.55);
+                addParticle(x+rand(-24,24),y,pick([color,'#00ffaa','#ffffff']),{
+                    vx:Math.cos(a)*rand(.6,2.4),
+                    vy:Math.sin(a)*rand(2.4,6.5),
+                    life:rand(30,74),
+                    size:rand(7,15),
+                    type:Math.random()<.55?'char':'laser',
+                    char:pick('0101<>/#'.split('')),
+                    drag:.982
+                });
+            }
+        }
+
+        if(type === 'circuitBurst'){
+            addWave(x,y,'#00ffaa','grid',power);
+            for(let i=0;i<Math.floor(24+power*.9);i++){
+                const right = pick([0,Math.PI/2,Math.PI,Math.PI*1.5]);
+                addParticle(x,y,pick([color,'#00ffaa','#ffffff']),{
+                    vx:Math.cos(right)*rand(1.2,5.2),
+                    vy:Math.sin(right)*rand(1.2,5.2),
+                    life:rand(22,60),
+                    size:rand(2,7),
+                    type:Math.random()<.45?'pixel':'laser',
+                    drag:.985
+                });
+            }
+        }
+
+    }
+
+    function holdCharge(ms){
+        const sec = Math.max(0, ms/1000);
+        return Math.min(5.5, 1 + sec*.72 + Math.pow(sec,1.18)*.22);
+    }
+
+
+    function triggerScreenShake(power){
+        screenShakeDuration = Math.max(18, Math.min(70, Math.floor(22 + power * .08)));
+        screenShakeTime = screenShakeDuration;
+        screenShakePower = Math.max(8, Math.min(42, 12 + power * .035));
+    }
+
+    function applyScreenShake(){
+        if(screenShakeTime > 0){
+            const t = screenShakeTime / Math.max(1, screenShakeDuration);
+            const amp = screenShakePower * t * t;
+            const sx = rand(-amp, amp);
+            const sy = rand(-amp, amp);
+            const rot = rand(-amp, amp) * .035;
+            document.body.style.transformOrigin = '50% 50%';
+            document.body.style.transform = `translate(${sx.toFixed(2)}px, ${sy.toFixed(2)}px) rotate(${rot.toFixed(3)}deg)`;
+            screenShakeTime--;
+        } else if(document.body.style.transform){
+            document.body.style.transform = '';
+            document.body.style.transformOrigin = '';
+        }
+    }
+
+
+    function holdEffect(c){
+        if(!mouseDown || !c.optHold) return;
+        const ageMs = performance.now() - holdStart;
+        if(ageMs < HOLD_DELAY_MS) return;
+        const activeMs = ageMs - HOLD_DELAY_MS;
+        const charge = holdCharge(activeMs);
+        const base = Number(c.holdPower), power = Math.min(380, base*charge);
+        const color = c.holdColor, type = c.holdType, age = activeMs/1000;
+        const spawnMul = Math.min(4.2,.85+charge*.72), radiusMul = Math.min(3.4,.9+charge*.45), alphaMul = Math.min(2.6,.75+charge*.38);
+
+        if(['lightning','sparks','plasmaStorm','laserLock','stormEye','dataStream','hackStream','nanoField'].includes(type)){
+            if(Math.random()<Math.min(.92,.14+power/360)) addBolt(mouseX,mouseY,(type==='plasmaStorm'&&Math.random()<.5)?'#b400ff':(type==='stormEye'&&Math.random()<.5?'#7aefff':color),Math.min(220,power));
+            const n=Math.min(28,Math.floor((1+base/24)*spawnMul));
+            for(let i=0;i<n;i++){
+                const a=rand(0,Math.PI*2), v=rand(.8,3.2+charge*.75);
+                addParticle(mouseX,mouseY,type==='dataStream'?pick([color,'#00ffaa','#77e6ff','#ffffff']):color,{vx:Math.cos(a)*v,vy:Math.sin(a)*v,life:rand(12,32+charge*12),size:rand(1.5,4.5+charge*1.4),type:type==='plasmaStorm'?'neon':(type==='laserLock'||type==='stormEye')?'laser':((type==='dataStream'||type==='hackStream')&&Math.random()<.55)?'char':(type==='nanoField'?'pixel':'spark'),char:((type==='dataStream'||type==='hackStream')?pick('01<>[]{}#@'.split('')):undefined),drag:.96});
+            }
+        }
+        if(['vortex','magnet','blackhole','gravityWell','turbine','pulseOrbit'].includes(type)){
+            const n=Math.min(34,Math.floor((2+base/18)*spawnMul));
+            for(let i=0;i<n;i++){
+                const spin = type==='blackhole'||type==='gravityWell'?8+charge*1.5:type==='turbine'?12+charge*2:5+charge*.8;
+                const a=age*spin+i*2.399+rand(-.15,.15);
+                const r=(type==='blackhole'||type==='gravityWell'?rand(22,120+base):rand(12,65+base))*radiusMul;
+                const sx=mouseX+Math.cos(a)*r, sy=mouseY+Math.sin(a)*r;
+                addParticle(sx,sy,type==='pulseOrbit'?pick([color,'#ffffff','#ffe58a']):color,{vx:(type==='blackhole'||type==='gravityWell')?(mouseX-sx)/rand(14,30):-Math.sin(a)*rand(.8,2.4+charge*.55),vy:(type==='blackhole'||type==='gravityWell')?(mouseY-sy)/rand(14,30):Math.cos(a)*rand(.8,2.4+charge*.55),life:rand(20,48+charge*12),size:rand(2,6+charge*1.2),type:(type==='magnet'||type==='turbine'||type==='pulseOrbit')?'laser':'neon',drag:.982});
+            }
+        }
+        if(['glow','solarCore','energyShield','aurora','crystalField','emberHalo'].includes(type)){
+            ctx.save();
+            const radius=(40+Math.sin(tick*.08)*8+base*1.2)*radiusMul;
+            const g=ctx.createRadialGradient(mouseX,mouseY,0,mouseX,mouseY,radius);
+            g.addColorStop(0,rgba(type==='solarCore'?'#fff2aa':type==='emberHalo'?'#ffb15e':color,Math.min(.72,.24*alphaMul)));
+            g.addColorStop(.35,rgba(type==='aurora'?randomColor():(type==='crystalField'?pick([color,'#8cf7ff','#d8c4ff']):color),Math.min(.34,.09*alphaMul)));
+            g.addColorStop(1,'rgba(0,0,0,0)');
+            ctx.globalCompositeOperation='lighter'; ctx.fillStyle=g;
+            ctx.beginPath(); ctx.arc(mouseX,mouseY,radius,0,Math.PI*2); ctx.fill();
+            if(type==='energyShield' || type==='crystalField'){
+                ctx.strokeStyle=rgba(color,Math.min(.72,.22*alphaMul)); ctx.lineWidth=1.5+charge*.9;
+                for(let i=0;i<Math.min(4,Math.floor(charge));i++){ctx.beginPath();ctx.arc(mouseX,mouseY,radius*(.42+i*.1)+Math.sin(tick*.11+i)*8,0,Math.PI*2);ctx.stroke();} if(type==='crystalField'){ for(let i=0;i<10;i++){ const aa=tick*.03+i*(Math.PI*2/10); addParticle(mouseX+Math.cos(aa)*radius*.7,mouseY+Math.sin(aa)*radius*.7,pick([color,'#ffffff','#8cf7ff']),{vx:Math.cos(aa)*.25,vy:Math.sin(aa)*.25,life:20,size:4,type:'shard',drag:.99}); } }
+            }
+            ctx.restore();
+        }
+        if(type==='scanner' || type==='rainCharge'){
+            ctx.save(); ctx.globalCompositeOperation='lighter';
+            const beams=Math.min(6,Math.ceil(charge));
+            for(let i=0;i<beams;i++){
+                const y= type==='rainCharge' ? mouseY + rand(-120,120)*radiusMul : mouseY+Math.sin(tick*.18+i*.9)*(28+base*.4)*radiusMul;
+                const grad=ctx.createLinearGradient(mouseX-(180+base)*radiusMul,y,mouseX+(180+base)*radiusMul,y);
+                grad.addColorStop(0,'rgba(0,0,0,0)'); grad.addColorStop(.5,rgba(color,Math.min(.9,.42*alphaMul))); grad.addColorStop(1,'rgba(0,0,0,0)');
+                ctx.strokeStyle=grad; ctx.lineWidth=2+charge*.85+base*.035;
+                ctx.beginPath(); ctx.moveTo(mouseX-(180+base)*radiusMul,y); ctx.lineTo(mouseX+(180+base)*radiusMul,y); ctx.stroke();
+            }
+            ctx.restore();
+        }
+        if(type==='stormEye' || type==='pulseOrbit' || type==='emberHalo'){
+            if(tick%4===0) addWave(mouseX,mouseY,type==='emberHalo'?'#ff9448':color,type==='pulseOrbit'?'rings':'release',Math.min(160,power*.22));
+        }
+
+        if(type === 'techShield' || type === 'radarLock'){
+            ctx.save();
+            ctx.globalCompositeOperation='lighter';
+            const rings = type === 'radarLock' ? 5 : 3;
+            for(let i=0;i<rings;i++){
+                ctx.strokeStyle = rgba(type==='radarLock'?'#00ff88':color, .18 + Math.min(.25, charge*.04));
+                ctx.lineWidth = 1.5 + i*.5;
+                ctx.setLineDash(type==='radarLock'?[10,10]:[18,8]);
+                ctx.lineDashOffset = -tick*(1+i*.45);
+                ctx.beginPath();
+                ctx.arc(mouseX,mouseY,(42+i*22)*radiusMul + Math.sin(tick*.05+i)*4,0,Math.PI*2);
+                ctx.stroke();
+            }
+            if(type==='radarLock'){
+                const a=tick*.05;
+                ctx.setLineDash([]);
+                ctx.beginPath(); ctx.moveTo(mouseX,mouseY); ctx.lineTo(mouseX+Math.cos(a)*170*radiusMul, mouseY+Math.sin(a)*170*radiusMul); ctx.stroke();
+            }
+            ctx.restore();
+        }
+
+        if(type === 'reactorCore'){
+            ctx.save();
+            ctx.globalCompositeOperation='lighter';
+            const r = (48 + base*.7) * radiusMul;
+            const grad = ctx.createRadialGradient(mouseX,mouseY,0,mouseX,mouseY,r);
+            grad.addColorStop(0,rgba('#ffffff',.35));
+            grad.addColorStop(.28,rgba(color,.28));
+            grad.addColorStop(1,'rgba(0,0,0,0)');
+            ctx.fillStyle=grad; ctx.beginPath(); ctx.arc(mouseX,mouseY,r,0,Math.PI*2); ctx.fill();
+            for(let i=0;i<6;i++){
+                const a=tick*.045+i*Math.PI*2/6;
+                ctx.strokeStyle=rgba(i%2?color:'#ffffff',.32);
+                ctx.lineWidth=2;
+                ctx.beginPath();
+                ctx.arc(mouseX,mouseY,r*.55, a, a+.75);
+                ctx.stroke();
+            }
+            ctx.restore();
+        }
+
+        if(type==='runeCircle'){
+            if(tick%6===0) addGlyph(mouseX+rand(-80,80),mouseY+rand(-80,80),color,pick(['✦','✧','◇','△','⬡','✶']),base);
+            addWave(mouseX,mouseY,color,'rune',Math.min(160,power*.35));
+        }
+    }
+
+    function releaseEffect(x,y,heldMs){
+        const c=cfgProvider();
+        if(!c.optRelease) return;
+        const now=performance.now(), interval=Math.max(0,Number(c.clickInterval || 0));
+        if(now - lastReleaseEffectTime < interval) return;
+        lastReleaseEffectTime = now;
+
+        const charge = holdCharge(Math.max(0,heldMs-HOLD_DELAY_MS));
+        const fullCharge = charge >= 5.35;
+        const color = c.releaseColor, base = Number(c.releasePower);
+        if(fullCharge) triggerScreenShake(base * charge + Math.min(260, heldMs/18));
+        const power = Math.min(540, base*charge + Math.min(260, heldMs/18));
+        const type = c.releaseType;
+        const amountMul = Math.min(3.5,.85+charge*.48), speedMul = Math.min(2.9,.9+charge*.36), sizeMul = Math.min(2.7,.85+charge*.28);
+
+        if(['explosion','warp','dust','supernova','shatter','sparkRain','smokeRing','cometScatter','pulseStorm','gravityBlast','auroraBurst','prismBurst','shockGrid','firework','iceCrack','nebulaBloom','quantumBurst','meteorBloom','petalWave','dataScatter','electroExplosion','empBlast','firewallBurst','codeExplosion','circuitOverload','quantumDisrupt'].includes(type)){
+            const n = Math.min(800, Math.floor((30+base*((type==='supernova'||type==='pulseStorm'||type==='firework')?2.1:1.6))*amountMul));
+            for(let i=0;i<n;i++){
+                const a=rand(0,Math.PI*2), v=((type==='warp'||type==='cometScatter')?rand(3,8+base*.05):rand(1,5+base*.05))*speedMul;
+                let pType=(type==='dust'||type==='smokeRing'||type==='nebulaBloom')?'smoke':type==='shatter'||type==='iceCrack'||type==='meteorBloom'?'shard':type==='sparkRain'?'spark':(type==='prismBurst'||type==='electroExplosion'||type==='empBlast'||type==='quantumDisrupt')?'laser':(type==='dataScatter'||type==='codeExplosion')?(Math.random()<.5?'pixel':'char'):type==='petalWave'?'geo':'comet';
+                let vx=Math.cos(a)*v, vy=Math.sin(a)*v, pColor=color, grav=0;
+                if(type==='sparkRain'){vx=rand(-2.2,2.2)*speedMul;vy=rand(-6.5,-1.2)*speedMul;grav=.055;}
+                if(type==='auroraBurst') pColor=pick([color,'#00eaff','#b400ff','#00ff88']);
+                if(type==='nebulaBloom') pColor=pick([color,'#8f7bff','#ff86d3','#79e7ff']);
+                if(type==='quantumBurst') pColor=pick([color,'#ffffff','#7aefff','#a77dff']);
+                if(type==='meteorBloom') pColor=pick([color,'#ffd17a','#ff7a2c','#fff2d2']);
+                if(type==='petalWave') pColor=pick([color,'#ffd6f0','#fff1fb','#ff8fc8']);
+                if(type==='dataScatter') pColor=pick([color,'#00ffaa','#77e6ff','#ffffff']);
+                if(type==='electroExplosion') pColor=pick([color,'#ffffff','#7aefff','#00c8ff','#9ffbff']);
+                if(type==='prismBurst') pColor=pick(['#ff0040','#00eaff','#fff000','#ff00d4']);
+                if(type==='firework') pColor=randomColor();
+                if(type==='iceCrack') pColor=pick(['#aeefff','#ffffff','#6edbff']);
+                addParticle(x,y,pColor,{vx,vy,life:(type==='dust'||type==='smokeRing'||type==='nebulaBloom')?rand(70,150+charge*25):rand(26,88+charge*14),size:((type==='dust'||type==='smokeRing'||type==='nebulaBloom')?rand(3,12):rand(2,8))*sizeMul,type:pType,char:((type==='dataScatter'||type==='codeExplosion')?pick('01<>[]{}#@/\\'.split('')):undefined),drag:(type==='warp'||type==='cometScatter'||type==='quantumBurst'||type==='electroExplosion')?.99:.96,gravity:grav});
+            }
+            addWave(x,y,color,(type==='warp'||type==='supernova'||type==='pulseStorm'||type==='gravityBlast'||type==='quantumBurst'||type==='electroExplosion')?'shockwave':type==='shockGrid'?'grid':type==='petalWave'?'rings':'release',power);
+            if(type==='supernova'||type==='pulseStorm'||type==='firework'||charge>3.2){
+                setTimeout(()=>addWave(x,y,color,'rings2',power*.8),90);
+                setTimeout(()=>addWave(x,y,color,'rings3',power*.62),180);
+                if(charge>4.2) setTimeout(()=>addWave(x,y,color,'rings3',power*.48),290);
+            }
+            if(type==='gravityBlast' || type==='voidCollapse') addWave(x,y,color,'implosion',power*.7);
+            if(type==='quantumBurst') { setTimeout(()=>addWave(x,y,color,'hexPulse',power*.58),110); }
+            if(type==='petalWave') { setTimeout(()=>addWave(x,y,color,'rings2',power*.52),100); }
+            if(type==='electroExplosion') {
+                const boltCount = Math.min(22, Math.floor(8 + charge * 3.5 + base / 12));
+                for(let b=0;b<boltCount;b++) setTimeout(()=>addBolt(x + rand(-18,18), y + rand(-18,18), pick(['#ffffff','#7aefff','#00c8ff',color]), Math.min(260, power*.55)), b*18);
+                setTimeout(()=>addWave(x,y,'#7aefff','rings2',power*.76),70);
+                setTimeout(()=>addWave(x,y,'#ffffff','rings3',power*.58),150);
+                for(let e=0;e<Math.min(260, 40 + base*2.1*amountMul);e++){
+                    const aa=rand(0,Math.PI*2), vv=rand(2.2,8.5)*speedMul;
+                    addParticle(x,y,pick(['#ffffff','#7aefff','#00c8ff',color]),{vx:Math.cos(aa)*vv,vy:Math.sin(aa)*vv,life:rand(18,64+charge*10),size:rand(2,7)*sizeMul,type:Math.random()<.55?'laser':'spark',drag:.982});
+                }
+            }
+            if(type==='shockGrid') for(let i=-5;i<=5;i++){addParticle(x+i*24,y,color,{vx:0,vy:rand(-2,2),life:60,size:12,type:'laser'});addParticle(x,y+i*24,color,{vx:rand(-2,2),vy:0,life:60,size:12,type:'laser'});}
+        }
+        if(type==='voidCollapse'){
+            const n=Math.min(700,Math.floor((36+base*1.45)*amountMul));
+            for(let i=0;i<n;i++){
+                const a=rand(0,Math.PI*2), dist=rand(90,260+base)*Math.min(3,.95+charge*.44);
+                const sx=x+Math.cos(a)*dist, sy=y+Math.sin(a)*dist;
+                addParticle(sx,sy,pick([color,'#5641ff','#160f2d','#8f7bff']),{vx:(x-sx)/rand(14,34),vy:(y-sy)/rand(14,34),life:rand(34,74+charge*14),size:rand(2,8)*sizeMul,type:Math.random()<.35?'smoke':'neon',drag:.984});
+            }
+            addWave(x,y,color,'implosion',power);
+        }
+        if(type==='implosion' || type==='runeBreak'){
+            const n=Math.min(650,Math.floor((35+base*1.35)*amountMul));
+            for(let i=0;i<n;i++){
+                const a=rand(0,Math.PI*2), dist=rand(80,240+base)*Math.min(2.8,.9+charge*.4);
+                const sx=x+Math.cos(a)*dist, sy=y+Math.sin(a)*dist;
+                addParticle(sx,sy,color,{vx:(x-sx)/rand(18,42),vy:(y-sy)/rand(18,42),life:rand(30,70+charge*14),size:rand(2,7)*sizeMul,type:type==='runeBreak'?'geo':'neon',drag:.982});
+            }
+            if(type==='runeBreak') for(let i=0;i<12;i++) addGlyph(x+rand(-120,120),y+rand(-120,120),color,pick(['✦','✧','◇','△','⬡','✶']),base);
+            addWave(x,y,color,'implosion',power);
+        }
+    }
+
+    function drawParticle(p){
+        const t=Math.max(0,p.life/p.maxLife), a=t*t, color=p.color;
+        ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.translate(p.x,p.y); ctx.rotate(p.rot);
+        if(p.type==='smoke'){
+            const r=p.size*(2.2-t)*2.4, g=ctx.createRadialGradient(0,0,0,0,0,r);
+            g.addColorStop(0,rgba(color,.08*a)); g.addColorStop(.5,rgba(color,.035*a)); g.addColorStop(1,'rgba(0,0,0,0)');
+            ctx.fillStyle=g; ctx.beginPath(); ctx.arc(0,0,r,0,Math.PI*2); ctx.fill();
+        } else if(p.type==='pixel'){
+            ctx.fillStyle=rgba(color,.8*a); const s=Math.max(1,p.size*t); ctx.fillRect(-s/2,-s/2,s,s);
+        } else if(p.type==='char'){
+            ctx.fillStyle=rgba(color,.85*a); ctx.font=`${Math.max(8,p.size*t)}px Consolas,monospace`; ctx.fillText(p.char,0,0);
+        } else if(p.type==='laser' || p.type==='ribbon'){
+            const len=Math.max(20, (Math.hypot(p.vx,p.vy)*20+p.size*(p.type==='ribbon'?9:5)) * (p.trailScale || 1)), ang=Math.atan2(p.vy,p.vx);
+            ctx.rotate(ang); const grad=ctx.createLinearGradient(-len,0,len*.15,0);
+            grad.addColorStop(0,'rgba(0,0,0,0)'); grad.addColorStop(.65,rgba(color,.55*a)); grad.addColorStop(1,rgba('#ffffff',.85*a));
+            ctx.strokeStyle=grad; ctx.lineWidth=Math.max(1,p.size*(p.type==='ribbon'?0.22:.55)*t); ctx.beginPath(); ctx.moveTo(-len,0); ctx.lineTo(len*.15,0); ctx.stroke();
+        } else if(p.type==='comet'){
+            const len=(Math.hypot(p.vx,p.vy)*10+p.size*3) * (p.trailScale || 1), ang=Math.atan2(p.vy,p.vx);
+            ctx.rotate(ang); const grad=ctx.createLinearGradient(-len,0,0,0);
+            grad.addColorStop(0,'rgba(0,0,0,0)'); grad.addColorStop(1,rgba(color,.9*a));
+            ctx.strokeStyle=grad; ctx.lineWidth=Math.max(1,p.size*.7*t); ctx.beginPath(); ctx.moveTo(-len,0); ctx.lineTo(0,0); ctx.stroke();
+        } else if(p.type==='bubble'){
+            ctx.strokeStyle=rgba(color,.6*a); ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(0,0,p.size*(1.2-t*.2),0,Math.PI*2); ctx.stroke();
+        } else if(p.type==='star'){
+            ctx.strokeStyle=rgba(color,.9*a); ctx.lineWidth=Math.max(1,p.size*.18);
+            ctx.beginPath(); ctx.moveTo(-p.size*t,0); ctx.lineTo(p.size*t,0); ctx.moveTo(0,-p.size*t); ctx.lineTo(0,p.size*t); ctx.stroke();
+        } else if(p.type==='geo' || p.type==='shard'){
+            ctx.fillStyle=rgba(color,.75*a); const s=Math.max(2,p.size*t);
+            ctx.beginPath(); ctx.moveTo(0,-s); ctx.lineTo(s*.86,s*.5); ctx.lineTo(-s*.86,s*.5); ctx.closePath(); ctx.fill();
+        } else if(p.type==='drip'){
+            ctx.fillStyle=rgba(color,.75*a); ctx.beginPath(); ctx.ellipse(0,0,p.size*.45,p.size*1.4,0,0,Math.PI*2); ctx.fill();
+        } else {
+            const r=p.size*(.7+t), g=ctx.createRadialGradient(0,0,0,0,0,r*3.2);
+            g.addColorStop(0,rgba(color,.95*a)); g.addColorStop(.28,rgba(color,.35*a)); g.addColorStop(1,'rgba(0,0,0,0)');
+            ctx.fillStyle=g; ctx.beginPath(); ctx.arc(0,0,r*3.2,0,Math.PI*2); ctx.fill();
+        }
+        ctx.restore();
+    }
+
+    function drawWave(w){
+        const a=Math.max(0,w.life);
+        ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineWidth=Math.max(1,4*a+w.power*.025); ctx.strokeStyle=rgba(w.color,.8*a);
+        if(w.type==='flash'||w.type==='nova'){
+            const g=ctx.createRadialGradient(w.x,w.y,0,w.x,w.y,w.r*1.25);
+            g.addColorStop(0,rgba(w.color,.34*a)); g.addColorStop(.3,rgba(w.color,.14*a)); g.addColorStop(1,'rgba(0,0,0,0)');
+            ctx.fillStyle=g; ctx.beginPath(); ctx.arc(w.x,w.y,w.r*1.25,0,Math.PI*2); ctx.fill();
+        }
+        if(w.type==='implosion'){ctx.setLineDash([14,12]);ctx.lineDashOffset=tick*2}
+        if(w.type==='grid'){
+            const s=w.r*.75;
+            for(let i=-3;i<=3;i++){ctx.beginPath();ctx.moveTo(w.x-s,w.y+i*s/3);ctx.lineTo(w.x+s,w.y+i*s/3);ctx.stroke();ctx.beginPath();ctx.moveTo(w.x+i*s/3,w.y-s);ctx.lineTo(w.x+i*s/3,w.y+s);ctx.stroke();}
+        } else if(w.type==='squarePulse' || w.type==='cyberGrid'){
+            ctx.strokeRect(w.x-w.r*.5,w.y-w.r*.5,w.r,w.r);
+        } else if(w.type==='hexPulse' || w.type==='rune'){
+            ctx.beginPath();
+            for(let i=0;i<6;i++){const aa=Math.PI/3*i+w.rot+tick*.01, px=w.x+Math.cos(aa)*w.r, py=w.y+Math.sin(aa)*w.r; i?ctx.lineTo(px,py):ctx.moveTo(px,py)}
+            ctx.closePath(); ctx.stroke();
+        } else {
+            ctx.beginPath(); ctx.arc(w.x,w.y,w.r,0,Math.PI*2); ctx.stroke();
+        }
+        if(['shockwave','release','rings','rings2','rings3','sonar'].includes(w.type)){
+            ctx.lineWidth*=.45; ctx.strokeStyle=rgba(w.color,.32*a); ctx.beginPath(); ctx.arc(w.x,w.y,w.r*.72,0,Math.PI*2); ctx.stroke();
+        }
+        ctx.restore();
+    }
+
+    function drawBolt(b){
+        const a=Math.max(0,b.life/b.maxLife);
+        ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round'; ctx.lineJoin='round';
+        ctx.strokeStyle=rgba(b.color,.82*a); ctx.lineWidth=1.4+a*1.5; ctx.beginPath();
+        b.points.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y)); ctx.stroke();
+        ctx.strokeStyle=rgba('#ffffff',.34*a); ctx.lineWidth=.7; ctx.stroke(); ctx.restore();
+    }
+
+    function drawGlyph(g){
+        const t=Math.max(0,g.life/g.maxLife);
+        ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.translate(g.x,g.y); ctx.rotate(g.rot+tick*.01);
+        ctx.font=`${g.size*(.6+t)}px Segoe UI Symbol, Consolas, monospace`; ctx.fillStyle=rgba(g.color,.75*t); ctx.textAlign='center'; ctx.textBaseline='middle';
+        ctx.fillText(g.text,0,0); ctx.restore();
+    }
+
+    function step(){
+        tick++;
+        applyScreenShake();
+        const c = cfgProvider();
+        drawBackground(c);
+        spawnTrail(c);
+        holdEffect(c);
+
+        for(let i=waves.length-1;i>=0;i--){
+            const w=waves[i];
+            w.r+=(2.4+w.power*.055)*(w.type==='implosion'?.72:1);
+            w.life=1-w.r/w.maxR;
+            drawWave(w);
+            if(w.life<=0) waves.splice(i,1);
+        }
+        for(let i=particles.length-1;i>=0;i--){
+            const p=particles[i];
+            p.vx*=p.drag; p.vy*=p.drag; p.vy += p.gravity;
+            p.x+=p.vx; p.y+=p.vy; p.rot+=p.spin; p.life--;
+            drawParticle(p);
+            if(p.life<=0) particles.splice(i,1);
+        }
+        for(let i=bolts.length-1;i>=0;i--){drawBolt(bolts[i]); bolts[i].life--; if(bolts[i].life<=0) bolts.splice(i,1);}
+        for(let i=glyphs.length-1;i>=0;i--){drawGlyph(glyphs[i]); glyphs[i].life--; if(glyphs[i].life<=0) glyphs.splice(i,1);}
+
+        lastMouseX=mouseX; lastMouseY=mouseY;
+        requestAnimationFrame(step);
+    }
+
+    addEventListener('resize', resize);
+    addEventListener('mousemove', e=>{mouseX=e.clientX; mouseY=e.clientY;});
+    addEventListener('mousedown', e=>{mouseDown=true; holdStart=performance.now(); clickEffect(e.clientX,e.clientY);});
+    addEventListener('mouseup', e=>{const held=performance.now()-holdStart; mouseDown=false; releaseEffect(e.clientX,e.clientY,held);});
+    resize(); updateClock(); setInterval(updateClock,250); requestAnimationFrame(step);
+
+    return { clear(){particles.length=0; waves.length=0; bolts.length=0; glyphs.length=0;} };
+}
+
+const $ = id => document.getElementById(id);
+const controlIds = ['bgImageData','bgGeneratedData','optBackground','bgMode','bgGeneratedStyle','bgOpacity','bgParallaxStrength','bgParallaxSmooth','clockFontData','clockFontFormat','optClock','clockStyle','clockBorder','clockTextOutline','clockFont','clockSeconds','clockColor','clockSize','clockOpacity',
+    'optTrails','trailType','trailColor','trailAmount','trailLife','trailSize',
+    'optClick','clickType','clickColor','clickPower','clickInterval',
+    'optHold','holdType','holdColor','holdPower',
+    'optRelease','releaseType','releaseColor','releasePower'];
+
+
+function readCfg(){
+    const c = {};
+    for(const id of controlIds){
+        const el = $(id);
+        if(!el) continue;
+        c[id] = el.type === 'checkbox' ? el.checked : el.value;
+    }
+    return c;
+}
+
+function sanitizeImportedFontName(name){
+    return String(name || 'ImportedFont')
+        .replace(/\.[^.]+$/, '')
+        .replace(/[^a-zA-Z0-9 _-]/g, '')
+        .trim()
+        .slice(0, 64) || 'ImportedFont';
+}
+function importedFontFormatFromName(name){
+    const ext = String(name || '').split('.').pop().toLowerCase();
+    if(ext === 'ttf') return 'truetype';
+    if(ext === 'otf') return 'opentype';
+    if(ext === 'woff') return 'woff';
+    if(ext === 'woff2') return 'woff2';
+    return '';
+}
+function quoteCssString(s){
+    return String(s || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+}
+function importedClockFontCssFromCfg(cfg){
+    if(!cfg || !cfg.clockFontData || !cfg.clockFont) return '';
+    const name = quoteCssString(cfg.clockFont);
+    const format = cfg.clockFontFormat ? " format('" + quoteCssString(cfg.clockFontFormat) + "')" : "";
+    return "@font-face{font-family:'" + name + "';src:url('" + cfg.clockFontData + "')" + format + ";font-display:swap;}";
+}
+function applyClockFont(){
+    const clock = $('clock');
+    const select = $('clockFont');
+    if(!clock || !select) return;
+    const font = String(select.value || 'Segoe UI').replace(/["\\]/g, '');
+    clock.style.fontFamily = '"' + font + '", "Segoe UI", Arial, sans-serif';
+}
+function addImportedClockFont(fontName, dataUrl, format){
+    const safeName = sanitizeImportedFontName(fontName);
+    const styleId = 'imported-clock-font-' + safeName.replace(/\s+/g, '-').toLowerCase();
+
+    let style = document.getElementById(styleId);
+    if(!style){
+        style = document.createElement('style');
+        style.id = styleId;
+        document.head.appendChild(style);
+    }
+
+    style.textContent = importedClockFontCssFromCfg({
+        clockFont: safeName,
+        clockFontData: dataUrl,
+        clockFontFormat: format
+    });
+
+    const select = $('clockFont');
+    if(select && !Array.from(select.options).some(o => o.value === safeName)){
+        const opt = document.createElement('option');
+        opt.value = safeName;
+        opt.textContent = safeName + ' (importiert)';
+        opt.style.fontFamily = '"' + safeName + '", Segoe UI, Arial, sans-serif';
+        select.appendChild(opt);
+    }
+
+    if(select){
+        select.value = safeName;
+        select.dispatchEvent(new Event('input', {bubbles:true}));
+    }
+
+    const dataField = $('clockFontData');
+    const formatField = $('clockFontFormat');
+    if(dataField) dataField.value = dataUrl;
+    if(formatField) formatField.value = format || '';
+
+    applyClockFont();
+}
+function importClockFontFile(file){
+    if(!file) return;
+
+    if(!/\.(ttf|otf|woff|woff2)$/i.test(file.name)){
+        alert('Please select a font file: .ttf, .otf, .woff, or .woff2');
+        return;
+    }
+
+    const maxBytes = 8 * 1024 * 1024;
+    if(file.size > maxBytes){
+        alert('The font file is too large. Maximum allowed: 8 MB.');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => addImportedClockFont(file.name, reader.result, importedFontFormatFromName(file.name));
+    reader.onerror = () => alert('The font could not be read.');
+    reader.readAsDataURL(file);
+}
+function setupClockFontImport(){
+    const btn = $('btnImportClockFont');
+    const input = $('clockFontFile');
+    if(btn && input){
+        btn.onclick = () => {
+            input.value = '';
+            input.click();
+        };
+        input.onchange = () => importClockFontFile(input.files && input.files[0]);
+    }
+}
+
+function setLabels(){
+    const map = {
+        bgOpacity:'%', bgParallaxStrength:'%', bgParallaxSmooth:'%', clockSize:'px', clockOpacity:'%', trailAmount:'', trailLife:'', trailSize:'',
+        clickPower:'', clickInterval:' ms', holdPower:'', releasePower:''
+    };
+    for(const [id,suffix] of Object.entries(map)){
+        const val = $(id+'Val');
+        if(val) val.textContent = $(id).value + suffix;
+    }
+}
+function randomColor(){
+    return '#' + Math.floor(Math.random()*0xffffff).toString(16).padStart(6,'0');
+}
+function rnd(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+function randomSelect(id){
+    const el = $(id);
+    if(!el || !el.options.length) return;
+    el.selectedIndex = rnd(0, el.options.length-1);
+}
+
+
+function setBackgroundStatus(msg){
+    const el = $('bgStatus');
+    if(el) el.textContent = msg;
+}
+function setupBackgroundControls(){
+    const btnImport = $('btnImportBackground');
+    const btnGenerate = $('btnGenerateBackground');
+    const input = $('bgImageFile');
+
+    if(btnImport && input){
+        btnImport.onclick = () => {
+            input.value = '';
+            input.click();
+        };
+        input.onchange = () => importBackgroundImage(input.files && input.files[0]);
+    }
+
+    if(btnGenerate){
+        btnGenerate.onclick = () => generateRandomBackground(true);
+    }
+}
+function importBackgroundImage(file){
+    if(!file) return;
+    if(!/^image\//i.test(file.type || '') && !/\.(png|jpe?g|webp|gif|bmp|svg)$/i.test(file.name || '')){
+        alert('Bitte eine Bilddatei auswählen.');
+        return;
+    }
+
+    const maxBytes = 14 * 1024 * 1024;
+    if(file.size > maxBytes){
+        alert('The background image is too large. Maximum allowed: 14 MB.');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+        const dataField = $('bgImageData');
+        const mode = $('bgMode');
+        if(dataField) dataField.value = reader.result;
+        if(mode) mode.value = 'image';
+        setBackgroundStatus('Image imported: ' + file.name + ' — parallax active.');
+        setLabels();
+        if(runtime) runtime.clear();
+    };
+    reader.onerror = () => alert('The background image could not be read.');
+    reader.readAsDataURL(file);
+}
+function _bgHexToRgb(hex){
+    hex = String(hex || '#ffffff').replace('#','');
+    if(hex.length === 3) hex = hex.split('').map(c=>c+c).join('');
+    return {r:parseInt(hex.slice(0,2),16)||255,g:parseInt(hex.slice(2,4),16)||255,b:parseInt(hex.slice(4,6),16)||255};
+}
+function _bgRgba(hex,a){
+    const c = _bgHexToRgb(hex);
+    return 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',' + a + ')';
+}
+function _bgRandomColor(){
+    return '#' + Math.floor(Math.random()*0xffffff).toString(16).padStart(6,'0');
+}
+function _bgPick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function generateRandomBackground(setMode){
+    const styleSelect = $('bgGeneratedStyle');
+    let style = styleSelect ? styleSelect.value : 'random';
+    if(style === 'random') style = _bgPick(['nebula','stars','grid','scanlines','shakeHud','plasma','aurora','vortex','circuitBoard','holoGrid','codeRain','radar','neural','techTunnel']);
+
+    const w = 1920, h = 1080;
+    const cnv = document.createElement('canvas');
+    cnv.width = w;
+    cnv.height = h;
+    const g = cnv.getContext('2d');
+
+    const c1 = _bgRandomColor();
+    const c2 = _bgRandomColor();
+    const c3 = _bgRandomColor();
+
+    const base = g.createRadialGradient(w*.5,h*.45,0,w*.5,h*.45,Math.max(w,h)*.75);
+    base.addColorStop(0, _bgRgba(c1,.38));
+    base.addColorStop(.42, _bgRgba(c2,.16));
+    base.addColorStop(1, '#000000');
+    g.fillStyle = base;
+    g.fillRect(0,0,w,h);
+
+    if(style === 'stars' || style === 'nebula' || style === 'vortex'){
+        for(let i=0;i<900;i++){
+            const x = Math.random()*w, y = Math.random()*h;
+            const r = Math.random()*1.8 + .15;
+            g.fillStyle = 'rgba(255,255,255,' + (Math.random()*.78+.08) + ')';
+            g.beginPath(); g.arc(x,y,r,0,Math.PI*2); g.fill();
+        }
+    }
+
+    if(style === 'nebula' || style === 'plasma'){
+        g.globalCompositeOperation = 'lighter';
+        for(let i=0;i<44;i++){
+            const x = Math.random()*w, y = Math.random()*h, r = Math.random()*360 + 140;
+            const gg = g.createRadialGradient(x,y,0,x,y,r);
+            gg.addColorStop(0,_bgRgba(_bgPick([c1,c2,c3,'#00eaff','#ff00cc','#ffaa00']),Math.random()*.22+.08));
+            gg.addColorStop(1,'rgba(0,0,0,0)');
+            g.fillStyle = gg;
+            g.beginPath(); g.arc(x,y,r,0,Math.PI*2); g.fill();
+        }
+        g.globalCompositeOperation = 'source-over';
+    }
+
+    if(style === 'grid'){
+        g.strokeStyle = _bgRgba(_bgPick([c1,c2,'#00eaff']), .34);
+        g.lineWidth = 1;
+        const step = 48;
+        for(let x=0;x<w;x+=step){ g.beginPath(); g.moveTo(x,0); g.lineTo(x,h); g.stroke(); }
+        for(let y=0;y<h;y+=step){ g.beginPath(); g.moveTo(0,y); g.lineTo(w,y); g.stroke(); }
+        g.globalCompositeOperation = 'lighter';
+        for(let i=0;i<26;i++){
+            g.strokeStyle = _bgRgba(_bgPick([c1,c2,c3,'#ffffff']), .22);
+            g.lineWidth = Math.random()*3+1;
+            g.beginPath();
+            g.moveTo(Math.random()*w, Math.random()*h);
+            g.lineTo(Math.random()*w, Math.random()*h);
+            g.stroke();
+        }
+        g.globalCompositeOperation = 'source-over';
+    }
+
+    if(style === 'aurora'){
+        g.globalCompositeOperation = 'lighter';
+        for(let band=0; band<7; band++){
+            const color = _bgPick([c1,c2,c3,'#00ffaa','#77e6ff','#b76dff']);
+            g.strokeStyle = _bgRgba(color, .28);
+            g.lineWidth = 46 + Math.random()*60;
+            g.beginPath();
+            for(let x=-100; x<=w+100; x+=40){
+                const y = h*(.28+.16*band/7) + Math.sin(x*.006 + Math.random()*3)*90 + Math.random()*80;
+                x === -100 ? g.moveTo(x,y) : g.lineTo(x,y);
+            }
+            g.stroke();
+        }
+        g.globalCompositeOperation = 'source-over';
+    }
+
+    if(style === 'vortex'){
+        g.globalCompositeOperation = 'lighter';
+        const cx=w*.5, cy=h*.48;
+        for(let arm=0; arm<9; arm++){
+            g.strokeStyle = _bgRgba(_bgPick([c1,c2,c3,'#ffffff']), .25);
+            g.lineWidth = 2 + Math.random()*4;
+            g.beginPath();
+            for(let i=0;i<260;i++){
+                const t = i/18;
+                const r = i*3.7;
+                const a = t*.42 + arm*(Math.PI*2/9);
+                const x = cx + Math.cos(a)*r;
+                const y = cy + Math.sin(a)*r*.62;
+                i === 0 ? g.moveTo(x,y) : g.lineTo(x,y);
+            }
+            g.stroke();
+        }
+        g.globalCompositeOperation = 'source-over';
+    }
+
+    if(style === 'circuitBoard' || style === 'holoGrid'){
+        const step = style === 'circuitBoard' ? 54 : 42;
+        g.strokeStyle = _bgRgba(_bgPick([c1,c2,'#00eaff','#00ffaa']), .26);
+        g.lineWidth = 1;
+        for(let x=0;x<w;x+=step){ g.beginPath(); g.moveTo(x,0); g.lineTo(x,h); g.stroke(); }
+        for(let y=0;y<h;y+=step){ g.beginPath(); g.moveTo(0,y); g.lineTo(w,y); g.stroke(); }
+        g.globalCompositeOperation = 'lighter';
+        for(let i=0;i<90;i++){
+            const x = Math.floor(Math.random()*w/step)*step;
+            const y = Math.floor(Math.random()*h/step)*step;
+            g.strokeStyle = _bgRgba(_bgPick([c1,c2,c3,'#ffffff']), .38);
+            g.lineWidth = Math.random()*2+1;
+            g.beginPath(); g.moveTo(x,y);
+            g.lineTo(x + _bgPick([-1,1])*step*_bgPick([1,2,3]), y);
+            g.lineTo(x + _bgPick([-1,1])*step*_bgPick([1,2]), y + _bgPick([-1,1])*step*_bgPick([1,2]));
+            g.stroke();
+            if(Math.random()<.45){ g.fillStyle = _bgRgba('#ffffff', .32); g.fillRect(x-3,y-3,6,6); }
+        }
+        g.globalCompositeOperation = 'source-over';
+    }
+
+    if(style === 'codeRain'){
+        g.fillStyle = 'rgba(0,255,136,.22)';
+        g.font = '18px Consolas, monospace';
+        for(let x=0;x<w;x+=24){
+            for(let y=-20;y<h;y+=28){
+                if(Math.random()<.56) g.fillText(_bgPick(['0','1','<','>','/','#','{','}']), x, y);
+            }
+        }
+    }
+
+    if(style === 'radar'){
+        const cx=w*.5, cy=h*.52;
+        g.strokeStyle = _bgRgba('#00ff88', .28);
+        g.lineWidth = 2;
+        for(let r=120;r<900;r+=120){ g.beginPath(); g.arc(cx,cy,r,0,Math.PI*2); g.stroke(); }
+        for(let a=0;a<Math.PI*2;a+=Math.PI/8){ g.beginPath(); g.moveTo(cx,cy); g.lineTo(cx+Math.cos(a)*900, cy+Math.sin(a)*900); g.stroke(); }
+        const sweep = g.createLinearGradient(cx,cy,cx+700,cy);
+        sweep.addColorStop(0,_bgRgba('#00ff88',.42)); sweep.addColorStop(1,'rgba(0,0,0,0)');
+        g.fillStyle = sweep; g.beginPath(); g.moveTo(cx,cy); g.arc(cx,cy,900,-.08,.36); g.closePath(); g.fill();
+    }
+
+    if(style === 'neural'){
+        const nodes = Array.from({length:90},()=>({x:Math.random()*w,y:Math.random()*h}));
+        g.globalCompositeOperation = 'lighter';
+        for(let i=0;i<nodes.length;i++){
+            for(let j=i+1;j<nodes.length;j++){
+                const dx=nodes[i].x-nodes[j].x, dy=nodes[i].y-nodes[j].y, d=Math.hypot(dx,dy);
+                if(d<170){ g.strokeStyle=_bgRgba(_bgPick([c1,c2,'#00eaff']), (1-d/170)*.22); g.beginPath(); g.moveTo(nodes[i].x,nodes[i].y); g.lineTo(nodes[j].x,nodes[j].y); g.stroke(); }
+            }
+            g.fillStyle=_bgRgba('#ffffff', .55); g.beginPath(); g.arc(nodes[i].x,nodes[i].y,2.5,0,Math.PI*2); g.fill();
+        }
+        g.globalCompositeOperation = 'source-over';
+    }
+
+    if(style === 'techTunnel'){
+        const cx=w*.5, cy=h*.5;
+        g.globalCompositeOperation='lighter';
+        for(let i=0;i<42;i++){
+            const r=40+i*28;
+            g.strokeStyle=_bgRgba(_bgPick([c1,c2,c3,'#00eaff']), .18);
+            g.lineWidth=1.2;
+            g.beginPath();
+            for(let k=0;k<6;k++){
+                const a=Math.PI*2*k/6+i*.04;
+                const x=cx+Math.cos(a)*r;
+                const y=cy+Math.sin(a)*r*.62;
+                k?g.lineTo(x,y):g.moveTo(x,y);
+            }
+            g.closePath(); g.stroke();
+        }
+        g.globalCompositeOperation='source-over';
+    }
+
+
+    if(style === 'scanlines'){
+        g.globalCompositeOperation = 'source-over';
+
+        const lineGap = 5 + Math.floor(Math.random()*5);
+        const bright = _bgPick([c1, c2, '#00eaff', '#ffffff', '#00ffaa']);
+        const darkAlpha = .34 + Math.random()*.18;
+        const brightAlpha = .055 + Math.random()*.075;
+
+        for(let y=0; y<h; y+=lineGap){
+            g.fillStyle = 'rgba(0,0,0,' + darkAlpha + ')';
+            g.fillRect(0, y, w, Math.max(1, Math.floor(lineGap*.45)));
+
+            if(Math.random() < .34){
+                g.fillStyle = _bgRgba(bright, brightAlpha);
+                g.fillRect(0, y + Math.floor(lineGap*.55), w, 1);
+            }
+        }
+
+        // Subtile horizontale Störbänder
+        g.globalCompositeOperation = 'lighter';
+        for(let i=0;i<34;i++){
+            const y = Math.random()*h;
+            const hh = Math.random()*18 + 2;
+            const grad = g.createLinearGradient(0,y,w,y);
+            grad.addColorStop(0,'rgba(0,0,0,0)');
+            grad.addColorStop(.45,_bgRgba(_bgPick([c1,c2,c3,'#ffffff']), .055 + Math.random()*.075));
+            grad.addColorStop(1,'rgba(0,0,0,0)');
+            g.fillStyle = grad;
+            g.fillRect(0,y,w,hh);
+        }
+
+        // Leichtes CRT-Vignette/Glow
+        const scanGlow = g.createRadialGradient(w*.5,h*.48,0,w*.5,h*.48,Math.max(w,h)*.68);
+        scanGlow.addColorStop(0,_bgRgba(bright,.10));
+        scanGlow.addColorStop(.55,'rgba(0,0,0,0)');
+        scanGlow.addColorStop(1,'rgba(0,0,0,.25)');
+        g.fillStyle = scanGlow;
+        g.fillRect(0,0,w,h);
+        g.globalCompositeOperation = 'source-over';
+    }
+
+
+    if(style === 'shakeHud'){
+        g.globalCompositeOperation = 'source-over';
+
+        // Dunkler Obsidian-HUD-Grund wie im Referenz-Wallpaper.
+        const hudBase = g.createLinearGradient(0,0,w,h);
+        hudBase.addColorStop(0,'#000000');
+        hudBase.addColorStop(.48,'#07090d');
+        hudBase.addColorStop(1,'#161616');
+        g.fillStyle = hudBase;
+        g.fillRect(0,0,w,h);
+
+        // Dezente diagonale Lichtfelder.
+        g.globalCompositeOperation = 'lighter';
+        const glowA = g.createRadialGradient(w*.22,h*.24,0,w*.22,h*.24,Math.max(w,h)*.28);
+        glowA.addColorStop(0,'rgba(255,255,255,.16)');
+        glowA.addColorStop(1,'rgba(0,0,0,0)');
+        g.fillStyle = glowA;
+        g.fillRect(0,0,w,h);
+
+        const glowB = g.createRadialGradient(w*.78,h*.72,0,w*.78,h*.72,Math.max(w,h)*.26);
+        glowB.addColorStop(0,'rgba(154,154,154,.13)');
+        glowB.addColorStop(1,'rgba(0,0,0,0)');
+        g.fillStyle = glowB;
+        g.fillRect(0,0,w,h);
+
+        // Perspektivisches HUD-Grid.
+        const horizon = h*.66;
+        g.save();
+        g.translate(0,horizon);
+        const lines = 11;
+        for(let i=0;i<lines;i++){
+            const t=i/(lines-1);
+            const y=Math.pow(t,2.1)*(h*.32);
+            g.strokeStyle = i%3===0 ? 'rgba(255,255,255,.18)' : 'rgba(255,255,255,.08)';
+            g.lineWidth = i%3===0 ? 1.2 : .8;
+            g.beginPath(); g.moveTo(0,y); g.lineTo(w,y); g.stroke();
+        }
+        const vertical = 13;
+        for(let i=0;i<vertical;i++){
+            const t=(i/(vertical-1))*2-1;
+            const xTop=w*.5+t*w*.12;
+            const xBottom=w*.5+t*w*.76;
+            g.strokeStyle='rgba(255,255,255,.085)';
+            g.lineWidth=.9;
+            g.beginPath(); g.moveTo(xTop,0); g.lineTo(xBottom,h*.32); g.stroke();
+        }
+        g.restore();
+
+        // Zentrale HUD-Ringe.
+        const cx=w*.5, cy=h*.5;
+        for(let i=0;i<4;i++){
+            g.strokeStyle = i%2===0 ? 'rgba(255,255,255,.10)' : 'rgba(154,154,154,.08)';
+            g.lineWidth = i===0 ? 1.7 : 1;
+            g.beginPath();
+            g.arc(cx, cy, 120+i*34, 0, Math.PI*2);
+            g.stroke();
+        }
+        g.strokeStyle='rgba(92,92,92,.20)';
+        g.lineWidth=2;
+        g.beginPath(); g.arc(cx,cy,250,.25,2.7); g.stroke();
+
+        // Mesh-Punkte.
+        for(let i=0;i<95;i++){
+            const a=Math.random()*Math.PI*2;
+            const r=45+Math.random()*260;
+            const x=cx+Math.cos(a)*r+Math.random()*50-25;
+            const y=cy+Math.sin(a)*r*.66+Math.random()*36-18;
+            const s=Math.random()*1.8+.7;
+            g.fillStyle='rgba(255,255,255,'+(Math.random()*.42+.18)+')';
+            g.beginPath(); g.arc(x,y,s,0,Math.PI*2); g.fill();
+        }
+
+        // Feine Scanlines.
+        g.globalCompositeOperation = 'source-over';
+        for(let y=0;y<h;y+=6){
+            g.fillStyle='rgba(255,255,255,.025)';
+            g.fillRect(0,y,w,1);
+            g.fillStyle='rgba(0,0,0,.18)';
+            g.fillRect(0,y+2,w,2);
+        }
+    }
+
+    const vignette = g.createRadialGradient(w*.5,h*.5,0,w*.5,h*.5,Math.max(w,h)*.78);
+    vignette.addColorStop(0,'rgba(0,0,0,0)');
+    vignette.addColorStop(.72,'rgba(0,0,0,.15)');
+    vignette.addColorStop(1,'rgba(0,0,0,.78)');
+    g.fillStyle = vignette;
+    g.fillRect(0,0,w,h);
+
+    const data = cnv.toDataURL('image/png');
+    const field = $('bgGeneratedData');
+    const mode = $('bgMode');
+    if(field) field.value = data;
+    if(setMode && mode) mode.value = 'generated';
+    setBackgroundStatus('Random background generated: ' + style);
+    setLabels();
+    if(runtime) runtime.clear();
+}
+
+function applyRandomize(){
+    ['optBackground','optClock','clockSeconds','clockBorder','clockTextOutline','optTrails','optClick','optHold','optRelease'].forEach(id => { const el=$(id); if(el) el.checked = id === 'clockBorder' ? Math.random() > .28 : id === 'clockTextOutline' ? Math.random() > .55 : Math.random() > .12; });
+    ['clockColor','trailColor','clickColor','holdColor','releaseColor'].forEach(id => $(id).value = randomColor());
+    if($('bgGeneratedStyle')) randomSelect('bgGeneratedStyle');
+    if($('bgMode')){
+        $('bgMode').value = Math.random() > .35 ? 'generated' : 'default';
+        if($('bgMode').value === 'generated') generateRandomBackground(false);
+    }
+    if($('bgOpacity')) $('bgOpacity').value = rnd(55,100);
+    if($('bgParallaxStrength')) $('bgParallaxStrength').value = rnd(15,70);
+    if($('bgParallaxSmooth')) $('bgParallaxSmooth').value = rnd(12,45);
+    $('clockSize').value = rnd(28,220);
+    $('clockOpacity').value = rnd(45,100);
+    $('trailAmount').value = rnd(2,16);
+    $('trailLife').value = rnd(18,150);
+    $('trailSize').value = rnd(2,22);
+    $('clickPower').value = rnd(20,100);
+    $('clickInterval').value = rnd(0,20)*10;
+    $('holdPower').value = rnd(20,100);
+    $('releasePower').value = rnd(25,100);
+    ['clockStyle','clockFont','trailType','clickType','holdType','releaseType'].forEach(randomSelect);
+    setLabels();
+    runtime.clear();
+}
+function downloadText(filename,text){
+    const blob = new Blob([text], {type:'text/html;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+}
+function wallpaperHtml(){
+    const cfgObj = readCfg();
+    const importedFontCss = importedClockFontCssFromCfg(cfgObj);
+    const cfg = JSON.stringify(cfgObj, null, 2);
+    const engine = String(Engine).replace(/<\/script/gi, '<\\/script');
+    const css = WALLPAPER_CSS.replace(/<\/style/gi, '<\\/style');
+    return `<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generated Live Wallpaper</title>
+<style>${css}${importedFontCss}</style>
+</head>
+<body>
+<canvas id="fx"></canvas>
+<div id="clock" class="clock clock-glass"></div>
+<div id="hint" style="position:fixed;right:16px;top:14px;color:rgba(255,255,255,.35);font:12px Segoe UI,Arial;z-index:30">H = Hinweis ausblenden</div>
+<script>
+const CONFIG=${cfg};
+${engine}
+Engine(document.getElementById('fx'), document.getElementById('clock'), () => CONFIG);
+addEventListener('keydown',e=>{if(e.key.toLowerCase()==='h')document.getElementById('hint').classList.toggle('hidden')});
+<\/script>
+</body>
+</html>`;
+}
+
+for(const id of controlIds){
+    const el = $(id);
+    if(el) el.addEventListener('input', () => {
+        setLabels();
+        if(id === 'clockFont') applyClockFont();
+        if(id === 'clockTextOutline' || id === 'clockColor') updateClock();
+    });
+}
+setupClockFontImport();
+setupBackgroundControls();
+function bindClick(id, fn){ const el = $(id); if(el) el.onclick = fn; }
+let runtime = Engine($('fx'), $('clock'), readCfg);
+setLabels();
+applyClockFont();
+bindClick('btnRandomize', applyRandomize);
+bindClick('btnRandomColors', () => {
+    ['clockColor','trailColor','clickColor','holdColor','releaseColor'].forEach(id => { const el = $(id); if(el) el.value = randomColor(); });
+    runtime.clear();
+});
+bindClick('btnClear', () => runtime.clear());
+bindClick('btnHide', () => $('panel').classList.add('hidden'));
+addEventListener('keydown', e => {
+    if(e.key.toLowerCase() === 'h') $('panel').classList.toggle('hidden');
+});
+bindClick('btnSave', () => downloadText('live_wallpaper_generated.html', wallpaperHtml()));
+</script>
+</body>
+</html>
