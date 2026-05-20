@@ -115,6 +115,7 @@ button:hover{transform:translateY(-1px)}button.secondary{background:#151515;colo
 <div class="section">
     <div class="section-title">Background<label class="toggle"><input id="optBackground" type="checkbox" checked><span></span></label></div>
     <div class="row"><span>Background Modus</span><select id="bgMode">
+        <option value="random">Random</option>
         <option value="default" selected>Standard Schwarz</option>
         <option value="image">Imported Image</option>
         <option value="generated">Randomly Generated</option>
@@ -195,6 +196,7 @@ button:hover{transform:translateY(-1px)}button.secondary{background:#151515;colo
 <div class="section">
     <div class="section-title">Digital Clock<label class="toggle"><input id="optClock" type="checkbox" checked><span></span></label></div>
     <div class="row"><span>Clock Design</span><select id="clockStyle">
+        <option value="random">Random</option>
         <option value="minimal">Minimal</option>
         <option value="glass" selected>Glass</option>
         <option value="neon">Neon</option>
@@ -221,6 +223,7 @@ button:hover{transform:translateY(-1px)}button.secondary{background:#151515;colo
 <div class="row">
     <span>Clock Font</span>
     <select id="clockFont">
+        <option value="random">Random</option>
         <option value="Segoe UI Variable Display">Segoe UI Variable Display</option>
         <option value="Segoe UI Variable Text">Segoe UI Variable Text</option>
         <option value="Segoe UI">Segoe UI</option>
@@ -256,7 +259,7 @@ button:hover{transform:translateY(-1px)}button.secondary{background:#151515;colo
 <div class="section">
     <div class="section-title">Mouse Trails<label class="toggle"><input id="optTrails" type="checkbox" checked><span></span></label></div>
     <div class="row"><span>Trail Type</span><select id="trailType">
-        <option value="spark">Spark</option><option value="neon">Neon</option><option value="smoke">Smoke</option><option value="comet">Comet</option><option value="pixel">Pixel</option><option value="plasma">Plasma</option><option value="fire">Fire</option><option value="ice">Ice</option><option value="laser">Laser Streaks</option><option value="orbital">Orbital</option><option value="matrix">Matrix Rain</option><option value="cyber">Cyber Dust</option><option value="embers">Embers</option><option value="snow">Snow Sparkle</option><option value="ribbon">Energy Ribbon</option><option value="bubbles">Bubbles</option><option value="stardust">Stardust</option><option value="acid">Acid Drip</option><option value="shadow">Shadow Mist</option><option value="prism">Prism Split</option><option value="swarm">Particle Swarm</option><option value="geo">Geo Shards</option><option value="helix">Helix</option><option value="petals">Petals</option><option value="dna">DNA Stream</option><option value="sonarDust">Sonar Dust</option><option value="feathers">Feathers</option><option value="glitchRain">Glitch Rain</option><option value="lightningTrail">Lightning</option><option value="nanoBots">Nano Bots</option><option value="circuitTrace">Circuit Trace</option><option value="holoBits">Holo Bits</option><option value="scanlineTrail">Scanline Trail</option><option value="binaryStream">Binary Stream</option><option value="droneSwarm">Drone Swarm</option>
+        <option value="spark">Spark</option><option value="random">Random</option><option value="neon">Neon</option><option value="smoke">Smoke</option><option value="comet">Comet</option><option value="pixel">Pixel</option><option value="plasma">Plasma</option><option value="fire">Fire</option><option value="ice">Ice</option><option value="laser">Laser Streaks</option><option value="orbital">Orbital</option><option value="matrix">Matrix Rain</option><option value="cyber">Cyber Dust</option><option value="embers">Embers</option><option value="snow">Snow Sparkle</option><option value="ribbon">Energy Ribbon</option><option value="bubbles">Bubbles</option><option value="stardust">Stardust</option><option value="acid">Acid Drip</option><option value="shadow">Shadow Mist</option><option value="prism">Prism Split</option><option value="swarm">Particle Swarm</option><option value="geo">Geo Shards</option><option value="helix">Helix</option><option value="petals">Petals</option><option value="dna">DNA Stream</option><option value="sonarDust">Sonar Dust</option><option value="feathers">Feathers</option><option value="glitchRain">Glitch Rain</option><option value="lightningTrail">Lightning</option><option value="electroBolt">Electro Bolt</option><option value="bolt">Bolt</option><option value="lightningBolt">Lightning Bolt</option><option value="nanoBots">Nano Bots</option><option value="circuitTrace">Circuit Trace</option><option value="holoBits">Holo Bits</option><option value="scanlineTrail">Scanline Trail</option><option value="binaryStream">Binary Stream</option><option value="droneSwarm">Drone Swarm</option>
         <option value="quantumFoam">Quantum Foam</option>
         <option value="meteorTail">Meteor Tail</option>
         <option value="electricArc">Electric Arc</option>
@@ -269,17 +272,46 @@ button:hover{transform:translateY(-1px)}button.secondary{background:#151515;colo
         <option value="hyperSpeed">Hyperspeed</option>
         <option value="ghostTrail">Ghost Trail</option>
         <option value="neonSnake">Neon Snake</option>
-    </select></div>
+        <option value="indexSnake">Following Snake</option>
+    
+        <option value="auroraTrail">Aurora Trail</option>
+        <option value="plasmaOrbit">Plasma Orbit</option>
+        <option value="cyberComet">Cyber Comet</option>
+        <option value="ionDust">Ion Dust</option>
+        <option value="neonShards">Neon Shards</option>
+        <option value="dataFireflies">Data Fireflies</option>
+        <option value="frostMist">Frost Mist</option>
+        <option value="magmaDrips">Magma Drips</option>
+        <option value="laserRibbon">Laser Ribbon</option>
+        <option value="starSnake">Star Snake</option>
+        <option value="voidEmbers">Void Embers</option>
+        <option value="pulseComet">Pulse Comet</option>
+        <option value="spectralSmoke">Spectral Smoke</option>
+        <option value="hexSparks">Hex Sparks</option>
+        <option value="electricRain">Electric Rain</option>
+        <option value="warpDust">Warp Dust</option>
+        <option value="prismComet">Prism Comet</option>
+        <option value="reactorSparks">Reactor Sparks</option>
+        <option value="galaxyDust">Galaxy Dust</option>
+        <option value="quantumStrings">Quantum Strings</option></select></div>
     <div class="row"><span>Trail Color</span><input id="trailColor" type="color" value="#00eaff"></div>
     <div class="row"><span>Anzahl <b class="value" id="trailAmountVal"></b></span><input id="trailAmount" type="range" min="1" max="16" value="6"></div>
     <div class="row"><span>Trail Length <b class="value" id="trailLifeVal"></b></span><input id="trailLife" type="range" min="10" max="180" value="48"></div>
     <div class="row"><span>Size <b class="value" id="trailSizeVal"></b></span><input id="trailSize" type="range" min="1" max="24" value="7"></div>
+    <div id="followingSnakeOptions" style="display:none">
+        <div class="row"><span>Body Length <b class="value" id="snakeBodyLengthVal"></b></span><input id="snakeBodyLength" type="range" min="4" max="80" value="10"></div>
+        <div class="row"><span>Body Size <b class="value" id="snakeBodySizeVal"></b></span><input id="snakeBodySize" type="range" min="4" max="70" value="16"></div>
+        <div class="row"><span>Max Follow Speed <b class="value" id="snakeMaxFollowSpeedVal"></b></span><input id="snakeMaxFollowSpeed" type="range" min="1" max="60" value="33"></div>
+        <div class="row"><span>Wander Redius <b class="value" id="snakeWanderRediusVal"></b></span><input id="snakeWanderRedius" type="range" min="0" max="260" value="55"></div>
+        <div class="row"><span>Wander</span><label class="toggle"><input id="snakeWander" type="checkbox" checked><span></span></label></div>
+        <div class="row"><span>Wander Speed <b class="value" id="snakeWanderSpeedVal"></b></span><input id="snakeWanderSpeed" type="range" min="1" max="100" value="40"></div>
+    </div>
 </div>
 
 <div class="section">
     <div class="section-title">Click Effect<label class="toggle"><input id="optClick" type="checkbox" checked><span></span></label></div>
     <div class="row"><span>Click Type</span><select id="clickType">
-        <option value="shockwave">Shockwave</option><option value="burst">Particle Burst</option><option value="flash">Flash</option><option value="rings">Rings</option><option value="ripple">Ripple Pulse</option><option value="grid">Grid Impact</option><option value="slash">Energy Slash</option><option value="starburst">Starburst</option><option value="implode">Implode</option><option value="nova">Nova Pop</option><option value="glitch">Glitch Spark</option><option value="plasmaPop">Plasma Pop</option><option value="hexPulse">Hex Pulse</option><option value="sonar">Sonar Ping</option><option value="crosshair">Crosshair</option><option value="confetti">Confetti</option><option value="cyberGrid">Cyber Grid</option><option value="rippleDots">Ripple Dots</option><option value="lightningPop">Lightning Pop</option><option value="squarePulse">Square Pulse</option><option value="lensFlare">Lens Flare</option><option value="crystalBurst">Crystal Burst</option><option value="orbitSnap">Orbit Snap</option><option value="pulseFlower">Pulse Flower</option><option value="voidRing">Void Ring</option><option value="ionBlast">Ion Blast</option><option value="dataBloom">Data Bloom</option><option value="empRing">EMP Ring</option><option value="hexHack">Hex Hack</option><option value="dataSpike">Data Spike</option><option value="circuitBurst">Circuit Burst</option><option value="scanPing">Scan Ping</option>
+        <option value="shockwave">Shockwave</option><option value="random">Random</option><option value="burst">Particle Burst</option><option value="flash">Flash</option><option value="rings">Rings</option><option value="ripple">Ripple Pulse</option><option value="grid">Grid Impact</option><option value="slash">Energy Slash</option><option value="starburst">Starburst</option><option value="implode">Implode</option><option value="nova">Nova Pop</option><option value="glitch">Glitch Spark</option><option value="plasmaPop">Plasma Pop</option><option value="hexPulse">Hex Pulse</option><option value="sonar">Sonar Ping</option><option value="crosshair">Crosshair</option><option value="confetti">Confetti</option><option value="cyberGrid">Cyber Grid</option><option value="rippleDots">Ripple Dots</option><option value="lightningPop">Lightning Pop</option><option value="electroShock">Electro Shock</option><option value="squarePulse">Square Pulse</option><option value="lensFlare">Lens Flare</option><option value="crystalBurst">Crystal Burst</option><option value="orbitSnap">Orbit Snap</option><option value="pulseFlower">Pulse Flower</option><option value="voidRing">Void Ring</option><option value="ionBlast">Ion Blast</option><option value="dataBloom">Data Bloom</option><option value="empRing">EMP Ring</option><option value="hexHack">Hex Hack</option><option value="dataSpike">Data Spike</option><option value="circuitBurst">Circuit Burst</option><option value="scanPing">Scan Ping</option>
         <option value="portal">Portal</option>
         <option value="laserFan">Laser Fan</option>
         <option value="glitchRing">Glitch Ring</option>
@@ -288,16 +320,36 @@ button:hover{transform:translateY(-1px)}button.secondary{background:#151515;colo
         <option value="chromaShock">Chroma Shock</option>
         <option value="spiralImpact">Spiral Impact</option>
         <option value="energyBloom">Energy Bloom</option>
-    </select></div>
+    
+        <option value="thunderPulse">Thunder Pulse</option>
+        <option value="plasmaImpact">Plasma Impact</option>
+        <option value="neonDetonator">Neon Detonator</option>
+        <option value="pixelBurst">Pixel Burst</option>
+        <option value="ionRipple">Ion Ripple</option>
+        <option value="gravityPunch">Gravity Punch</option>
+        <option value="warpClick">Warp Click</option>
+        <option value="cyberSlash">Cyber Slash</option>
+        <option value="frostSnap">Frost Snap</option>
+        <option value="magmaPop">Magma Pop</option>
+        <option value="starClick">Star Click</option>
+        <option value="voidPulse">Void Pulse</option>
+        <option value="prismFlash">Prism Flash</option>
+        <option value="reactorTap">Reactor Tap</option>
+        <option value="dataImpact">Data Impact</option>
+        <option value="hexDetonate">Hex Detonate</option>
+        <option value="glassPop">Glass Pop</option>
+        <option value="cometPunch">Comet Punch</option>
+        <option value="auroraClick">Aurora Click</option>
+        <option value="quantumClick">Quantum Click</option></select></div>
     <div class="row"><span>Click Color</span><input id="clickColor" type="color" value="#ffffff"></div>
     <div class="row"><span>Stärke <b class="value" id="clickPowerVal"></b></span><input id="clickPower" type="range" min="1" max="100" value="55"></div>
-    <div class="row"><span>Pause Between Clicks <b class="value" id="clickIntervalVal"></b></span><input id="clickInterval" type="range" min="0" max="1000" step="10" value="150"></div>
+    <div class="row"><span>Pause Between Clicks <b class="value" id="clickIntervalVal"></b></span><input id="clickInterval" type="range" min="50" max="1000" step="10" value="150"></div>
 </div>
 
 <div class="section">
     <div class="section-title">Hold Effect<label class="toggle"><input id="optHold" type="checkbox" checked><span></span></label></div>
     <div class="row"><span>Hold Typ</span><select id="holdType">
-        <option value="lightning">Lightning</option><option value="vortex">Vortex</option><option value="glow">Core Glow</option><option value="sparks">Electric Sparks</option><option value="magnet">Magnet Field</option><option value="blackhole">Black Hole</option><option value="solarCore">Solar Core</option><option value="energyShield">Energy Shield</option><option value="plasmaStorm">Plasma Storm</option><option value="scanner">Scanner Beam</option><option value="gravityWell">Gravity Well</option><option value="runeCircle">Rune Circle</option><option value="turbine">Turbine Spin</option><option value="rainCharge">Rain Charge</option><option value="laserLock">Laser Lock</option><option value="aurora">Aurora Field</option><option value="stormEye">Storm Eye</option><option value="crystalField">Crystal Field</option><option value="dataStream">Data Stream</option><option value="pulseOrbit">Pulse Orbit</option><option value="emberHalo">Ember Halo</option><option value="techShield">Tech Shield</option><option value="hackStream">Hack Stream</option><option value="nanoField">Nano Field</option><option value="reactorCore">Reactor Core</option><option value="radarLock">Radar Lock</option>
+        <option value="lightning">Lightning</option><option value="random">Random</option><option value="lightningBolt">Lightning Bolt</option><option value="vortex">Vortex</option><option value="glow">Core Glow</option><option value="sparks">Electric Sparks</option><option value="magnet">Magnet Field</option><option value="blackhole">Black Hole</option><option value="solarCore">Solar Core</option><option value="energyShield">Energy Shield</option><option value="plasmaStorm">Plasma Storm</option><option value="scanner">Scanner Beam</option><option value="gravityWell">Gravity Well</option><option value="runeCircle">Rune Circle</option><option value="turbine">Turbine Spin</option><option value="rainCharge">Rain Charge</option><option value="laserLock">Laser Lock</option><option value="aurora">Aurora Field</option><option value="stormEye">Storm Eye</option><option value="crystalField">Crystal Field</option><option value="dataStream">Data Stream</option><option value="pulseOrbit">Pulse Orbit</option><option value="emberHalo">Ember Halo</option><option value="techShield">Tech Shield</option><option value="hackStream">Hack Stream</option><option value="nanoField">Nano Field</option><option value="reactorCore">Reactor Core</option><option value="radarLock">Radar Lock</option>
         <option value="timeTunnel">Time Tunnel</option>
         <option value="photonBlade">Photon Blade</option>
         <option value="plasmaCage">Plasma Cage</option>
@@ -308,7 +360,27 @@ button:hover{transform:translateY(-1px)}button.secondary{background:#151515;colo
         <option value="starForge">Star Forge</option>
         <option value="laserPrism">Laser Prism</option>
         <option value="voidCharger">Void Charger</option>
-    </select></div>
+    
+        <option value="thunderCharge">Thunder Charge</option>
+        <option value="plasmaAura">Plasma Aura</option>
+        <option value="cyberLock">Cyber Lock</option>
+        <option value="ionHalo">Ion Halo</option>
+        <option value="gravityCore">Gravity Core</option>
+        <option value="warpTunnelHold">Warp Tunnel Hold</option>
+        <option value="neonPrison">Neon Prison</option>
+        <option value="crystalCharge">Crystal Charge</option>
+        <option value="frostCore">Frost Core</option>
+        <option value="magmaCore">Magma Core</option>
+        <option value="starCharge">Star Charge</option>
+        <option value="voidAura">Void Aura</option>
+        <option value="prismCage">Prism Cage</option>
+        <option value="dataFountain">Data Fountain</option>
+        <option value="hexOrbit">Hex Orbit</option>
+        <option value="cometEngine">Comet Engine</option>
+        <option value="auroraHold">Aurora Hold</option>
+        <option value="quantumHold">Quantum Hold</option>
+        <option value="reactorSpin">Reactor Spin</option>
+        <option value="spectralField">Spectral Field</option></select></div>
     <div class="row"><span>Hold Color</span><input id="holdColor" type="color" value="#f5f5f5"></div>
     <div class="row"><span>Intensität <b class="value" id="holdPowerVal"></b></span><input id="holdPower" type="range" min="1" max="100" value="60"></div>
 </div>
@@ -316,7 +388,7 @@ button:hover{transform:translateY(-1px)}button.secondary{background:#151515;colo
 <div class="section">
     <div class="section-title">Release Effect<label class="toggle"><input id="optRelease" type="checkbox" checked><span></span></label></div>
     <div class="row"><span>Release Typ</span><select id="releaseType">
-        <option value="explosion">Explosion</option><option value="implosion">Implosion</option><option value="warp">Warp Burst</option><option value="dust">Dust Fade</option><option value="supernova">Supernova</option><option value="shatter">Glass Shatter</option><option value="sparkRain">Spark Rain</option><option value="smokeRing">Smoke Ring</option><option value="cometScatter">Comet Scatter</option><option value="pulseStorm">Pulse Storm</option><option value="gravityBlast">Gravity Blast</option><option value="auroraBurst">Aurora Burst</option><option value="runeBreak">Rune Break</option><option value="prismBurst">Prism Burst</option><option value="shockGrid">Shock Grid</option><option value="firework">Firework</option><option value="iceCrack">Ice Crack</option><option value="nebulaBloom">Nebula Bloom</option><option value="quantumBurst">Quantum Burst</option><option value="meteorBloom">Meteor Bloom</option><option value="voidCollapse">Void Collapse</option><option value="petalWave">Petal Wave</option><option value="dataScatter">Data Scatter</option><option value="electroExplosion">Electro Explosion</option><option value="empBlast">EMP Blast</option><option value="firewallBurst">Firewall Burst</option><option value="codeExplosion">Code Explosion</option><option value="circuitOverload">Circuit Overload</option><option value="quantumDisrupt">Quantum Disrupt</option>
+        <option value="explosion">Explosion</option><option value="random">Random</option><option value="implosion">Implosion</option><option value="warp">Warp Burst</option><option value="dust">Dust Fade</option><option value="supernova">Supernova</option><option value="shatter">Glass Shatter</option><option value="sparkRain">Spark Rain</option><option value="smokeRing">Smoke Ring</option><option value="cometScatter">Comet Scatter</option><option value="pulseStorm">Pulse Storm</option><option value="gravityBlast">Gravity Blast</option><option value="auroraBurst">Aurora Burst</option><option value="runeBreak">Rune Break</option><option value="prismBurst">Prism Burst</option><option value="shockGrid">Shock Grid</option><option value="firework">Firework</option><option value="iceCrack">Ice Crack</option><option value="nebulaBloom">Nebula Bloom</option><option value="quantumBurst">Quantum Burst</option><option value="meteorBloom">Meteor Bloom</option><option value="voidCollapse">Void Collapse</option><option value="petalWave">Petal Wave</option><option value="dataScatter">Data Scatter</option><option value="electroExplosion">Electro Explosion</option><option value="lightningBolt">Lightning Bolt</option><option value="empBlast">EMP Blast</option><option value="firewallBurst">Firewall Burst</option><option value="codeExplosion">Code Explosion</option><option value="circuitOverload">Circuit Overload</option><option value="quantumDisrupt">Quantum Disrupt</option>
         <option value="hyperJump">Hyper Jump</option>
         <option value="plasmaDetonation">Plasma Detonation</option>
         <option value="singularityCollapse">Singularity Collapse</option>
@@ -327,9 +399,31 @@ button:hover{transform:translateY(-1px)}button.secondary{background:#151515;colo
         <option value="starfall">Starfall</option>
         <option value="voidNova">Void Nova</option>
         <option value="matrixCrash">Matrix Crash</option>
-    </select></div>
+    
+        <option value="thunderRelease">Thunder Release</option>
+        <option value="plasmaWave">Plasma Wave</option>
+        <option value="cyberCollapse">Cyber Collapse</option>
+        <option value="ionNova">Ion Nova</option>
+        <option value="gravityBurst">Gravity Burst</option>
+        <option value="warpExit">Warp Exit</option>
+        <option value="neonCascade">Neon Cascade</option>
+        <option value="crystalRain">Crystal Rain</option>
+        <option value="frostExplosion">Frost Explosion</option>
+        <option value="magmaEruption">Magma Eruption</option>
+        <option value="starNova">Star Nova</option>
+        <option value="voidShatter">Void Shatter</option>
+        <option value="prismStorm">Prism Storm</option>
+        <option value="dataCrash">Data Crash</option>
+        <option value="hexBreakout">Hex Breakout</option>
+        <option value="cometFall">Comet Fall</option>
+        <option value="auroraRelease">Aurora Release</option>
+        <option value="quantumTear">Quantum Tear</option>
+        <option value="reactorMeltdown">Reactor Meltdown</option>
+        <option value="spectralBurst">Spectral Burst</option></select></div>
     <div class="row"><span>Release Color</span><input id="releaseColor" type="color" value="#ffcc66"></div>
     <div class="row"><span>Stärke <b class="value" id="releasePowerVal"></b></span><input id="releasePower" type="range" min="1" max="100" value="70"></div>
+    <div class="row"><span>Release Pause <b class="value" id="releaseIntervalVal"></b></span><input id="releaseInterval" type="range" min="0" max="1000" step="10" value="0"></div>
+    <div class="row"><span>Release Hold <b class="value" id="releaseHoldDelayVal"></b></span><input id="releaseHoldDelay" type="range" min="0" max="5000" step="50" value="200"></div>
     <div class="row"><span>Erschütterung</span><label class="toggle"><input id="releaseShake" type="checkbox" checked><span></span></label></div>
     <div class="row"><span>Erschütterung Stärke <b class="value" id="releaseShakePowerVal"></b></span><input id="releaseShakePower" type="range" min="0" max="100" value="65"></div>
 </div>
@@ -341,7 +435,7 @@ button:hover{transform:translateY(-1px)}button.secondary{background:#151515;colo
     <button id="btnHide" class="secondary">Interface ausblenden</button>
     <button id="btnSave">Save Wallpaper</button>
 </div>
-<div class="hint">Key: <b>H</b> toggles the interface on/off. Hold starts after <b>200 ms</b>. The <b>pause between clicks</b> applies to both click and release effects. Randomize sets background, clock design, clock font, colors, effect types, sliders, and toggles randomly. Generated backgrounds react to the mouse; imported images have parallax. Scanlines and Shake HUD backgrounds are available. Release shake can be enabled with Erschütterung, adjusted with Erschütterung Stärke, and only triggers when the Hold effect is fully charged.</div>
+<div class="hint">Key: <b>H</b> toggles the interface on/off. Hold starts after <b>200 ms</b>. Trail, Click, Hold und Release sind getrennt: Click Pause wirkt nur auf Click, Release Pause wirkt nur auf Release. Randomize sets background, clock design, clock font, colors, sliders, and toggles randomly. Effect types, background mode/style, clock design, and clock font are only randomized when their dropdown is set to Random; Random stays selected and the active random value is stored internally. Generated backgrounds react to the mouse; imported images have parallax. Scanlines and Shake HUD backgrounds are available. Release Hold defines how long the mouse button must be held before the Release effect can fire. Release shake can be enabled with Erschütterung, adjusted with Erschütterung Stärke, and only triggers when the Hold effect is fully charged.</div>
 </div>
 
 <script>
@@ -353,14 +447,46 @@ function Engine(canvas, clockEl, cfgProvider){
     let width = 0, height = 0, mouseX = innerWidth/2, mouseY = innerHeight/2;
     let lastMouseX = mouseX, lastMouseY = mouseY;
     let mouseDown = false, holdStart = 0, tick = 0;
-    let lastClickEffectTime = -1e9, lastReleaseEffectTime = -1e9;
+    let currentClickCycleAllowed = true;
+    let lastClickEffectTime = -1e9;
+    let lastReleaseEffectTime = -1e9;
+    const MIN_CLICK_EFFECT_INTERVAL_MS = 80;
+    const MIN_RELEASE_EFFECT_INTERVAL_MS = 0;
     const particles = [], waves = [], bolts = [], glyphs = [];
+    const trailSnake = {head:{x:0,y:0,vx:0,vy:0,angle:0}, segments:[], particles:[], key:'', active:false};
     let bgImage = null, bgImageSrc = '', bgStars = [], bgLastStyle = '', bgPulse = 0, bgParallaxX = 0, bgParallaxY = 0;
     let screenShakeTime = 0, screenShakeDuration = 0, screenShakePower = 0;
     const rand = (a,b)=>Math.random()*(b-a)+a;
     const irand = (a,b)=>Math.floor(rand(a,b+1));
     const pick = arr=>arr[Math.floor(Math.random()*arr.length)];
     const clamp = (v,a,b)=>Math.max(a,Math.min(b,v));
+    const isEnabled = v => !(v === false || v === 'false' || v === 0 || v === '0' || v === null || v === undefined || v === '');
+    function getClickEffectInterval(c){
+        return Math.max(MIN_CLICK_EFFECT_INTERVAL_MS, Number(c && c.clickInterval || 0));
+    }
+    function getReleaseEffectInterval(c){
+        return Math.max(MIN_RELEASE_EFFECT_INTERVAL_MS, Number(c && c.releaseInterval || 0));
+    }
+    function getReleaseHoldDelay(c){
+        return Math.max(0, Number(c && c.releaseHoldDelay || 0));
+    }
+    function isClickCooldownReady(c){
+        return performance.now() - lastClickEffectTime >= getClickEffectInterval(c);
+    }
+    function markClickEffectTime(){
+        lastClickEffectTime = performance.now();
+    }
+    function canTriggerClickEffect(c){
+        if(!isClickCooldownReady(c)) return false;
+        markClickEffectTime();
+        return true;
+    }
+    function canTriggerReleaseEffect(c){
+        const now = performance.now();
+        if(now - lastReleaseEffectTime < getReleaseEffectInterval(c)) return false;
+        lastReleaseEffectTime = now;
+        return true;
+    }
 
     function hexToRgb(h){
         h = String(h || '#fff').replace('#','');
@@ -411,13 +537,647 @@ function Engine(canvas, clockEl, cfgProvider){
             bolts.push({points,color,life:irand(6,14),maxLife:14});
         }
     }
+
+    function addTrailBolt(x, y, color, o={}){
+        const angle = o.angle ?? 0;
+        const len = o.len ?? 110;
+        const jitter = o.jitter ?? 18;
+        const steps = o.steps ?? irand(5, 10);
+        const widthLine = o.width ?? 1.6;
+        const glow = o.glow ?? 18;
+        const life = o.life ?? irand(5, 12);
+        const points = [{x, y}];
+        let sideDrift = rand(-jitter, jitter);
+
+        for(let s=1; s<=steps; s++){
+            const t = s / steps;
+            sideDrift = sideDrift * .42 + rand(-jitter, jitter) * .58;
+            const fork = Math.sin(t * Math.PI) * sideDrift;
+            points.push({
+                x: x + Math.cos(angle) * len * t + Math.cos(angle + Math.PI/2) * fork + rand(-jitter*.16, jitter*.16),
+                y: y + Math.sin(angle) * len * t + Math.sin(angle + Math.PI/2) * fork + rand(-jitter*.16, jitter*.16)
+            });
+        }
+        bolts.push({points, color, life, maxLife:life, width:widthLine, glow});
+
+        const branches = o.branches ?? 0;
+        for(let b=0; b<branches; b++){
+            const startIndex = irand(1, Math.max(1, points.length - 2));
+            const start = points[startIndex];
+            const branchAngle = angle + rand(-1.1, 1.1);
+            const branchLen = len * rand(.18, .52);
+            const branchPoints = [{x:start.x, y:start.y}];
+            const branchSteps = irand(3, 6);
+            for(let s=1; s<=branchSteps; s++){
+                const t = s / branchSteps;
+                branchPoints.push({
+                    x: start.x + Math.cos(branchAngle) * branchLen * t + rand(-jitter, jitter),
+                    y: start.y + Math.sin(branchAngle) * branchLen * t + rand(-jitter, jitter)
+                });
+            }
+            bolts.push({points:branchPoints, color, life:Math.max(3, life-2), maxLife:life, width:Math.max(.75, widthLine*.58), glow:glow*.82});
+        }
+    }
     function addGlyph(x,y,color,text,power){
         glyphs.push({x,y,color,text,life:60+power,maxLife:60+power,size:10+power*.18,rot:rand(-.5,.5)});
     }
 
+
+    function emitLightningBoltBurst(x, y, color, power, o={}){
+        const intensity = Math.max(1, Number(power) || 1);
+        const palette = o.palette || [color, '#ffffff', '#7aefff', '#00c8ff', '#9ffbff'];
+        const boltCount = o.bolts ?? Math.min(34, 5 + Math.floor(intensity / 8));
+        const particleCount = o.particles ?? Math.min(240, 18 + Math.floor(intensity * 1.45));
+        const baseLen = o.len ?? (70 + intensity * 1.15);
+        const spread = o.spread ?? Math.PI * 2;
+        const startAngle = o.startAngle ?? 0;
+        const widthLine = o.width ?? 1.7;
+        const branchBase = o.branches ?? 2;
+        const glow = o.glow ?? (20 + intensity * .18);
+        const life = o.life ?? 12;
+
+        for(let b=0; b<boltCount; b++){
+            const fan = boltCount > 1 ? (b / (boltCount - 1) - .5) : 0;
+            const angle = startAngle + fan * spread + rand(-.24, .24);
+            addTrailBolt(x + rand(-10,10), y + rand(-10,10), pick(palette), {
+                angle,
+                len: rand(baseLen * .42, baseLen * (o.long ? 1.55 : 1.0)),
+                jitter: rand(10, 28 + intensity * .08),
+                steps: irand(5, 11),
+                width: widthLine + rand(-.25, .55),
+                glow,
+                life: irand(Math.max(4, life - 4), life + 6),
+                branches: Math.max(0, Math.floor(branchBase + rand(-1, 2)))
+            });
+        }
+
+        for(let i=0; i<particleCount; i++){
+            const a = rand(0, Math.PI * 2);
+            const v = rand(.9, 5.4 + intensity * .035) * (o.speedMul || 1);
+            addParticle(x + rand(-8,8), y + rand(-8,8), pick(palette), {
+                vx: Math.cos(a) * v,
+                vy: Math.sin(a) * v,
+                life: rand(14, 58 + intensity * .16),
+                size: rand(1.6, 6.5 + intensity * .025) * (o.sizeMul || 1),
+                type: Math.random() < .58 ? 'laser' : 'spark',
+                drag: .972 + Math.random() * .018,
+                trailScale: 1.25
+            });
+        }
+    }
+
+
+    const EXTRA_TRAIL_TYPES = new Set([
+        'auroraTrail','plasmaOrbit','cyberComet','ionDust','neonShards','dataFireflies','frostMist','magmaDrips','laserRibbon','starSnake',
+        'voidEmbers','pulseComet','spectralSmoke','hexSparks','electricRain','warpDust','prismComet','reactorSparks','galaxyDust','quantumStrings'
+    ]);
+    const EXTRA_CLICK_TYPES = new Set([
+        'thunderPulse','plasmaImpact','neonDetonator','pixelBurst','ionRipple','gravityPunch','warpClick','cyberSlash','frostSnap','magmaPop',
+        'starClick','voidPulse','prismFlash','reactorTap','dataImpact','hexDetonate','glassPop','cometPunch','auroraClick','quantumClick'
+    ]);
+    const EXTRA_HOLD_TYPES = new Set([
+        'thunderCharge','plasmaAura','cyberLock','ionHalo','gravityCore','warpTunnelHold','neonPrison','crystalCharge','frostCore','magmaCore',
+        'starCharge','voidAura','prismCage','dataFountain','hexOrbit','cometEngine','auroraHold','quantumHold','reactorSpin','spectralField'
+    ]);
+    const EXTRA_RELEASE_TYPES = new Set([
+        'thunderRelease','plasmaWave','cyberCollapse','ionNova','gravityBurst','warpExit','neonCascade','crystalRain','frostExplosion','magmaEruption',
+        'starNova','voidShatter','prismStorm','dataCrash','hexBreakout','cometFall','auroraRelease','quantumTear','reactorMeltdown','spectralBurst'
+    ]);
+
+    function emitExtraTrailEffect(type, c, dx, dy, speed){
+        const baseColor = c.trailColor || '#00eaff';
+        const amount = Number(c.trailAmount || 6);
+        const life = Number(c.trailLife || 48);
+        const size = Number(c.trailSize || 7);
+        const trailLenMul = Math.max(.35, life / 48);
+        const dir = Math.atan2(dy || .001, dx || 1);
+        const back = dir + Math.PI;
+        const count = Math.max(3, amount * (['electricRain','dataFireflies','warpDust'].includes(type) ? 3 : 2));
+        const palettes = {
+            auroraTrail:[baseColor,'#00eaff','#b400ff','#00ff88','#ffffff'], plasmaOrbit:[baseColor,'#b400ff','#00eaff','#ffffff'], cyberComet:[baseColor,'#00ffaa','#ffffff','#00eaff'], ionDust:[baseColor,'#7aefff','#ffffff'], neonShards:[baseColor,'#ff00cc','#00eaff','#ffffff'], dataFireflies:[baseColor,'#00ffaa','#77e6ff','#ffffff'], frostMist:['#aeefff','#ffffff','#6edbff',baseColor], magmaDrips:['#ff3300','#ff7a00','#ffd36a',baseColor], laserRibbon:[baseColor,'#ffffff','#8ffcff'], starSnake:[baseColor,'#ffffff','#ffe58a'], voidEmbers:['#160f2d','#5c46ff',baseColor,'#ff5fd2'], pulseComet:[baseColor,'#ffffff','#8ffcff'], spectralSmoke:[baseColor,'#ffffff','#97a0ff'], hexSparks:[baseColor,'#00ffaa','#ffffff'], electricRain:[baseColor,'#ffffff','#7aefff'], warpDust:[baseColor,'#ffffff','#8f7bff'], prismComet:['#ff0040','#00eaff','#fff000','#ff00d4','#ffffff'], reactorSparks:[baseColor,'#fff2aa','#ff9e45','#ffffff'], galaxyDust:[baseColor,'#8f7bff','#ff86d3','#79e7ff'], quantumStrings:[baseColor,'#ffffff','#7aefff','#a77dff']
+        };
+        const palette = palettes[type] || [baseColor,'#ffffff'];
+
+        if(['plasmaOrbit','starSnake','hexSparks','quantumStrings'].includes(type)){
+            const orbitCount = Math.max(8, amount * 2);
+            for(let i=0;i<orbitCount;i++){
+                const a = tick * (type === 'quantumStrings' ? .095 : .065) + i * Math.PI * 2 / orbitCount;
+                const r = 14 + amount * 3 + Math.sin(tick*.05+i)*10 + size * 1.2;
+                addParticle(mouseX + Math.cos(a)*r, mouseY + Math.sin(a)*r, pick(palette), {
+                    vx:-Math.sin(a)*rand(.55,2.0), vy:Math.cos(a)*rand(.55,2.0), life:(life+rand(10,38))*trailLenMul,
+                    size:size*rand(.35,1.05), type:type==='hexSparks'?'geo':type==='quantumStrings'?'laser':'neon', drag:.986, trailScale:trailLenMul*1.35
+                });
+            }
+            if(type === 'hexSparks' && tick % 6 === 0) addWave(mouseX,mouseY,pick(palette),'hexPulse',18+amount*4);
+            return;
+        }
+
+        if(['electricRain','cyberComet','laserRibbon','prismComet','pulseComet','reactorSparks'].includes(type)){
+            if((type === 'electricRain' || type === 'reactorSparks') && Math.random() < Math.min(.85, .20 + speed*.04)){
+                addTrailBolt(mouseX+rand(-10,10), mouseY+rand(-10,10), pick(palette), {
+                    angle:type==='electricRain' ? Math.PI/2 + rand(-.2,.2) : back + rand(-.45,.45),
+                    len:rand(55,135+life*.35), jitter:rand(8,22), steps:irand(5,10), width:1.25+size*.08, glow:18+size*1.3, life:irand(5,12), branches:type==='electricRain'?1:2
+                });
+            }
+            for(let i=0;i<count;i++){
+                const a = type === 'electricRain' ? Math.PI/2 + rand(-.25,.25) : back + rand(-.55,.55);
+                const v = type === 'laserRibbon' ? rand(1.4,4.8) : rand(.8,4.2+speed*.08);
+                addParticle(mouseX+rand(-6,6), mouseY+rand(-6,6), pick(palette), {
+                    vx:Math.cos(a)*v - dx*.022, vy:Math.sin(a)*v - dy*.022,
+                    life:(life+rand(8,42))*trailLenMul, size:size*rand(.45,1.55),
+                    type:type==='laserRibbon'?'ribbon':type==='prismComet'||type==='pulseComet'?'comet':Math.random()<.55?'laser':'spark', drag:.982, trailScale:trailLenMul*(type==='laserRibbon'?1.9:1.3), gravity:type==='electricRain'?.03:0
+                });
+            }
+            return;
+        }
+
+        if(['frostMist','spectralSmoke','voidEmbers','galaxyDust','warpDust','auroraTrail'].includes(type)){
+            for(let i=0;i<count;i++){
+                let a = back + rand(-1.1,1.1), v = rand(.05,1.8+speed*.04), pType = 'smoke', grav = 0, drag = .993;
+                if(type === 'auroraTrail'){ pType = Math.random()<.5 ? 'ribbon' : 'neon'; v = rand(.3,2.4); drag=.988; }
+                if(type === 'warpDust'){ pType = Math.random()<.55 ? 'laser' : 'star'; v = rand(1.0,5.2); drag=.992; }
+                if(type === 'voidEmbers'){ pType = Math.random()<.55 ? 'smoke' : 'spark'; v = rand(.1,1.7); grav=-.004; }
+                if(type === 'galaxyDust'){ pType = Math.random()<.4 ? 'star' : 'neon'; v = rand(.2,2.1); }
+                addParticle(mouseX+rand(-12,12), mouseY+rand(-12,12), pick(palette), {
+                    vx:Math.cos(a)*v - dx*.014, vy:Math.sin(a)*v - dy*.014,
+                    life:(life+rand(18,70))*trailLenMul, size:size*rand(.6,2.0), type:pType, drag, gravity:grav, trailScale:trailLenMul*1.25
+                });
+            }
+            return;
+        }
+
+        if(type === 'magmaDrips'){
+            for(let i=0;i<count;i++){
+                const a = back + rand(-.8,.8);
+                addParticle(mouseX+rand(-5,5), mouseY+rand(-5,5), pick(palette), {
+                    vx:Math.cos(a)*rand(.4,2.2), vy:Math.sin(a)*rand(.4,2.2), life:(life+rand(10,44))*trailLenMul,
+                    size:size*rand(.7,1.7), type:Math.random()<.55?'drip':'spark', drag:.986, gravity:.035, trailScale:trailLenMul
+                });
+            }
+            return;
+        }
+
+        for(let i=0;i<count;i++){
+            const a=back+rand(-.9,.9), v=rand(.4,3.2+speed*.08);
+            addParticle(mouseX+rand(-6,6), mouseY+rand(-6,6), pick(palette), {
+                vx:Math.cos(a)*v - dx*.018, vy:Math.sin(a)*v - dy*.018,
+                life:(life+rand(6,42))*trailLenMul, size:size*rand(.45,1.4), type:Math.random()<.5?'spark':'neon', drag:.98, trailScale:trailLenMul
+            });
+        }
+    }
+
+    function emitExtraClickEffect(type, x, y, color, power){
+        const palettes = {
+            thunderPulse:[color,'#ffffff','#7aefff','#00c8ff'], plasmaImpact:[color,'#b400ff','#00eaff','#ffffff'], neonDetonator:[color,'#00eaff','#ff00cc','#ffffff'], pixelBurst:[color,'#00ffaa','#ffffff'], ionRipple:[color,'#7aefff','#ffffff'], gravityPunch:[color,'#8f7bff','#ffffff'], warpClick:[color,'#ffffff','#8f7bff','#8ffcff'], cyberSlash:[color,'#00ffaa','#ffffff'], frostSnap:['#aeefff','#ffffff','#6edbff'], magmaPop:['#ff3300','#ff7a00','#ffd36a'], starClick:[color,'#ffffff','#ffe58a'], voidPulse:['#160f2d','#5c46ff',color,'#ffffff'], prismFlash:['#ff0040','#00eaff','#fff000','#ff00d4','#ffffff'], reactorTap:[color,'#fff2aa','#ff9e45','#ffffff'], dataImpact:[color,'#00ffaa','#77e6ff','#ffffff'], hexDetonate:[color,'#00ffaa','#ffffff'], glassPop:['#ffffff','#b8e8ff',color], cometPunch:[color,'#ffb35c','#fff0b8','#ffffff'], auroraClick:[color,'#00eaff','#b400ff','#00ff88'], quantumClick:[color,'#ffffff','#7aefff','#a77dff']
+        };
+        const palette = palettes[type] || [color,'#ffffff'];
+        const waveType = ['hexDetonate','dataImpact'].includes(type) ? 'hexPulse' : ['gravityPunch','voidPulse'].includes(type) ? 'implosion' : ['cyberSlash'].includes(type) ? 'grid' : ['pixelBurst'].includes(type) ? 'squarePulse' : 'shockwave';
+        addWave(x,y,pick(palette),waveType,power*1.05);
+        if(['thunderPulse','ionRipple','auroraClick','quantumClick'].includes(type)) setTimeout(()=>addWave(x,y,pick(palette),'rings2',power*.68),85);
+        if(['thunderPulse','plasmaImpact','neonDetonator','reactorTap','quantumClick'].includes(type)){
+            emitLightningBoltBurst(x,y,color,power,{palette,bolts:Math.min(24,6+Math.floor(power/8)),particles:Math.min(170,28+Math.floor(power*1.35)),len:75+power*1.05,width:1.55,glow:22,branches:2,life:12,long:true});
+        }
+        const n = Math.min(260, Math.floor(26 + power * 1.55));
+        for(let i=0;i<n;i++){
+            let a=rand(0,Math.PI*2), v=rand(1.0,4.4+power*.045), pType='spark', grav=0, drag=.972, char=undefined, sx=x, sy=y;
+            if(type==='cyberSlash'){ a = -Math.PI*.75 + (i/Math.max(1,n-1))*Math.PI*1.5 + rand(-.05,.05); pType='laser'; v=rand(2.5,7.4); drag=.99; }
+            if(type==='pixelBurst'){ pType='pixel'; drag=.955; }
+            if(type==='frostSnap'){ pType=Math.random()<.5?'shard':'star'; drag=.977; }
+            if(type==='magmaPop'){ pType=Math.random()<.5?'spark':'drip'; grav=.035; }
+            if(type==='glassPop'){ pType='shard'; drag=.976; }
+            if(type==='dataImpact'){ pType=Math.random()<.65?'char':'pixel'; char=pick('01<>[]{}#@'.split('')); drag=.982; }
+            if(type==='starClick'){ pType=Math.random()<.5?'star':'comet'; drag=.985; }
+            if(type==='cometPunch'){ pType='comet'; v=rand(2.0,6.5); drag=.986; }
+            if(type==='voidPulse' || type==='gravityPunch'){
+                const d=rand(40,170+power); sx=x+Math.cos(a)*d; sy=y+Math.sin(a)*d; v=1;
+                addParticle(sx,sy,pick(palette),{vx:(x-sx)/rand(16,34),vy:(y-sy)/rand(16,34),life:rand(26,72),size:rand(2,8),type:Math.random()<.45?'smoke':'neon',drag:.985});
+                continue;
+            }
+            addParticle(sx,sy,pick(palette),{vx:Math.cos(a)*v,vy:Math.sin(a)*v,life:rand(22,74),size:rand(2,9),type:pType,char,drag,gravity:grav,trailScale:['cyberSlash','cometPunch'].includes(type)?1.65:1});
+        }
+    }
+
+    function emitExtraHoldEffect(type, color, base, charge, power, age, spawnMul, radiusMul, alphaMul){
+        const palettes = {
+            thunderCharge:[color,'#ffffff','#7aefff','#00c8ff'], plasmaAura:[color,'#b400ff','#00eaff','#ffffff'], cyberLock:[color,'#00ffaa','#ffffff'], ionHalo:[color,'#7aefff','#ffffff'], gravityCore:[color,'#8f7bff','#ffffff'], warpTunnelHold:[color,'#ffffff','#8f7bff'], neonPrison:[color,'#00eaff','#ff00cc','#ffffff'], crystalCharge:['#ffffff','#8cf7ff','#d8c4ff',color], frostCore:['#aeefff','#ffffff','#6edbff'], magmaCore:['#ff3300','#ff7a00','#ffd36a'], starCharge:[color,'#fff2aa','#ffffff'], voidAura:['#160f2d','#5c46ff',color], prismCage:['#ff0040','#00eaff','#fff000','#ff00d4'], dataFountain:[color,'#00ffaa','#77e6ff','#ffffff'], hexOrbit:[color,'#00ffaa','#ffffff'], cometEngine:[color,'#ffb35c','#fff0b8','#ffffff'], auroraHold:[color,'#00eaff','#b400ff','#00ff88'], quantumHold:[color,'#ffffff','#7aefff','#a77dff'], reactorSpin:[color,'#fff2aa','#ff9e45','#ffffff'], spectralField:[color,'#ffffff','#97a0ff']
+        };
+        const palette = palettes[type] || [color,'#ffffff'];
+        const r = (42 + base * .95) * radiusMul;
+        ctx.save();
+        ctx.globalCompositeOperation='lighter';
+        if(['plasmaAura','ionHalo','gravityCore','frostCore','magmaCore','starCharge','voidAura','auroraHold','quantumHold','spectralField'].includes(type)){
+            const g=ctx.createRadialGradient(mouseX,mouseY,0,mouseX,mouseY,r*1.65);
+            g.addColorStop(0,rgba(pick(palette),Math.min(.52,.18*alphaMul)));
+            g.addColorStop(.38,rgba(pick(palette),Math.min(.28,.08*alphaMul)));
+            g.addColorStop(1,'rgba(0,0,0,0)');
+            ctx.fillStyle=g; ctx.beginPath(); ctx.arc(mouseX,mouseY,r*1.65,0,Math.PI*2); ctx.fill();
+        }
+        if(['warpTunnelHold','neonPrison','prismCage','hexOrbit','reactorSpin','cyberLock'].includes(type)){
+            const rings = type==='warpTunnelHold' ? 14 : 5;
+            for(let i=0;i<rings;i++){
+                const rr = (24 + i * (type==='warpTunnelHold'?15:22) + Math.sin(tick*.07+i)*5) * radiusMul;
+                ctx.strokeStyle=rgba(pick(palette),Math.max(.06,(.30-i*.012)*alphaMul));
+                ctx.lineWidth=1.2+charge*.22;
+                if(type==='cyberLock'){ctx.setLineDash([12,8]);ctx.lineDashOffset=-tick*(1+i*.2);} else ctx.setLineDash([]);
+                ctx.beginPath();
+                if(type==='neonPrison' || type==='prismCage'){
+                    const sides=type==='prismCage'?6:4;
+                    for(let k=0;k<sides;k++){const a=tick*.025+i*.08+k*Math.PI*2/sides; const px=mouseX+Math.cos(a)*rr, py=mouseY+Math.sin(a)*rr; k?ctx.lineTo(px,py):ctx.moveTo(px,py);}
+                    ctx.closePath();
+                } else ctx.arc(mouseX,mouseY,rr,tick*.018+i*.18,tick*.018+i*.18+Math.PI*1.75);
+                ctx.stroke();
+            }
+            ctx.setLineDash([]);
+        }
+        ctx.restore();
+
+        if(['thunderCharge','ionHalo','cometEngine','reactorSpin'].includes(type) && Math.random()<Math.min(.75,.12+charge*.12)){
+            addTrailBolt(mouseX+rand(-12,12),mouseY+rand(-12,12),pick(palette),{angle:rand(0,Math.PI*2),len:rand(45,130+base),jitter:rand(10,26),steps:irand(5,10),width:1.35+charge*.15,glow:22+charge*5,life:irand(5,10),branches:2});
+        }
+        const n=Math.min(38,Math.floor((3+base/9)*spawnMul));
+        for(let i=0;i<n;i++){
+            let a=rand(0,Math.PI*2), dist=rand(10,r), v=rand(.4,3.2+charge*.6), pType='spark', char=undefined, grav=0, drag=.976;
+            let sx=mouseX+Math.cos(a)*dist, sy=mouseY+Math.sin(a)*dist;
+            if(['gravityCore','voidAura'].includes(type)){ v=1; addParticle(sx,sy,pick(palette),{vx:(mouseX-sx)/rand(16,36),vy:(mouseY-sy)/rand(16,36),life:rand(18,58),size:rand(2,8),type:Math.random()<.5?'smoke':'neon',drag:.986}); continue; }
+            if(type==='dataFountain'){ pType=Math.random()<.6?'char':'pixel'; char=pick('01<>[]{}#@'.split('')); a=-Math.PI/2+rand(-.35,.35); v=rand(1.2,4.8); drag=.984; }
+            if(type==='crystalCharge' || type==='frostCore'){ pType=Math.random()<.55?'shard':'star'; }
+            if(type==='magmaCore'){ pType=Math.random()<.45?'drip':'spark'; grav=.02; }
+            if(type==='cometEngine'){ pType='comet'; }
+            if(type==='spectralField'){ pType='smoke'; drag=.993; }
+            addParticle(sx,sy,pick(palette),{vx:Math.cos(a)*v,vy:Math.sin(a)*v,life:rand(14,48+charge*10),size:rand(2,8+charge),type:pType,char,drag,gravity:grav,trailScale:pType==='comet'?1.6:1});
+        }
+    }
+
+    function emitExtraReleaseEffect(type, x, y, color, base, charge, power, amountMul, speedMul, sizeMul){
+        const palettes = {
+            thunderRelease:[color,'#ffffff','#7aefff','#00c8ff'], plasmaWave:[color,'#b400ff','#00eaff','#ffffff'], cyberCollapse:[color,'#00ffaa','#ffffff'], ionNova:[color,'#7aefff','#ffffff'], gravityBurst:[color,'#8f7bff','#ffffff'], warpExit:[color,'#ffffff','#8f7bff','#8ffcff'], neonCascade:[color,'#00eaff','#ff00cc','#ffffff'], crystalRain:['#ffffff','#8cf7ff','#d8c4ff',color], frostExplosion:['#aeefff','#ffffff','#6edbff'], magmaEruption:['#ff3300','#ff7a00','#ffd36a'], starNova:[color,'#fff2aa','#ffffff'], voidShatter:['#160f2d','#5c46ff',color,'#ffffff'], prismStorm:['#ff0040','#00eaff','#fff000','#ff00d4','#ffffff'], dataCrash:[color,'#00ffaa','#77e6ff','#ffffff'], hexBreakout:[color,'#00ffaa','#ffffff'], cometFall:[color,'#ffb35c','#fff0b8','#ffffff'], auroraRelease:[color,'#00eaff','#b400ff','#00ff88'], quantumTear:[color,'#ffffff','#7aefff','#a77dff'], reactorMeltdown:[color,'#fff2aa','#ff9e45','#ffffff'], spectralBurst:[color,'#ffffff','#97a0ff']
+        };
+        const palette = palettes[type] || [color,'#ffffff'];
+        const waveType = ['gravityBurst','cyberCollapse'].includes(type) ? 'implosion' : ['hexBreakout','dataCrash'].includes(type) ? 'hexPulse' : ['warpExit','thunderRelease','ionNova','starNova','reactorMeltdown'].includes(type) ? 'shockwave' : 'release';
+        addWave(x,y,pick(palette),waveType,power*1.05);
+        setTimeout(()=>addWave(x,y,pick(palette),'rings2',power*.72),90);
+        setTimeout(()=>addWave(x,y,pick(palette),'rings3',power*.52),190);
+        if(['thunderRelease','ionNova','quantumTear','reactorMeltdown','plasmaWave'].includes(type)){
+            emitLightningBoltBurst(x,y,color,power,{palette,bolts:Math.min(46,10+Math.floor(base/7+charge*4)),particles:Math.min(360,52+Math.floor(base*2.2*amountMul)),len:105+base*1.8+charge*26,width:2.0,glow:32,branches:4,life:15,long:true});
+        }
+        const n=Math.min(850,Math.floor((38+base*1.75)*amountMul));
+        for(let i=0;i<n;i++){
+            let a=rand(0,Math.PI*2), v=rand(1.0,5.6+base*.055)*speedMul, pType='comet', grav=0, drag=.968, char=undefined, sx=x, sy=y;
+            if(['gravityBurst','cyberCollapse'].includes(type)){
+                const dist=rand(80,260+base)*Math.min(3,.9+charge*.44); sx=x+Math.cos(a)*dist; sy=y+Math.sin(a)*dist;
+                addParticle(sx,sy,pick(palette),{vx:(x-sx)/rand(13,32),vy:(y-sy)/rand(13,32),life:rand(32,84+charge*14),size:rand(2,9)*sizeMul,type:Math.random()<.45?'smoke':'neon',drag:.984});
+                continue;
+            }
+            if(type==='crystalRain' || type==='frostExplosion' || type==='voidShatter'){ pType='shard'; }
+            if(type==='magmaEruption' || type==='reactorMeltdown'){ pType=Math.random()<.5?'spark':'drip'; grav=.04; v=rand(2.2,7.4)*speedMul; }
+            if(type==='dataCrash'){ pType=Math.random()<.66?'char':'pixel'; char=pick('0101ERROR{}<>/#'.split('')); }
+            if(type==='prismStorm'){ pType=Math.random()<.45?'laser':'comet'; }
+            if(type==='cometFall'){ pType='comet'; a=-Math.PI/2+rand(-.75,.75); grav=.04; }
+            if(type==='neonCascade'){ pType=Math.random()<.5?'laser':'ribbon'; }
+            if(type==='spectralBurst'){ pType=Math.random()<.55?'smoke':'neon'; drag=.986; }
+            if(type==='auroraRelease'){ pType=Math.random()<.5?'ribbon':'neon'; drag=.986; }
+            addParticle(sx,sy,pick(palette),{vx:Math.cos(a)*v,vy:Math.sin(a)*v,life:rand(24,96+charge*15),size:rand(2,9)*sizeMul,type:pType,char,drag,gravity:grav,trailScale:['neonCascade','auroraRelease','cometFall'].includes(type)?1.8:1});
+        }
+    }
+
+
+    function normalizeTrailSnakeAngle(angle){
+        while(angle > Math.PI) angle -= Math.PI * 2;
+        while(angle < -Math.PI) angle += Math.PI * 2;
+        return angle;
+    }
+
+    function getTrailSnakeSettings(c){
+        const amount = Number(c.trailAmount || 6);
+        const life = Number(c.trailLife || 48);
+        const size = Number(c.trailSize || 7);
+        const color = c.trailColor || '#00eaff';
+        const hasFollowingControls = c.snakeBodyLength !== undefined || c.snakeBodySize !== undefined || c.snakeMaxFollowSpeed !== undefined;
+
+        const bodyLength = hasFollowingControls ? Number(c.snakeBodyLength || 10) : Math.floor(8 + amount * 1.7 + life / 14);
+        const bodySize = hasFollowingControls ? Number(c.snakeBodySize || 16) : (size * 2.25 + amount * .45);
+        const maxFollowSpeed = hasFollowingControls ? Number(c.snakeMaxFollowSpeed || 33) : (5 + amount * 1.35 + size * .62);
+        const wanderEnabled = hasFollowingControls ? (c.snakeWander === true || c.snakeWander === 'true') : true;
+        const wanderRadius = hasFollowingControls ? Number(c.snakeWanderRedius || 55) : (22 + amount * 3.6 + size * 1.2);
+        const wanderSpeedInput = hasFollowingControls ? Number(c.snakeWanderSpeed || 40) : ((.035 + amount * .008 + size * .004) * 100);
+
+        return {
+            segmentCount: Math.floor(clamp(bodyLength, 4, 120)),
+            segmentLength: clamp(7 + life / 95 + size * .08, 6, 22),
+            thickness: clamp(bodySize, 4, 90),
+            strokeColor: color,
+            colorBody: '#020202',
+            colorBelly: rgba(color, .36),
+            maxSpeed: clamp(maxFollowSpeed, 1, 80),
+            maxForce: clamp(.10 + maxFollowSpeed / 170, .12, .68),
+            friction: .96,
+            chaseRadius: 1200,
+            wanderRadius: clamp(wanderRadius, 0, 360),
+            wanderSpeed: clamp(wanderSpeedInput / 100, .01, 1.2),
+            interactionDist: wanderEnabled ? clamp(120 + bodySize * 5 + amount * 5, 120, 520) : 0,
+            constraintAngle: Math.PI / 6,
+            particleChance: clamp(.07 + amount * .018, .10, .42),
+            key: [
+                Math.floor(clamp(bodyLength, 4, 120)),
+                Math.round((7 + life / 95 + size * .08) * 10),
+                Math.round(clamp(bodySize, 4, 90) * 10),
+                Math.round(clamp(maxFollowSpeed, 1, 80) * 10),
+                Math.round(clamp(wanderRadius, 0, 360) * 10),
+                Math.round(clamp(wanderSpeedInput / 100, .01, 1.2) * 100),
+                wanderEnabled ? 1 : 0
+            ].join(':')
+        };
+    }
+
+    function resetTrailSnake(c){
+        const cfg = getTrailSnakeSettings(c);
+        trailSnake.key = cfg.key;
+        trailSnake.active = true;
+        trailSnake.head.x = mouseX || width / 2;
+        trailSnake.head.y = mouseY || height / 2;
+        trailSnake.head.vx = 0;
+        trailSnake.head.vy = 0;
+        trailSnake.head.angle = 0;
+        trailSnake.segments.length = 0;
+        trailSnake.particles.length = 0;
+        for(let i=0;i<cfg.segmentCount;i++){
+            trailSnake.segments.push({
+                x: trailSnake.head.x - i * cfg.segmentLength,
+                y: trailSnake.head.y,
+                angle: 0
+            });
+        }
+    }
+
+    function updateTrailSnakeSegment(current, leader, cfg){
+        const dx = leader.x - current.x;
+        const dy = leader.y - current.y;
+        const idealAngle = Math.atan2(dy, dx);
+        const leaderAngle = leader.angle;
+        let angleDiff = normalizeTrailSnakeAngle(idealAngle - leaderAngle);
+        angleDiff = clamp(angleDiff, -cfg.constraintAngle, cfg.constraintAngle);
+        const finalAngle = normalizeTrailSnakeAngle(leaderAngle + angleDiff);
+        current.angle = finalAngle;
+        current.x = leader.x - Math.cos(finalAngle) * cfg.segmentLength;
+        current.y = leader.y - Math.sin(finalAngle) * cfg.segmentLength;
+    }
+
+    function addTrailSnakeParticle(x, y, angle, cfg){
+        const spread = rand(-.42, .42);
+        const speed = rand(.4, 1.8);
+        trailSnake.particles.push({
+            x, y,
+            vx: Math.cos(angle + spread) * speed,
+            vy: Math.sin(angle + spread) * speed,
+            life: 1,
+            size: rand(2.5, Math.max(4, cfg.thickness * .42))
+        });
+        if(trailSnake.particles.length > 360) trailSnake.particles.splice(0, trailSnake.particles.length - 360);
+    }
+
+    function kickTrailSnake(x, y){
+        if(!trailSnake.active) return;
+        const angle = Math.atan2(trailSnake.head.y - y, trailSnake.head.x - x);
+        trailSnake.head.vx += Math.cos(angle) * 12;
+        trailSnake.head.vy += Math.sin(angle) * 12;
+    }
+
+    function updateTrailSnake(c){
+        const cfg = getTrailSnakeSettings(c);
+        if(!trailSnake.active || trailSnake.key !== cfg.key || trailSnake.segments.length !== cfg.segmentCount) resetTrailSnake(c);
+
+        const head = trailSnake.head;
+        let dx = mouseX - head.x;
+        let dy = mouseY - head.y;
+        const dist = Math.hypot(dx, dy);
+        let aimX = mouseX;
+        let aimY = mouseY;
+        const isWandering = dist - cfg.interactionDist < .000001;
+
+        if(isWandering){
+            aimX += Math.cos(tick * cfg.wanderSpeed) * cfg.wanderRadius;
+            aimY += Math.sin(tick * cfg.wanderSpeed * .7) * cfg.wanderRadius;
+        }
+
+        const aimDx = aimX - head.x;
+        const aimDy = aimY - head.y;
+        const aimDist = Math.hypot(aimDx, aimDy);
+        let desiredSpeed = 0;
+        if(aimDist > 5){
+            desiredSpeed = aimDist < cfg.chaseRadius ? cfg.maxSpeed * (aimDist / cfg.chaseRadius) : cfg.maxSpeed;
+            if(dist < cfg.interactionDist) desiredSpeed = Math.max(desiredSpeed, 2);
+        }
+
+        if(desiredSpeed > 0){
+            let desiredVx = (aimDx / aimDist) * desiredSpeed;
+            let desiredVy = (aimDy / aimDist) * desiredSpeed;
+            let steerX = desiredVx - head.vx;
+            let steerY = desiredVy - head.vy;
+            const steerLen = Math.hypot(steerX, steerY);
+            const turnForceLimit = cfg.wanderSpeed * 6;
+            if(steerLen > cfg.maxForce){
+                const limit = isWandering ? turnForceLimit : cfg.maxForce;
+                steerX = (steerX / steerLen) * limit;
+                steerY = (steerY / steerLen) * limit;
+            }
+            head.vx += steerX;
+            head.vy += steerY;
+        }
+
+        head.vx *= cfg.friction;
+        head.vy *= cfg.friction;
+        head.x += head.vx;
+        head.y += head.vy;
+
+        const margin = 120;
+        if(head.x < -margin) head.x = width + margin;
+        if(head.x > width + margin) head.x = -margin;
+        if(head.y < -margin) head.y = height + margin;
+        if(head.y > height + margin) head.y = -margin;
+
+        const speed = Math.hypot(head.vx, head.vy);
+        let lookAngle = head.angle;
+        if(speed > .1) lookAngle = Math.atan2(head.vy, head.vx);
+        head.angle += normalizeTrailSnakeAngle(lookAngle - head.angle) * (speed > 1 ? .15 : .08);
+
+        updateTrailSnakeSegment(trailSnake.segments[0], head, cfg);
+        for(let i=1;i<trailSnake.segments.length;i++) updateTrailSnakeSegment(trailSnake.segments[i], trailSnake.segments[i-1], cfg);
+
+        for(let i=2;i<trailSnake.segments.length;i+=2){
+            if(Math.random() < cfg.particleChance){
+                const seg = trailSnake.segments[i];
+                addTrailSnakeParticle(seg.x, seg.y, seg.angle, cfg);
+            }
+        }
+
+        for(let i=trailSnake.particles.length-1;i>=0;i--){
+            const p = trailSnake.particles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            p.life -= .03;
+            if(p.life <= 0) trailSnake.particles.splice(i, 1);
+        }
+    }
+
+    function buildTrailSnakePath(cfg){
+        const head = trailSnake.head;
+        const rightPoints = [];
+        const leftPoints = [];
+        rightPoints.push({
+            x: head.x + Math.cos(head.angle + Math.PI/2) * cfg.thickness,
+            y: head.y + Math.sin(head.angle + Math.PI/2) * cfg.thickness
+        });
+        leftPoints.push({
+            x: head.x + Math.cos(head.angle - Math.PI/2) * cfg.thickness,
+            y: head.y + Math.sin(head.angle - Math.PI/2) * cfg.thickness
+        });
+
+        for(let i=0;i<trailSnake.segments.length;i++){
+            const seg = trailSnake.segments[i];
+            const norm = seg.angle + Math.PI / 2;
+            const r = cfg.thickness * (1 - i / (trailSnake.segments.length + 8));
+            rightPoints.push({x: seg.x + Math.cos(norm) * r, y: seg.y + Math.sin(norm) * r});
+            leftPoints.push({x: seg.x - Math.cos(norm) * r, y: seg.y - Math.sin(norm) * r});
+        }
+
+        ctx.beginPath();
+        ctx.moveTo(rightPoints[0].x, rightPoints[0].y);
+        for(let i=1;i<rightPoints.length;i++){
+            const nextP = rightPoints[i+1] || rightPoints[i];
+            ctx.quadraticCurveTo(rightPoints[i].x, rightPoints[i].y, (rightPoints[i].x + nextP.x) / 2, (rightPoints[i].y + nextP.y) / 2);
+        }
+        const lastLeft = leftPoints[leftPoints.length - 1];
+        const tailTip = trailSnake.segments[trailSnake.segments.length - 1];
+        ctx.quadraticCurveTo(tailTip.x, tailTip.y, lastLeft.x, lastLeft.y);
+        for(let i=leftPoints.length-1;i>=0;i--){
+            const prevP = leftPoints[i-1] || leftPoints[i];
+            ctx.quadraticCurveTo(leftPoints[i].x, leftPoints[i].y, (leftPoints[i].x + prevP.x) / 2, (leftPoints[i].y + prevP.y) / 2);
+        }
+        ctx.arc(head.x, head.y, cfg.thickness, head.angle - Math.PI/2, head.angle + Math.PI/2);
+        ctx.closePath();
+        return {leftPoints, rightPoints};
+    }
+
+    function drawTrailSnakeParticles(cfg){
+        ctx.save();
+        ctx.globalCompositeOperation = 'lighter';
+        for(const p of trailSnake.particles){
+            ctx.globalAlpha = Math.max(0, p.life);
+            ctx.shadowColor = cfg.strokeColor;
+            ctx.shadowBlur = 15;
+            ctx.fillStyle = cfg.strokeColor;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        ctx.restore();
+    }
+
+    function drawTrailSnakeBelly(leftPts, rightPts, cfg){
+        ctx.save();
+        ctx.clip();
+        ctx.beginPath();
+        const bellyScale = .55;
+        for(let i=1;i<trailSnake.segments.length;i++){
+            const seg = trailSnake.segments[i];
+            const norm = seg.angle + Math.PI / 2;
+            const r = cfg.thickness * (1 - i / (trailSnake.segments.length + 8)) * bellyScale;
+            const x = seg.x + Math.cos(norm) * r;
+            const y = seg.y + Math.sin(norm) * r;
+            if(i === 1) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+        }
+        for(let i=trailSnake.segments.length-1;i>=1;i--){
+            const seg = trailSnake.segments[i];
+            const norm = seg.angle + Math.PI / 2;
+            const r = cfg.thickness * (1 - i / (trailSnake.segments.length + 8)) * bellyScale;
+            ctx.lineTo(seg.x - Math.cos(norm) * r, seg.y - Math.sin(norm) * r);
+        }
+        ctx.fillStyle = cfg.colorBelly;
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.strokeStyle = 'rgba(255,255,255,.09)';
+        ctx.lineWidth = Math.max(1, cfg.thickness * .045);
+        for(let i=3;i<trailSnake.segments.length;i+=3){
+            const ptIdx = i + 1;
+            if(ptIdx < leftPts.length){
+                ctx.moveTo(leftPts[ptIdx].x, leftPts[ptIdx].y);
+                ctx.quadraticCurveTo(trailSnake.segments[i].x, trailSnake.segments[i].y, rightPts[ptIdx].x, rightPts[ptIdx].y);
+            }
+        }
+        ctx.stroke();
+        ctx.restore();
+    }
+
+    function drawTrailSnakeEyes(cfg){
+        const head = trailSnake.head;
+        const eyeOffset = cfg.thickness * .5;
+        const eyeR = Math.max(2.4, cfg.thickness * .28);
+        const lx = head.x + Math.cos(head.angle - .65) * eyeOffset;
+        const ly = head.y + Math.sin(head.angle - .65) * eyeOffset;
+        const rx = head.x + Math.cos(head.angle + .65) * eyeOffset;
+        const ry = head.y + Math.sin(head.angle + .65) * eyeOffset;
+        const lookAngle = Math.atan2(mouseY - head.y, mouseX - head.x);
+        const pupilDist = eyeR * .75;
+
+        ctx.save();
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.strokeStyle = '#000';
+        [{x:lx,y:ly},{x:rx,y:ry}].forEach(p => {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, eyeR, 0, Math.PI*2);
+            ctx.fillStyle = '#fff';
+            ctx.fill();
+            ctx.stroke();
+            const px = p.x + Math.cos(lookAngle) * pupilDist;
+            const py = p.y + Math.sin(lookAngle) * pupilDist;
+            ctx.beginPath();
+            ctx.arc(px, py, eyeR * .55, 0, Math.PI*2);
+            ctx.fillStyle = '#000';
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(px - eyeR*.18, py - eyeR*.18, eyeR * .2, 0, Math.PI*2);
+            ctx.fillStyle = '#fff';
+            ctx.fill();
+        });
+        ctx.restore();
+    }
+
+    function drawTrailSnake(c){
+        const cfg = getTrailSnakeSettings(c);
+        drawTrailSnakeParticles(cfg);
+
+        ctx.save();
+        ctx.globalCompositeOperation = 'source-over';
+        const body = buildTrailSnakePath(cfg);
+        ctx.save();
+        ctx.shadowColor = cfg.strokeColor;
+        ctx.shadowBlur = 25 + Math.abs(Math.sin(tick * .1)) * 25;
+        ctx.globalAlpha = .52;
+        ctx.fillStyle = cfg.strokeColor;
+        ctx.fill();
+        ctx.restore();
+
+        const tail = trailSnake.segments[trailSnake.segments.length - 1] || trailSnake.head;
+        const grad = ctx.createLinearGradient(trailSnake.head.x, trailSnake.head.y, tail.x, tail.y);
+        grad.addColorStop(0, cfg.colorBody);
+        grad.addColorStop(.68, '#050505');
+        grad.addColorStop(1, '#000000');
+        ctx.fillStyle = grad;
+        ctx.fill();
+        ctx.strokeStyle = cfg.strokeColor;
+        ctx.lineWidth = Math.max(1.2, cfg.thickness * .12);
+        ctx.stroke();
+
+        buildTrailSnakePath(cfg);
+        drawTrailSnakeBelly(body.leftPoints, body.rightPoints, cfg);
+        drawTrailSnakeEyes(cfg);
+        ctx.restore();
+    }
+
     function updateClock(){
         const c = cfgProvider();
-        if(!c.optClock){ clockEl.className = 'clock hidden'; return; }
+        if(!isEnabled(c.optClock)){ clockEl.className = 'clock hidden'; return; }
         const d = new Date();
         const hh = String(d.getHours()).padStart(2,'0');
         const mm = String(d.getMinutes()).padStart(2,'0');
@@ -479,7 +1239,7 @@ function Engine(canvas, clockEl, cfgProvider){
     }
 
     function drawInteractiveGeneratedBackground(c){
-        if(!c || !c.optBackground || c.bgMode !== 'generated') return;
+        if(!c || !isEnabled(c.optBackground) || c.bgMode !== 'generated') return;
 
         const style = c.bgGeneratedStyle === 'random' ? 'nebula' : (c.bgGeneratedStyle || 'nebula');
         const mx = mouseX, my = mouseY;
@@ -1288,7 +2048,7 @@ function Engine(canvas, clockEl, cfgProvider){
         ctx.fillStyle = '#000';
         ctx.fillRect(0,0,width,height);
 
-        const mode = (c && c.optBackground) ? (c.bgMode || 'default') : 'default';
+        const mode = (c && isEnabled(c.optBackground)) ? (c.bgMode || 'default') : 'default';
         const opacity = clamp(Number(c && c.bgOpacity !== undefined ? c.bgOpacity : 100) / 100, 0, 1);
         const src = mode === 'image' ? (c.bgImageData || '') : mode === 'generated' ? (c.bgGeneratedData || '') : '';
 
@@ -1348,10 +2108,21 @@ function Engine(canvas, clockEl, cfgProvider){
     }
 
     function spawnTrail(c){
-        if(!c.optTrails) return;
+        if(!isEnabled(c.optTrails)) return;
         const dx = mouseX - lastMouseX, dy = mouseY - lastMouseY, speed = Math.hypot(dx,dy);
-        if(speed < .2 && !mouseDown) return;
+        if(speed < .2 && c.trailType !== 'indexSnake') return;
         const type = c.trailType, baseColor = c.trailColor, amount = Number(c.trailAmount), life = Number(c.trailLife), trailLenMul = Math.max(.35, Number(c.trailLife) / 48), size = Number(c.trailSize);
+
+        if(type === 'indexSnake'){
+            updateTrailSnake(c);
+            drawTrailSnake(c);
+            return;
+        }
+
+        if(EXTRA_TRAIL_TYPES.has(type)){
+            emitExtraTrailEffect(type, c, dx, dy, speed);
+            return;
+        }
 
         if(type === 'orbital' || type === 'swarm'){
             const count = Math.max(6, amount*2);
@@ -1385,6 +2156,90 @@ function Engine(canvas, clockEl, cfgProvider){
             return;
         }
 
+
+        if(type === 'electroBolt' || type === 'bolt' || type === 'lightningBolt'){
+            const dir = Math.atan2(dy || .001, dx || 1);
+            const back = dir + Math.PI;
+            const speedBoost = clamp(speed, 0, 44);
+            let count = Math.max(1, Math.floor(amount / 3));
+            let len = 50 + life * .72 + speedBoost * 5.8;
+            let jitter = 10 + size * .9;
+            let branches = 1;
+            let widthLine = Math.max(1.1, size * .18);
+            let glow = 14 + size * 1.2;
+            let palette = [baseColor, '#ffffff', '#8ffcff'];
+            let particleType = 'spark';
+            let particleCount = Math.max(3, amount);
+
+            if(type === 'electroBolt'){
+                count = Math.max(2, Math.floor(amount / 2));
+                len = 42 + life * .58 + speedBoost * 4.2;
+                jitter = 16 + size * 1.35;
+                branches = 2 + Math.floor(amount / 5);
+                widthLine = Math.max(1.15, size * .16);
+                glow = 20 + size * 1.8;
+                palette = [baseColor, '#ffffff', '#00eaff', '#b9ffff'];
+                particleType = Math.random() < .45 ? 'pixel' : 'spark';
+                particleCount = Math.max(6, amount * 2);
+            }
+
+            if(type === 'bolt'){
+                count = Math.max(1, Math.floor(amount / 4));
+                len = 38 + life * .48 + speedBoost * 3.7;
+                jitter = 7 + size * .55;
+                branches = 0;
+                widthLine = Math.max(1.4, size * .22);
+                glow = 10 + size;
+                palette = [baseColor, '#ffffff'];
+                particleType = 'laser';
+                particleCount = Math.max(2, amount);
+            }
+
+            if(type === 'lightningBolt'){
+                count = Math.max(2, Math.floor(amount / 2));
+                len = 72 + life * 1.05 + speedBoost * 7.2;
+                jitter = 20 + size * 1.4;
+                branches = 3 + Math.floor(amount / 4);
+                widthLine = Math.max(1.35, size * .2);
+                glow = 25 + size * 2.2;
+                palette = [baseColor, '#ffffff', '#9fe8ff', '#dfffff'];
+                particleType = Math.random() < .5 ? 'laser' : 'spark';
+                particleCount = Math.max(8, amount * 2 + Math.floor(speedBoost*.35));
+            }
+
+            for(let i=0;i<count;i++){
+                addTrailBolt(
+                    mouseX + rand(-4,4),
+                    mouseY + rand(-4,4),
+                    pick(palette),
+                    {
+                        angle: back + rand(-.22,.22),
+                        len: len * rand(.72, 1.18),
+                        jitter,
+                        steps: type === 'bolt' ? irand(4,7) : irand(6,12),
+                        width: widthLine * rand(.8,1.35),
+                        glow,
+                        branches,
+                        life: type === 'bolt' ? irand(4,8) : irand(5,12)
+                    }
+                );
+            }
+
+            for(let i=0;i<particleCount;i++){
+                const a = back + rand(-.95, .95);
+                const v = type === 'lightningBolt' ? rand(1.0,4.8) : type === 'bolt' ? rand(.7,3.2) : rand(.8,4.2);
+                addParticle(mouseX + rand(-6,6), mouseY + rand(-6,6), pick(palette), {
+                    vx:Math.cos(a)*v - dx*.018,
+                    vy:Math.sin(a)*v - dy*.018,
+                    life:(life * (type === 'bolt' ? .45 : .62) + rand(6,22))*trailLenMul,
+                    size:size*rand(.35,1.05),
+                    type:particleType,
+                    drag:type === 'lightningBolt' ? .982 : .976,
+                    trailScale:trailLenMul*(type === 'lightningBolt' ? 1.45 : 1.05)
+                });
+            }
+            return;
+        }
 
         if(type === 'lightningTrail'){
             const dir = Math.atan2(dy || .001, dx || 1);
@@ -1558,12 +2413,14 @@ function Engine(canvas, clockEl, cfgProvider){
 
     function clickEffect(x,y){
         const c = cfgProvider();
-        if(!c.optClick) return;
-        const now = performance.now(), interval = Math.max(0, Number(c.clickInterval || 0));
-        if(now - lastClickEffectTime < interval) return;
-        lastClickEffectTime = now;
+        if(!isEnabled(c.optClick)) return;
+        if(!canTriggerClickEffect(c)) return;
 
         const color = c.clickColor, base = Number(c.clickPower), type = c.clickType, power = base;
+        if(EXTRA_CLICK_TYPES.has(type)){
+            emitExtraClickEffect(type, x, y, color, power);
+            return;
+        }
         if(['shockwave','rings','flash','ripple','grid','nova','plasmaPop','hexPulse','sonar','squarePulse','lensFlare','cyberGrid','empRing','hexHack','scanPing'].includes(type)){
             addWave(x,y,color,type==='ripple'?'rings':type,power);
             if(['rings','ripple','hexPulse','sonar'].includes(type)){
@@ -1599,6 +2456,23 @@ function Engine(canvas, clockEl, cfgProvider){
             }
         }
         if(type === 'lightningPop') addBolt(x,y,color,180);
+        if(type === 'electroShock'){
+            const palette = [color, '#ffffff', '#7aefff', '#00c8ff', '#9ffbff'];
+            addWave(x,y,pick(palette),'shockwave',power*.95);
+            addWave(x,y,'#ffffff','flash',power*.55);
+            emitLightningBoltBurst(x,y,color,power,{
+                palette,
+                bolts:Math.min(24, 7 + Math.floor(power/7)),
+                particles:Math.min(210, 34 + Math.floor(power*1.8)),
+                len:92 + power*1.15,
+                width:1.9,
+                glow:26 + power*.24,
+                branches:3,
+                life:13,
+                long:true
+            });
+            setTimeout(()=>emitLightningBoltBurst(x,y,color,power*.72,{palette,bolts:Math.min(14,5+Math.floor(power/12)),particles:48,len:70+power*.7,width:1.35,glow:18,branches:2,life:9}),55);
+        }
         if(type === 'rippleDots'){
             for(let ring=0; ring<3; ring++){
                 const count = 18+ring*8;
@@ -1824,7 +2698,7 @@ function Engine(canvas, clockEl, cfgProvider){
 
 
     function holdEffect(c){
-        if(!mouseDown || !c.optHold) return;
+        if(!mouseDown || !isEnabled(c.optHold)) return;
         const ageMs = performance.now() - holdStart;
         if(ageMs < HOLD_DELAY_MS) return;
         const activeMs = ageMs - HOLD_DELAY_MS;
@@ -1833,7 +2707,12 @@ function Engine(canvas, clockEl, cfgProvider){
         const color = c.holdColor, type = c.holdType, age = activeMs/1000;
         const spawnMul = Math.min(4.2,.85+charge*.72), radiusMul = Math.min(3.4,.9+charge*.45), alphaMul = Math.min(2.6,.75+charge*.38);
 
-        if(['lightning','sparks','plasmaStorm','laserLock','stormEye','dataStream','hackStream','nanoField'].includes(type)){
+        if(EXTRA_HOLD_TYPES.has(type)){
+            emitExtraHoldEffect(type, color, base, charge, power, age, spawnMul, radiusMul, alphaMul);
+            return;
+        }
+
+        if(['lightning','lightningBolt','sparks','plasmaStorm','laserLock','stormEye','dataStream','hackStream','nanoField'].includes(type)){
             if(Math.random()<Math.min(.92,.14+power/360)) addBolt(mouseX,mouseY,(type==='plasmaStorm'&&Math.random()<.5)?'#b400ff':(type==='stormEye'&&Math.random()<.5?'#7aefff':color),Math.min(220,power));
             const n=Math.min(28,Math.floor((1+base/24)*spawnMul));
             for(let i=0;i<n;i++){
@@ -2044,6 +2923,43 @@ function Engine(canvas, clockEl, cfgProvider){
             }
         }
 
+        if(type === 'lightningBolt'){
+            const palette = [color, '#ffffff', '#7aefff', '#00c8ff'];
+            ctx.save();
+            ctx.globalCompositeOperation='lighter';
+            const coreR = (32 + base*.42 + Math.sin(tick*.22)*5) * radiusMul;
+            const g = ctx.createRadialGradient(mouseX,mouseY,0,mouseX,mouseY,coreR*2.2);
+            g.addColorStop(0,rgba('#ffffff',Math.min(.45,.16*alphaMul)));
+            g.addColorStop(.28,rgba(color,Math.min(.42,.14*alphaMul)));
+            g.addColorStop(1,'rgba(0,0,0,0)');
+            ctx.fillStyle=g;
+            ctx.beginPath(); ctx.arc(mouseX,mouseY,coreR*2.2,0,Math.PI*2); ctx.fill();
+            ctx.restore();
+
+            if(tick % 2 === 0){
+                const boltsNow = Math.min(8, 2 + Math.floor(charge));
+                for(let b=0;b<boltsNow;b++){
+                    addTrailBolt(mouseX+rand(-12,12), mouseY+rand(-12,12), pick(palette), {
+                        angle: rand(0,Math.PI*2),
+                        len: rand(52, 135 + base*1.2) * Math.min(2.6,.75+charge*.36),
+                        jitter: rand(12,28),
+                        steps: irand(5,10),
+                        width: 1.5 + charge*.18,
+                        glow: 24 + charge*7,
+                        life: irand(5,10),
+                        branches: 2 + Math.floor(charge/2)
+                    });
+                }
+            }
+            for(let i=0;i<Math.min(18, 3 + base/8);i++){
+                const a=rand(0,Math.PI*2), v=rand(1.0,4.8+charge*.9);
+                addParticle(mouseX,mouseY,pick(palette),{
+                    vx:Math.cos(a)*v, vy:Math.sin(a)*v, life:rand(10,34+charge*8),
+                    size:rand(1.5,5.5+charge*.8), type:Math.random()<.6?'laser':'spark', drag:.968, trailScale:1.25
+                });
+            }
+        }
+
         if(type==='runeCircle'){
             if(tick%6===0) addGlyph(mouseX+rand(-80,80),mouseY+rand(-80,80),color,pick(['✦','✧','◇','△','⬡','✶']),base);
             addWave(mouseX,mouseY,color,'rune',Math.min(160,power*.35));
@@ -2052,15 +2968,15 @@ function Engine(canvas, clockEl, cfgProvider){
 
     function releaseEffect(x,y,heldMs){
         const c=cfgProvider();
-        if(!c.optRelease) return;
-        const now=performance.now(), interval=Math.max(0,Number(c.clickInterval || 0));
-        if(now - lastReleaseEffectTime < interval) return;
-        lastReleaseEffectTime = now;
+        if(!isEnabled(c.optRelease)) return;
+        const releaseHoldDelay = getReleaseHoldDelay(c);
+        if(heldMs < releaseHoldDelay) return;
+        if(!canTriggerReleaseEffect(c)) return;
 
         const charge = holdCharge(Math.max(0,heldMs-HOLD_DELAY_MS));
         const fullCharge = charge >= 5.35;
         const color = c.releaseColor, base = Number(c.releasePower);
-        const releaseShakeEnabled = !(c.releaseShake === false || c.releaseShake === 'false' || c.releaseShake === 0 || c.releaseShake === '0');
+        const releaseShakeEnabled = isEnabled(c.releaseShake);
         const releaseShakeStrength = clamp(Number(c.releaseShakePower ?? 65), 0, 100) / 100;
         const shakeEnergy = base * charge + Math.min(260, heldMs/18);
         if(fullCharge && releaseShakeEnabled && releaseShakeStrength > 0) triggerScreenShake(shakeEnergy * (0.22 + releaseShakeStrength * 1.85));
@@ -2068,11 +2984,16 @@ function Engine(canvas, clockEl, cfgProvider){
         const type = c.releaseType;
         const amountMul = Math.min(3.5,.85+charge*.48), speedMul = Math.min(2.9,.9+charge*.36), sizeMul = Math.min(2.7,.85+charge*.28);
 
-        if(['explosion','warp','dust','supernova','shatter','sparkRain','smokeRing','cometScatter','pulseStorm','gravityBlast','auroraBurst','prismBurst','shockGrid','firework','iceCrack','nebulaBloom','quantumBurst','meteorBloom','petalWave','dataScatter','electroExplosion','empBlast','firewallBurst','codeExplosion','circuitOverload','quantumDisrupt'].includes(type)){
+        if(EXTRA_RELEASE_TYPES.has(type)){
+            emitExtraReleaseEffect(type, x, y, color, base, charge, power, amountMul, speedMul, sizeMul);
+            return;
+        }
+
+        if(['explosion','warp','dust','supernova','shatter','sparkRain','smokeRing','cometScatter','pulseStorm','gravityBlast','auroraBurst','prismBurst','shockGrid','firework','iceCrack','nebulaBloom','quantumBurst','meteorBloom','petalWave','dataScatter','electroExplosion','lightningBolt','empBlast','firewallBurst','codeExplosion','circuitOverload','quantumDisrupt'].includes(type)){
             const n = Math.min(800, Math.floor((30+base*((type==='supernova'||type==='pulseStorm'||type==='firework')?2.1:1.6))*amountMul));
             for(let i=0;i<n;i++){
                 const a=rand(0,Math.PI*2), v=((type==='warp'||type==='cometScatter')?rand(3,8+base*.05):rand(1,5+base*.05))*speedMul;
-                let pType=(type==='dust'||type==='smokeRing'||type==='nebulaBloom')?'smoke':type==='shatter'||type==='iceCrack'||type==='meteorBloom'?'shard':type==='sparkRain'?'spark':(type==='prismBurst'||type==='electroExplosion'||type==='empBlast'||type==='quantumDisrupt')?'laser':(type==='dataScatter'||type==='codeExplosion')?(Math.random()<.5?'pixel':'char'):type==='petalWave'?'geo':'comet';
+                let pType=(type==='dust'||type==='smokeRing'||type==='nebulaBloom')?'smoke':type==='shatter'||type==='iceCrack'||type==='meteorBloom'?'shard':type==='sparkRain'?'spark':(type==='prismBurst'||type==='electroExplosion'||type==='lightningBolt'||type==='empBlast'||type==='quantumDisrupt')?'laser':(type==='dataScatter'||type==='codeExplosion')?(Math.random()<.5?'pixel':'char'):type==='petalWave'?'geo':'comet';
                 let vx=Math.cos(a)*v, vy=Math.sin(a)*v, pColor=color, grav=0;
                 if(type==='sparkRain'){vx=rand(-2.2,2.2)*speedMul;vy=rand(-6.5,-1.2)*speedMul;grav=.055;}
                 if(type==='auroraBurst') pColor=pick([color,'#00eaff','#b400ff','#00ff88']);
@@ -2082,12 +3003,13 @@ function Engine(canvas, clockEl, cfgProvider){
                 if(type==='petalWave') pColor=pick([color,'#ffd6f0','#fff1fb','#ff8fc8']);
                 if(type==='dataScatter') pColor=pick([color,'#00ffaa','#77e6ff','#ffffff']);
                 if(type==='electroExplosion') pColor=pick([color,'#ffffff','#7aefff','#00c8ff','#9ffbff']);
+                if(type==='lightningBolt') pColor=pick([color,'#ffffff','#7aefff','#00c8ff','#9ffbff']);
                 if(type==='prismBurst') pColor=pick(['#ff0040','#00eaff','#fff000','#ff00d4']);
                 if(type==='firework') pColor=randomColor();
                 if(type==='iceCrack') pColor=pick(['#aeefff','#ffffff','#6edbff']);
                 addParticle(x,y,pColor,{vx,vy,life:(type==='dust'||type==='smokeRing'||type==='nebulaBloom')?rand(70,150+charge*25):rand(26,88+charge*14),size:((type==='dust'||type==='smokeRing'||type==='nebulaBloom')?rand(3,12):rand(2,8))*sizeMul,type:pType,char:((type==='dataScatter'||type==='codeExplosion')?pick('01<>[]{}#@/\\'.split('')):undefined),drag:(type==='warp'||type==='cometScatter'||type==='quantumBurst'||type==='electroExplosion')?.99:.96,gravity:grav});
             }
-            addWave(x,y,color,(type==='warp'||type==='supernova'||type==='pulseStorm'||type==='gravityBlast'||type==='quantumBurst'||type==='electroExplosion')?'shockwave':type==='shockGrid'?'grid':type==='petalWave'?'rings':'release',power);
+            addWave(x,y,color,(type==='warp'||type==='supernova'||type==='pulseStorm'||type==='gravityBlast'||type==='quantumBurst'||type==='electroExplosion'||type==='lightningBolt')?'shockwave':type==='shockGrid'?'grid':type==='petalWave'?'rings':'release',power);
             if(type==='supernova'||type==='pulseStorm'||type==='firework'||charge>3.2){
                 setTimeout(()=>addWave(x,y,color,'rings2',power*.8),90);
                 setTimeout(()=>addWave(x,y,color,'rings3',power*.62),180);
@@ -2105,6 +3027,25 @@ function Engine(canvas, clockEl, cfgProvider){
                     const aa=rand(0,Math.PI*2), vv=rand(2.2,8.5)*speedMul;
                     addParticle(x,y,pick(['#ffffff','#7aefff','#00c8ff',color]),{vx:Math.cos(aa)*vv,vy:Math.sin(aa)*vv,life:rand(18,64+charge*10),size:rand(2,7)*sizeMul,type:Math.random()<.55?'laser':'spark',drag:.982});
                 }
+            }
+            if(type==='lightningBolt') {
+                const palette = [color,'#ffffff','#7aefff','#00c8ff','#9ffbff'];
+                emitLightningBoltBurst(x,y,color,power,{
+                    palette,
+                    bolts:Math.min(42, 10 + Math.floor(charge*5 + base/7)),
+                    particles:Math.min(360, 55 + Math.floor(base*2.6*amountMul)),
+                    len:120 + base*1.9 + charge*28,
+                    width:2.15,
+                    glow:32 + charge*9,
+                    branches:4,
+                    life:15,
+                    speedMul,
+                    sizeMul,
+                    long:true
+                });
+                setTimeout(()=>emitLightningBoltBurst(x,y,color,power*.62,{palette,bolts:Math.min(24, 6+Math.floor(base/10)),particles:80,len:95+base,width:1.55,glow:24,branches:3,life:10,long:true}),75);
+                setTimeout(()=>addWave(x,y,'#ffffff','rings2',power*.70),80);
+                setTimeout(()=>addWave(x,y,'#7aefff','rings3',power*.52),165);
             }
             if(type==='shockGrid') for(let i=-5;i<=5;i++){addParticle(x+i*24,y,color,{vx:0,vy:rand(-2,2),life:60,size:12,type:'laser'});addParticle(x,y+i*24,color,{vx:rand(-2,2),vy:0,life:60,size:12,type:'laser'});}
         }
@@ -2251,9 +3192,11 @@ function Engine(canvas, clockEl, cfgProvider){
     function drawBolt(b){
         const a=Math.max(0,b.life/b.maxLife);
         ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.lineCap='round'; ctx.lineJoin='round';
-        ctx.strokeStyle=rgba(b.color,.82*a); ctx.lineWidth=1.4+a*1.5; ctx.beginPath();
+        ctx.shadowColor=b.color; ctx.shadowBlur=(b.glow || 0)*a;
+        ctx.strokeStyle=rgba(b.color,.82*a); ctx.lineWidth=(b.width || 1.4)+a*1.5; ctx.beginPath();
         b.points.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y)); ctx.stroke();
-        ctx.strokeStyle=rgba('#ffffff',.34*a); ctx.lineWidth=.7; ctx.stroke(); ctx.restore();
+        ctx.shadowBlur=(b.glow || 0)*.35*a;
+        ctx.strokeStyle=rgba('#ffffff',.34*a); ctx.lineWidth=Math.max(.55,(b.width || 1.4)*.42); ctx.stroke(); ctx.restore();
     }
 
     function drawGlyph(g){
@@ -2294,19 +3237,107 @@ function Engine(canvas, clockEl, cfgProvider){
 
     addEventListener('resize', resize);
     addEventListener('mousemove', e=>{mouseX=e.clientX; mouseY=e.clientY;});
-    addEventListener('mousedown', e=>{mouseDown=true; holdStart=performance.now(); clickEffect(e.clientX,e.clientY);});
-    addEventListener('mouseup', e=>{const held=performance.now()-holdStart; mouseDown=false; releaseEffect(e.clientX,e.clientY,held);});
+    addEventListener('touchmove', e=>{if(e.touches && e.touches[0]){mouseX=e.touches[0].clientX; mouseY=e.touches[0].clientY;}}, {passive:true});
+    addEventListener('mousedown', e=>{
+        mouseDown = true;
+        holdStart = performance.now();
+        const c = cfgProvider();
+        currentClickCycleAllowed = isClickCooldownReady(c);
+        if(currentClickCycleAllowed) clickEffect(e.clientX, e.clientY);
+    });
+    addEventListener('mouseup', e=>{
+        const held = performance.now() - holdStart;
+        mouseDown = false;
+        if(currentClickCycleAllowed) releaseEffect(e.clientX, e.clientY, held);
+        currentClickCycleAllowed = true;
+    });
     resize(); updateClock(); setInterval(updateClock,250); requestAnimationFrame(step);
 
-    return { clear(){particles.length=0; waves.length=0; bolts.length=0; glyphs.length=0;} };
+    return { clear(){particles.length=0; waves.length=0; bolts.length=0; glyphs.length=0; trailSnake.particles.length=0; trailSnake.segments.length=0; trailSnake.active=false; trailSnake.key='';} };
 }
 
 const $ = id => document.getElementById(id);
+const RANDOM_EFFECT_SELECTS = ['trailType','clickType','holdType','releaseType'];
+const RANDOM_UI_SELECTS = ['bgMode','bgGeneratedStyle','clockStyle','clockFont'];
+const activeRandomEffects = {
+    trailType: '',
+    clickType: '',
+    holdType: '',
+    releaseType: ''
+};
+const activeRandomUi = {
+    bgMode: '',
+    bgGeneratedStyle: '',
+    clockStyle: '',
+    clockFont: ''
+};
+function getSelectChoices(id){
+    const el = $(id);
+    if(!el || !el.options.length) return [];
+    return Array.from(el.options).filter(opt => opt.value && opt.value !== 'random').map(opt => opt.value);
+}
+function getEffectChoices(id){
+    return getSelectChoices(id);
+}
+function getUiChoices(id){
+    let choices = getSelectChoices(id);
+    if(id === 'bgMode'){
+        const hasImage = !!($('bgImageData') && $('bgImageData').value);
+        choices = choices.filter(value => value !== 'image' || hasImage);
+    }
+    return choices;
+}
+function firstEffectChoice(id){
+    const choices = getEffectChoices(id);
+    return choices.length ? choices[0] : '';
+}
+function firstUiChoice(id){
+    const choices = getUiChoices(id);
+    return choices.length ? choices[0] : '';
+}
+function rerollRandomEffect(id){
+    const el = $(id);
+    if(!el || el.value !== 'random') return;
+    const choices = getEffectChoices(id);
+    if(!choices.length) return;
+    activeRandomEffects[id] = choices[rnd(0, choices.length - 1)];
+}
+function rerollRandomUi(id){
+    const el = $(id);
+    if(!el || el.value !== 'random') return;
+    const choices = getUiChoices(id);
+    if(!choices.length) return;
+    activeRandomUi[id] = choices[rnd(0, choices.length - 1)];
+}
+function ensureRandomEffect(id){
+    const el = $(id);
+    if(!el || el.value !== 'random') return;
+    const choices = getEffectChoices(id);
+    if(!choices.length) return;
+    if(!activeRandomEffects[id] || !choices.includes(activeRandomEffects[id])) activeRandomEffects[id] = choices[0];
+}
+function ensureRandomUi(id){
+    const el = $(id);
+    if(!el || el.value !== 'random') return;
+    const choices = getUiChoices(id);
+    if(!choices.length) return;
+    if(!activeRandomUi[id] || !choices.includes(activeRandomUi[id])) activeRandomUi[id] = choices[0];
+}
+function getEffectiveEffectValue(id, rawValue){
+    if(rawValue !== 'random') return rawValue;
+    ensureRandomEffect(id);
+    return activeRandomEffects[id] || firstEffectChoice(id) || rawValue;
+}
+function getEffectiveUiValue(id, rawValue){
+    if(rawValue !== 'random') return rawValue;
+    ensureRandomUi(id);
+    return activeRandomUi[id] || firstUiChoice(id) || rawValue;
+}
 const controlIds = ['bgImageData','bgGeneratedData','optBackground','bgMode','bgGeneratedStyle','bgOpacity','bgParallaxStrength','bgParallaxSmooth','clockFontData','clockFontFormat','optClock','clockStyle','clockBorder','clockTextOutline','clockFont','clockSeconds','clockColor','clockSize','clockOpacity',
-    'optTrails','trailType','trailColor','trailAmount','trailLife','trailSize',
+    'optTrails','trailType','trailColor','trailAmount','trailLife','trailSize','snakeBodyLength','snakeBodySize','snakeMaxFollowSpeed','snakeWanderRedius','snakeWander','snakeWanderSpeed',
     'optClick','clickType','clickColor','clickPower','clickInterval',
     'optHold','holdType','holdColor','holdPower',
-    'optRelease','releaseType','releaseColor','releasePower','releaseShake','releaseShakePower'];
+    'optRelease','releaseType','releaseColor','releasePower','releaseInterval','releaseHoldDelay','releaseShake','releaseShakePower'];
 
 
 function readCfg(){
@@ -2316,7 +3347,25 @@ function readCfg(){
         if(!el) continue;
         c[id] = el.type === 'checkbox' ? el.checked : el.value;
     }
+    for(const id of RANDOM_EFFECT_SELECTS){
+        const rawValue = c[id];
+        c[id + 'Raw'] = rawValue;
+        c[id] = getEffectiveEffectValue(id, rawValue);
+        c[id + 'RandomActive'] = rawValue === 'random' ? c[id] : '';
+    }
+    for(const id of RANDOM_UI_SELECTS){
+        const rawValue = c[id];
+        c[id + 'Raw'] = rawValue;
+        c[id] = getEffectiveUiValue(id, rawValue);
+        c[id + 'RandomActive'] = rawValue === 'random' ? c[id] : '';
+    }
     return c;
+}
+
+function updateFollowingSnakeOptions(){
+    const box = $('followingSnakeOptions');
+    const type = $('trailType');
+    if(box && type) box.style.display = type.value === 'indexSnake' ? '' : 'none';
 }
 
 function sanitizeImportedFontName(name){
@@ -2347,7 +3396,9 @@ function applyClockFont(){
     const clock = $('clock');
     const select = $('clockFont');
     if(!clock || !select) return;
-    const font = String(select.value || 'Segoe UI').replace(/["\\]/g, '');
+    const rawFont = select.value || 'Segoe UI';
+    const effectiveFont = rawFont === 'random' ? getEffectiveUiValue('clockFont', rawFont) : rawFont;
+    const font = String(effectiveFont || 'Segoe UI').replace(/["\\]/g, '');
     clock.style.fontFamily = '"' + font + '", "Segoe UI", Arial, sans-serif';
 }
 function addImportedClockFont(fontName, dataUrl, format){
@@ -2422,7 +3473,8 @@ function setupClockFontImport(){
 function setLabels(){
     const map = {
         bgOpacity:'%', bgParallaxStrength:'%', bgParallaxSmooth:'%', clockSize:'px', clockOpacity:'%', trailAmount:'', trailLife:'', trailSize:'',
-        clickPower:'', clickInterval:' ms', holdPower:'', releasePower:'', releaseShakePower:'%'
+        snakeBodyLength:'', snakeBodySize:'px', snakeMaxFollowSpeed:'', snakeWanderRedius:'px', snakeWanderSpeed:'%',
+        clickPower:'', clickInterval:' ms', holdPower:'', releasePower:'', releaseInterval:' ms', releaseHoldDelay:' ms', releaseShakePower:'%'
     };
     for(const [id,suffix] of Object.entries(map)){
         const val = $(id+'Val');
@@ -2437,6 +3489,12 @@ function randomSelect(id){
     const el = $(id);
     if(!el || !el.options.length) return;
     el.selectedIndex = rnd(0, el.options.length-1);
+}
+function randomizeEffectSelectIfRandom(id){
+    rerollRandomEffect(id);
+}
+function randomizeUiSelectIfRandom(id){
+    rerollRandomUi(id);
 }
 
 
@@ -2511,9 +3569,9 @@ function getAllBackgroundStyles(){
         .map(opt => opt.value)
         .filter(value => value && value !== 'random');
 }
-function generateRandomBackground(setMode){
+function generateRandomBackground(setMode, forcedStyle){
     const styleSelect = $('bgGeneratedStyle');
-    let style = styleSelect ? styleSelect.value : 'random';
+    let style = forcedStyle || (styleSelect ? styleSelect.value : 'random');
     if(style === 'random') style = _bgPick(getAllBackgroundStyles());
 
     const w = 1920, h = 1080;
@@ -3056,11 +4114,12 @@ function generateRandomBackground(setMode){
 function applyRandomize(){
     ['optBackground','optClock','clockSeconds','clockBorder','clockTextOutline','optTrails','optClick','optHold','optRelease','releaseShake'].forEach(id => { const el=$(id); if(el) el.checked = id === 'clockBorder' ? Math.random() > .28 : id === 'clockTextOutline' ? Math.random() > .55 : id === 'releaseShake' ? Math.random() > .18 : Math.random() > .12; });
     ['clockColor','trailColor','clickColor','holdColor','releaseColor'].forEach(id => $(id).value = randomColor());
-    if($('bgGeneratedStyle')) $('bgGeneratedStyle').value = _bgPick(getAllBackgroundStyles());
-    if($('bgMode')){
-        $('bgMode').value = Math.random() > .35 ? 'generated' : 'default';
-        if($('bgMode').value === 'generated') generateRandomBackground(false);
-    }
+    ['bgMode','bgGeneratedStyle','clockStyle','clockFont'].forEach(randomizeUiSelectIfRandom);
+    const effectiveBgMode = $('bgMode') ? getEffectiveUiValue('bgMode', $('bgMode').value) : 'default';
+    const effectiveBgStyle = $('bgGeneratedStyle') ? getEffectiveUiValue('bgGeneratedStyle', $('bgGeneratedStyle').value) : 'nebula';
+    const shouldRegenerateBg = effectiveBgMode === 'generated' && (($('bgMode') && $('bgMode').value === 'random') || ($('bgGeneratedStyle') && $('bgGeneratedStyle').value === 'random'));
+    if(shouldRegenerateBg) generateRandomBackground(false, effectiveBgStyle);
+    if(effectiveBgMode === 'default') setBackgroundStatus('Default background active.');
     if($('bgOpacity')) $('bgOpacity').value = rnd(55,100);
     if($('bgParallaxStrength')) $('bgParallaxStrength').value = rnd(15,70);
     if($('bgParallaxSmooth')) $('bgParallaxSmooth').value = rnd(12,45);
@@ -3069,13 +4128,22 @@ function applyRandomize(){
     $('trailAmount').value = rnd(2,16);
     $('trailLife').value = rnd(18,150);
     $('trailSize').value = rnd(2,22);
+    if($('snakeBodyLength')) $('snakeBodyLength').value = rnd(6,64);
+    if($('snakeBodySize')) $('snakeBodySize').value = rnd(8,48);
+    if($('snakeMaxFollowSpeed')) $('snakeMaxFollowSpeed').value = rnd(12,55);
+    if($('snakeWanderRedius')) $('snakeWanderRedius').value = rnd(0,180);
+    if($('snakeWander')) $('snakeWander').checked = Math.random() > .22;
+    if($('snakeWanderSpeed')) $('snakeWanderSpeed').value = rnd(8,80);
     $('clickPower').value = rnd(20,100);
-    $('clickInterval').value = rnd(0,20)*10;
+    $('clickInterval').value = 50 + rnd(0,19)*50;
     $('holdPower').value = rnd(20,100);
     $('releasePower').value = rnd(25,100);
+    if($('releaseInterval')) $('releaseInterval').value = rnd(0,20)*10;
+    if($('releaseHoldDelay')) $('releaseHoldDelay').value = rnd(0,40)*50;
     if($('releaseShakePower')) $('releaseShakePower').value = rnd(20,100);
-    ['clockStyle','clockFont','trailType','clickType','holdType','releaseType'].forEach(randomSelect);
+    ['trailType','clickType','holdType','releaseType'].forEach(randomizeEffectSelectIfRandom);
     setLabels();
+    updateFollowingSnakeOptions();
     runtime.clear();
 }
 function downloadText(filename,text){
@@ -3117,19 +4185,28 @@ addEventListener('keydown',e=>{if(e.key.toLowerCase()==='h')document.getElementB
 </html>`;
 }
 
+function syncSettingsUI(changedId){
+    if(RANDOM_EFFECT_SELECTS.includes(changedId)) ensureRandomEffect(changedId);
+    if(RANDOM_UI_SELECTS.includes(changedId)) ensureRandomUi(changedId);
+    setLabels();
+    updateFollowingSnakeOptions();
+    if(changedId === 'clockFont') applyClockFont();
+    if(changedId === 'clockStyle' || changedId === 'clockFont' || changedId === 'clockTextOutline' || changedId === 'clockColor') updateClock();
+    if((RANDOM_EFFECT_SELECTS.includes(changedId) || RANDOM_UI_SELECTS.includes(changedId)) && runtime) runtime.clear();
+}
 for(const id of controlIds){
     const el = $(id);
-    if(el) el.addEventListener('input', () => {
-        setLabels();
-        if(id === 'clockFont') applyClockFont();
-        if(id === 'clockTextOutline' || id === 'clockColor') updateClock();
-    });
+    if(el){
+        el.addEventListener('input', () => syncSettingsUI(id));
+        el.addEventListener('change', () => syncSettingsUI(id));
+    }
 }
 setupClockFontImport();
 setupBackgroundControls();
 function bindClick(id, fn){ const el = $(id); if(el) el.onclick = fn; }
 let runtime = Engine($('fx'), $('clock'), readCfg);
 setLabels();
+updateFollowingSnakeOptions();
 applyClockFont();
 bindClick('btnRandomize', applyRandomize);
 bindClick('btnRandomColors', () => {
